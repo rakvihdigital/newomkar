@@ -139,12 +139,14 @@ export default function IndiaMapSection() {
         <>
             <section className="india-map-section" ref={sectionRef}>
                 <div className="india-map-sticky">
-                    <h2 className="map-section-heading">
-                        OUR <span className="text-accent-green">SERVICES</span>
-                    </h2>
-                    <p className="map-section-subheading">
-                        Pan South India Coverage — Delivering Excellence Across 4 Major Cities
-                    </p>
+                    <div className="map-header-group" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <h2 className="map-section-heading">
+                            OUR <span className="text-accent-green">SERVICES</span>
+                        </h2>
+                        <p className="map-section-subheading">
+                            Pan South India Coverage — Delivering Excellence Across 4 Major Cities
+                        </p>
+                    </div>
 
                     <div className="india-map-wrapper">
                         {/* Ambient glow */}
