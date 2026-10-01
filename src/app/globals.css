@@ -2226,12 +2226,12 @@ a {
 /* Mobile Map */
 @media (max-width: 768px) {
     .india-map-sticky {
-        padding: 1rem 0.5rem;
+        padding: 4rem 0.5rem 1rem 0.5rem; /* Asymmetrical padding shifts visual center down */
         justify-content: center;
         gap: 0.5rem;
     }
     .map-section-heading {
-        margin-top: 5rem; /* Push down away from the fixed logo */
+        margin-top: 0;
     }
     .india-map-wrapper {
         flex-direction: column;
@@ -2294,17 +2294,17 @@ a {
 
 @media (max-width: 480px) {
     .india-map-sticky { 
-        padding: 1rem 0.5rem; 
+        padding: 6.5rem 0.5rem 1rem 0.5rem; 
         gap: 0.5rem; 
     }
     .map-section-heading { 
-        margin-top: 6rem; 
+        margin-top: 0; 
         font-size: 1.3rem; 
         margin-bottom: 0; 
     }
     .map-section-subheading { font-size: 0.6rem; margin-bottom: 0; max-width: 95%; }
     
-    .india-map-container { max-width: 220px; }
+    .india-map-container { max-width: 170px; }
     
     .pin-marker { width: 10px; height: 10px; }
     .pin-hq { width: 14px; height: 14px; }
