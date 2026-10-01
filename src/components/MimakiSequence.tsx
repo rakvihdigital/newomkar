@@ -2,12 +2,14 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-const FRAMES_MIMAKI = 941;
-const PATH_MIMAKI = '/assets/frames/frame_';
-const FRAME_EXT = '.webp';
+const FRAMES_MIMAKI = 295;
+const PATH_MIMAKI = '/assets/mimaki_frames/ezgif-frame-';
+const FRAME_EXT = '.jpg';
+const SKIP_STEP = 2;
+const LOAD_MIMAKI = Math.ceil(FRAMES_MIMAKI / SKIP_STEP);
 
 function padFrame(num: number) {
-    return String(num).padStart(6, '0');
+    return String(num).padStart(3, '0');
 }
 
 export default function MimakiSequence() {
@@ -18,7 +20,7 @@ export default function MimakiSequence() {
 
     useEffect(() => {
 
-        const images: HTMLImageElement[] = new Array(FRAMES_MIMAKI);
+        const images: HTMLImageElement[] = new Array(LOAD_MIMAKI);
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -39,12 +41,14 @@ export default function MimakiSequence() {
             }
         };
 
-        for (let i = 1; i <= FRAMES_MIMAKI; i++) {
+        let idx = 0;
+        for (let i = 1; i <= FRAMES_MIMAKI; i += SKIP_STEP) {
             const img = new Image();
             img.src = `${PATH_MIMAKI}${padFrame(i)}${FRAME_EXT}`;
             img.onload = checkProgress;
             img.onerror = checkProgress;
-            images[i - 1] = img;
+            images[idx] = img;
+            idx++;
         }
 
 
