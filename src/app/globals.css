@@ -203,7 +203,7 @@ a {
    CANVAS BACKGROUND
    ============================================ */
 .hero-canvas {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
@@ -1814,4 +1814,510 @@ a {
     .iso-header h2 {
         font-size: 1.8rem;
     }
+}
+
+/* ============================================
+   INDIA MAP SECTION — OUR SERVICES
+   ============================================ */
+.india-map-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--color-bg);
+    overflow: hidden;
+    z-index: 15;
+}
+
+.india-map-sticky {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.map-section-heading {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 0.08em;
+    text-align: center;
+    margin-bottom: 0.4rem;
+    will-change: transform, opacity;
+}
+
+.text-accent-green {
+    color: #4FC3A0;
+    text-shadow: 0 0 40px rgba(79, 195, 160, 0.5), 0 0 80px rgba(79, 195, 160, 0.2);
+}
+
+.map-section-subheading {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.3vw, 1.1rem);
+    color: rgba(255, 255, 255, 0.45);
+    text-align: center;
+    max-width: 480px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.06em;
+    will-change: transform, opacity;
+}
+
+/* Map wrapper */
+.india-map-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 4rem;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    will-change: transform, opacity;
+}
+
+.map-ambient-glow {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(79, 195, 160, 0.15) 0%, rgba(47, 156, 190, 0.08) 40%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: ambientPulse 6s ease-in-out infinite;
+}
+
+@keyframes ambientPulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Map container */
+.india-map-container {
+    position: relative;
+    width: min(55vh, 85vw);
+    max-width: 550px;
+    aspect-ratio: 1 / 1;
+    z-index: 1;
+}
+
+/* India map image — dark teal tint */
+.india-map-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+    filter: brightness(0.4) sepia(1) hue-rotate(130deg) saturate(0.5);
+    opacity: 0.9;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Radar rings from HQ */
+.radar-center {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.radar-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 1px solid rgba(79, 195, 160, 0.15);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    animation: radarSweep 4s ease-out infinite;
+}
+
+.radar-ring:nth-child(2) { animation-delay: 1.3s; }
+.radar-ring:nth-child(3) { animation-delay: 2.6s; }
+
+@keyframes radarSweep {
+    0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0.5; border-color: rgba(79, 195, 160, 0.3); }
+    100% { transform: translate(-50%, -50%) scale(3); opacity: 0; border-color: rgba(79, 195, 160, 0); }
+}
+
+/* Serving Cities Side Panel */
+.serving-cities-panel {
+    position: relative;
+    background: rgba(10, 15, 12, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(79, 195, 160, 0.15);
+    border-radius: 16px;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(79, 195, 160, 0.05);
+    z-index: 20;
+    min-width: 250px;
+}
+
+.serving-title {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(79, 195, 160, 0.3);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.serving-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.serving-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.serving-bullet {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(79, 195, 160, 0.2);
+    border: 1px solid #4FC3A0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 0 10px rgba(79, 195, 160, 0.3);
+}
+
+.serving-bullet-core {
+    width: 4px;
+    height: 4px;
+    background: #6EEEC0;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #fff;
+}
+
+.serving-name {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.serving-item:hover .serving-name {
+    color: #4FC3A0;
+}
+
+.serving-item:hover .serving-bullet {
+    background: rgba(79, 195, 160, 0.4);
+    box-shadow: 0 0 15px rgba(79, 195, 160, 0.6);
+}
+
+/* Pin group */
+.map-pin-group {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    will-change: transform, opacity;
+}
+
+/* Pin pulse ring - disabled to look cleaner */
+.pin-ring {
+    display: none;
+}
+
+/* Pin marker - Circular Glowing Dot */
+.pin-marker {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background: #4FC3A0;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(79, 195, 160, 0.8), 0 0 35px rgba(79, 195, 160, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pin-marker:hover {
+    transform: scale(1.3);
+    background: #6EEEC0;
+}
+
+.pin-hq {
+    width: 28px;
+    height: 28px;
+    background: #6EEEC0;
+}
+
+.pin-dot {
+    width: 8px;
+    height: 8px;
+    background: #0A0A0F;
+    border-radius: 50%;
+}
+
+.pin-hq .pin-dot {
+    width: 10px;
+    height: 10px;
+}
+
+/* City info card */
+.city-card {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    z-index: 8;
+}
+
+.card-right {
+    left: calc(100% + 8px);
+    flex-direction: row;
+}
+
+.card-left {
+    right: calc(100% + 8px);
+    flex-direction: row-reverse;
+}
+
+.card-connector {
+    width: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(79, 195, 160, 0.6), rgba(79, 195, 160, 0.1));
+}
+
+.card-left .card-connector {
+    background: linear-gradient(270deg, rgba(79, 195, 160, 0.6), rgba(79, 195, 160, 0.1));
+}
+
+.card-body {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(10, 10, 15, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(79, 195, 160, 0.18);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(79, 195, 160, 0.05);
+}
+
+.card-city {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.card-tagline {
+    font-family: var(--font-body);
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.card-badge {
+    font-family: var(--font-heading);
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: #0A0A0F;
+    background: linear-gradient(135deg, #4FC3A0, #6EEEC0);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+}
+
+/* Floating particles */
+.map-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.map-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #4FC3A0;
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+    0% { opacity: 0; transform: translateY(0) scale(0); }
+    20% { opacity: 0.5; transform: translateY(-8px) scale(1); }
+    80% { opacity: 0.2; transform: translateY(-30px) scale(0.5); }
+    100% { opacity: 0; transform: translateY(-45px) scale(0); }
+}
+
+/* Stats row */
+.map-stats-row {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    margin-top: 2rem;
+    padding: 1rem 2.5rem;
+    background: rgba(79, 195, 160, 0.04);
+    border: 1px solid rgba(79, 195, 160, 0.1);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    will-change: transform, opacity;
+}
+
+.map-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.map-stat-number {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 900;
+    color: #4FC3A0;
+    text-shadow: 0 0 20px rgba(79, 195, 160, 0.3);
+}
+
+.map-stat-label {
+    font-family: var(--font-body);
+    font-size: clamp(0.6rem, 0.9vw, 0.75rem);
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+}
+
+.map-stat-divider {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(180deg, transparent, rgba(79, 195, 160, 0.25), transparent);
+}
+
+/* Mobile Map */
+@media (max-width: 768px) {
+    .india-map-sticky {
+        padding: 1rem 0.5rem;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .map-section-heading {
+        margin-top: 5rem; /* Push down away from the fixed logo */
+    }
+    .india-map-wrapper {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .india-map-container {
+        width: 85vw;
+        max-width: 320px;
+    }
+
+    .map-ambient-glow { width: 350px; height: 350px; }
+    
+    .pin-marker { width: 14px; height: 14px; }
+    .pin-hq { width: 18px; height: 18px; }
+    .pin-dot { width: 5px; height: 5px; }
+    .pin-hq .pin-dot { width: 6px; height: 6px; }
+
+    .card-body { padding: 3px 6px; gap: 4px; border-radius: 4px; }
+    .card-city { font-size: 0.55rem; }
+    .card-connector { width: 6px; }
+
+    .serving-cities-panel {
+        position: relative;
+        right: 0;
+        top: 0;
+        transform: none;
+        margin-top: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
+
+    .serving-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.4rem 0.8rem;
+    }
+
+    .serving-title {
+        text-align: center;
+        width: 100%;
+        margin-bottom: 0.4rem;
+        font-size: 0.75rem;
+    }
+    .serving-name { font-size: 0.75rem; }
+
+    .map-stats-row { 
+        gap: 0.8rem; 
+        padding: 0.5rem 1rem; 
+        margin-top: 0; 
+    }
+    .map-stat-number { font-size: 1.3rem; }
+    .map-stat-label { font-size: 0.55rem; }
+}
+
+@media (max-width: 480px) {
+    .india-map-sticky { 
+        padding: 1rem 0.5rem; 
+        gap: 0.5rem; 
+    }
+    .map-section-heading { 
+        margin-top: 6rem; 
+        font-size: 1.3rem; 
+        margin-bottom: 0; 
+    }
+    .map-section-subheading { font-size: 0.6rem; margin-bottom: 0; max-width: 95%; }
+    
+    .india-map-container { max-width: 220px; }
+    
+    .pin-marker { width: 10px; height: 10px; }
+    .pin-hq { width: 14px; height: 14px; }
+    .pin-dot { width: 4px; height: 4px; }
+    
+    .card-body { padding: 1px 4px; }
+    .card-city { font-size: 0.45rem; }
+    
+    .serving-list { gap: 0.2rem 0.6rem; }
+    .serving-name { font-size: 0.65rem; }
+    
+    .map-stats-row { gap: 0.4rem; padding: 0.3rem 0.5rem; }
+    .map-stat-number { font-size: 1.1rem; }
+    .map-stat-label { font-size: 0.4rem; }
+    .map-stat-divider { height: 15px; }
 }

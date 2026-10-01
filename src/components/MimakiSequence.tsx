@@ -276,17 +276,23 @@ export default function MimakiSequence() {
                 <span className="logo-desc">Our Professional<br />Portfolio</span>
             </a>
 
-            {/*  Intro Section — Logo fades out on initial scroll  */}
-            <div id="intro-section" className="scroll-section" style={{ height: "150vh", zIndex: 50 }}>
-                <div className="sticky-wrapper intro-sticky">
+            <div className="mimaki-master" style={{ position: "relative" }}>
+                {/* Background sticky layer - spans entire master section but takes no flow space */}
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0 }}>
+                    <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden" }}>
+                        <canvas ref={canvasRef} className="hero-canvas"></canvas>
+                    </div>
                 </div>
-            </div>
 
-            <div className="scroll-section" id="section-1" ref={sectionRef} style={{ height: "1000vh" }}>
-                <div className="sticky-wrapper">
-                    <canvas ref={canvasRef} className="hero-canvas"></canvas>
+                {/*  Intro Section — Logo fades out on initial scroll  */}
+                <div id="intro-section" style={{ height: "150vh", position: "relative", zIndex: 10 }}>
+                    <div className="sticky-wrapper intro-sticky"></div>
+                </div>
 
-                    <div className="hero-text-overlay text-first" data-index="0">
+                <div className="scroll-section" id="section-1" ref={sectionRef} style={{ height: "1000vh", position: "relative", zIndex: 10 }}>
+                    <div className="sticky-wrapper" style={{ background: "transparent" }}>
+                        
+                        <div className="hero-text-overlay text-first" data-index="0">
                         <div className="hero-accent-line">
                             <div className="accent-bar"></div>
                             <span className="accent-label">Omkar Enterprises</span>
@@ -401,6 +407,7 @@ export default function MimakiSequence() {
                     </div>
                 </div>
             </div>
+        </div>
         </>
     );
 }
