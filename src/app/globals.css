@@ -1905,6 +1905,23 @@ a {
     z-index: 1;
 }
 
+@keyframes mapOutlinePulse {
+    0% {
+        filter: brightness(0.4) sepia(1) hue-rotate(130deg) saturate(0.5) 
+                drop-shadow(0 0 1px rgba(79, 195, 160, 0.3));
+    }
+    50% {
+        filter: brightness(0.5) sepia(1) hue-rotate(130deg) saturate(0.7) 
+                drop-shadow(0 0 1px rgba(79, 195, 160, 1)) 
+                drop-shadow(0 0 2px rgba(79, 195, 160, 1)) 
+                drop-shadow(0 0 3px rgba(79, 195, 160, 0.8));
+    }
+    100% {
+        filter: brightness(0.4) sepia(1) hue-rotate(130deg) saturate(0.5) 
+                drop-shadow(0 0 1px rgba(79, 195, 160, 0.3));
+    }
+}
+
 /* India map image — dark teal tint */
 .india-map-img {
     width: 100%;
@@ -1912,10 +1929,10 @@ a {
     object-fit: contain;
     position: relative;
     z-index: 1;
-    filter: brightness(0.4) sepia(1) hue-rotate(130deg) saturate(0.5);
     opacity: 0.9;
     pointer-events: none;
     user-select: none;
+    animation: mapOutlinePulse 2s infinite ease-in-out;
 }
 
 /* Radar rings from HQ */
@@ -2178,6 +2195,21 @@ a {
     100% { opacity: 0; transform: translateY(-45px) scale(0); }
 }
 
+@keyframes statsBorderPulse {
+    0% { 
+        border-color: rgba(79, 195, 160, 0.4); 
+        box-shadow: 0 0 20px rgba(79, 195, 160, 0.2), inset 0 0 15px rgba(79, 195, 160, 0.1); 
+    }
+    50% { 
+        border-color: rgba(79, 195, 160, 1); 
+        box-shadow: 0 0 40px rgba(79, 195, 160, 0.6), inset 0 0 25px rgba(79, 195, 160, 0.4); 
+    }
+    100% { 
+        border-color: rgba(79, 195, 160, 0.4); 
+        box-shadow: 0 0 20px rgba(79, 195, 160, 0.2), inset 0 0 15px rgba(79, 195, 160, 0.1); 
+    }
+}
+
 /* Stats row */
 .map-stats-row {
     display: flex;
@@ -2185,12 +2217,13 @@ a {
     gap: 2.5rem;
     margin-top: 2rem;
     padding: 1rem 2.5rem;
-    background: rgba(79, 195, 160, 0.04);
-    border: 1px solid rgba(79, 195, 160, 0.1);
+    background: rgba(79, 195, 160, 0.1);
+    border: 2px solid rgba(79, 195, 160, 0.8);
     border-radius: 14px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    will-change: transform, opacity;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    animation: statsBorderPulse 2s infinite ease-in-out;
+    will-change: transform, opacity, border-color, box-shadow;
 }
 
 .map-stat {
@@ -2226,7 +2259,7 @@ a {
 /* Mobile Map */
 @media (max-width: 768px) {
     .india-map-sticky {
-        padding: 5.5rem 0.5rem 1.5rem 0.5rem;
+        padding: 6.5rem 0.5rem 0 0.5rem;
         justify-content: space-between;
         gap: 0;
     }
@@ -2239,10 +2272,10 @@ a {
     }
     .india-map-container {
         width: 85vw;
-        max-width: 320px;
+        max-width: 380px;
     }
 
-    .map-ambient-glow { width: 350px; height: 350px; }
+    .map-ambient-glow { width: 400px; height: 400px; }
     
     .pin-marker { width: 14px; height: 14px; }
     .pin-hq { width: 18px; height: 18px; }
@@ -2294,7 +2327,7 @@ a {
 
 @media (max-width: 480px) {
     .india-map-sticky { 
-        padding: 5rem 0.5rem 1.5rem 0.5rem; 
+        padding: 7rem 0.5rem 3rem 0.5rem; 
         justify-content: space-between;
         gap: 0; 
     }
@@ -2304,8 +2337,13 @@ a {
         margin-bottom: 0; 
     }
     .map-section-subheading { font-size: 0.6rem; margin-bottom: 0; max-width: 95%; text-align: center; }
-    
-    .india-map-container { max-width: 250px; }
+    .india-map-container { 
+        width: 100%; 
+        max-width: 100%; 
+        transform: scale(1.15); 
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
     
     .pin-marker { width: 10px; height: 10px; }
     .pin-hq { width: 14px; height: 14px; }
