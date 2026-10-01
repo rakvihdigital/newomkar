@@ -2,14 +2,14 @@
 
 import React, { useEffect, useRef } from 'react';
 
-const FRAMES_SEQ3 = 300;
-const PATH_SEQ3 = '/assets/greymachine_frames/ezgif-frame-';
-const FRAME_EXT = '.jpg';
+const FRAMES_SEQ3 = 236;
+const PATH_SEQ3 = '/assets/frames-2k-19/frame_';
+const FRAME_EXT = '.webp';
 const SKIP_STEP = 2;
 const LOAD_SEQ3 = Math.ceil(FRAMES_SEQ3 / SKIP_STEP);
 
 function padFrame(num: number) {
-    return String(num).padStart(3, '0');
+    return String(num).padStart(6, '0');
 }
 
 export default function GreyMachineSequence() {

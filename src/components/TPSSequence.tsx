@@ -2,14 +2,14 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-const FRAMES_TPS = 300;
-const PATH_TPS = '/assets/tps_frames/ezgif-frame-';
-const FRAME_EXT = '.jpg';
+const FRAMES_TPS = 291;
+const PATH_TPS = '/assets/frames-2k/frame_';
+const FRAME_EXT = '.webp';
 const SKIP_STEP = 2;
 const LOAD_TPS = Math.ceil(FRAMES_TPS / SKIP_STEP);
 
 function padFrame(num: number) {
-    return String(num).padStart(3, '0');
+    return String(num).padStart(6, '0');
 }
 
 export default function TPSSequence() {

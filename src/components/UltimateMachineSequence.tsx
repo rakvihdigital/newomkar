@@ -2,14 +2,14 @@
 
 import React, { useEffect, useRef } from 'react';
 
-const FRAMES_SEQ4 = 300;
-const PATH_SEQ4 = '/assets/ultimate_frames/ezgif-frame-';
-const FRAME_EXT = '.jpg';
+const FRAMES_SEQ4 = 236;
+const PATH_SEQ4 = '/assets/frames-2k-20/frame_';
+const FRAME_EXT = '.webp';
 const SKIP_STEP = 2;
 const LOAD_SEQ4 = Math.ceil(FRAMES_SEQ4 / SKIP_STEP);
 
 function padFrame(num: number) {
-    return String(num).padStart(3, '0');
+    return String(num).padStart(6, '0');
 }
 
 export default function UltimateMachineSequence() {
