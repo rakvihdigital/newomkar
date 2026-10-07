@@ -120,12 +120,14 @@ export default function FacilityHeroSequence() {
 
             overlays.forEach((overlay, i) => {
                 const isLast = i === totalSlots - 1;
-                // The headquarters title waits until half the building is in view (~frame 89)
-                // and clears as the camera reaches the entrance (~frame 135).
+                // The headquarters title waits for the full building (fades in ~frame 105,
+                // fully shown ~117) and clears at the glass entrance (~frame 153).
                 const w = i === 0
-                    ? { start: 0.145, shown: 0.165, hide: 0.2, end: 0.225 }
+                    ? { start: 0.175, shown: 0.195, hide: 0.235, end: 0.255 }
+                    : i === 1
+                    ? { start: 0.26, shown: 0.295, hide: 0.4 - fadeDur, end: 0.4 }
                     : (() => {
-                        const start = i === 1 ? 0.225 : i * slotDur;
+                        const start = i * slotDur;
                         const end = (i + 1) * slotDur;
                         return { start, shown: start + fadeDur, hide: isLast ? Infinity : end - fadeDur, end: isLast ? Infinity : end };
                     })();
