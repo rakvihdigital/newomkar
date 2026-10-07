@@ -4,10 +4,17 @@ import React, { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+// Quality management takes the centre spot; the timeline animates the left, centre and right slots.
+const CERTIFICATES = [
+    { slot: 'left', standard: 'ISO 14001:2015', title: 'Environmental Management', src: '/assets/iso/iso-14001-2015.jpg' },
+    { slot: 'center', standard: 'ISO 9001:2015', title: 'Quality Management', src: '/assets/iso/iso-9001-2015.jpg' },
+    { slot: 'right', standard: 'ISO 45001:2018', title: 'Occupational Health & Safety', src: '/assets/iso/iso-45001-2018.jpg' },
+];
+
 export default function ISOSection() {
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
-        let mm = gsap.matchMedia();
+        const mm = gsap.matchMedia();
 
         mm.add("(min-width: 769px)", () => {
             const isoTl = gsap.timeline({
@@ -128,26 +135,18 @@ export default function ISOSection() {
                     </div>
 
                     <div className="iso-certificates-container">
-                        <div className="iso-cert iso-cert-left" data-src="/assets/iso/iso-cert-left.jpg">
-                            <div className="iso-cert-frame">
-                                <img src="/assets/iso/iso-cert-left.jpg" alt="ISO Certification Left" className="iso-cert-img" />
-                                <div className="iso-glass-sweep"></div>
+                        {CERTIFICATES.map(cert => (
+                            <div key={cert.standard} className={`iso-cert iso-cert-${cert.slot}`} data-src={cert.src}>
+                                <div className="iso-cert-frame">
+                                    <img src={cert.src} alt={`${cert.standard} ${cert.title} certificate issued to Omkar Enterprises`} className="iso-cert-img" />
+                                    <div className="iso-glass-sweep"></div>
+                                </div>
+                                <p className="iso-cert-caption">
+                                    <strong>{cert.standard}</strong>
+                                    <span>{cert.title}</span>
+                                </p>
                             </div>
-                        </div>
-
-                        <div className="iso-cert iso-cert-center" data-src="/assets/iso/iso-cert-center.jpg">
-                            <div className="iso-cert-frame">
-                                <img src="/assets/iso/iso-cert-center.jpg" alt="ISO Certification Center" className="iso-cert-img" />
-                                <div className="iso-glass-sweep"></div>
-                            </div>
-                        </div>
-
-                        <div className="iso-cert iso-cert-right" data-src="/assets/iso/iso-cert-right.jpg">
-                            <div className="iso-cert-frame">
-                                <img src="/assets/iso/iso-cert-right.jpg" alt="ISO Certification Right" className="iso-cert-img" />
-                                <div className="iso-glass-sweep"></div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>

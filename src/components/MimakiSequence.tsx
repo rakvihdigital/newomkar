@@ -15,38 +15,18 @@ function padFrame(num: number) {
 export default function MimakiSequence() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const sectionRef = useRef<HTMLDivElement>(null);
-    const [isReady, setIsReady] = useState(false);
-    const [progressPercent, setProgressPercent] = useState(0);
 
     useEffect(() => {
-
         const images: HTMLImageElement[] = new Array(LOAD_MIMAKI);
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        let loadedCount = 0;
-        const QUICK_LOAD = 100;
-        let dismissed = false;
-
-        const checkProgress = () => {
-            loadedCount++;
-            const percent = Math.min(100, Math.round((loadedCount / QUICK_LOAD) * 100));
-            setProgressPercent(percent);
-
-            if (loadedCount >= QUICK_LOAD && !dismissed) {
-                dismissed = true;
-                setTimeout(() => setIsReady(true), 300);
-            }
-        };
-
         let idx = 0;
         for (let i = 1; i <= FRAMES_MIMAKI; i += SKIP_STEP) {
             const img = new Image();
             img.src = `${PATH_MIMAKI}${padFrame(i)}${FRAME_EXT}`;
-            img.onload = checkProgress;
-            img.onerror = checkProgress;
             images[idx] = img;
             idx++;
         }
@@ -146,51 +126,6 @@ export default function MimakiSequence() {
         };
 
         const onScroll = () => {
-            const introSection = document.getElementById('intro-section');
-            const introSticky = introSection?.querySelector('.intro-sticky') as HTMLElement;
-            const navLogo = document.getElementById('navLogo');
-            if (introSection && introSticky && navLogo) {
-                const rect = introSection.getBoundingClientRect();
-                const sectionHeight = introSection.offsetHeight - window.innerHeight;
-                const scrolled = -rect.top;
-                let progress = 0;
-                if (sectionHeight > 0) {
-                    progress = Math.max(0, Math.min(1, scrolled / sectionHeight));
-                }
-                let introOpacity = 1 - progress;
-                introSticky.style.opacity = Math.max(0, Math.min(1, introOpacity)).toString();
-                introSticky.style.pointerEvents = introOpacity > 0 ? 'auto' : 'none';
-                
-                const isMobile = window.innerWidth < 768;
-                const maxScale = isMobile ? 1.8 : 3.5;
-                const currentScale = 1 + ((maxScale - 1) * (1 - progress));
-                
-                const img = navLogo.querySelector('.logo-img') as HTMLElement;
-                const desc = navLogo.querySelector('.logo-desc') as HTMLElement;
-                const baseImgHeight = isMobile ? 32 : 40;
-                if (img) img.style.height = `${baseImgHeight * currentScale}px`;
-                if (desc) desc.style.fontSize = `${0.65 * currentScale}rem`;
-                
-                const currentWidth = navLogo.offsetWidth || 150;
-                const currentHeight = navLogo.offsetHeight || 40;
-                const targetX = isMobile ? 16 : 28;
-                const targetY = isMobile ? 16 : 24;
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
-                const startLeft = centerX - currentWidth / 2;
-                const startTop = centerY - currentHeight / 2;
-                const currentTranslateX = (startLeft - targetX) * (1 - progress);
-                const currentTranslateY = (startTop - targetY) * (1 - progress);
-                navLogo.style.transform = `translate(${currentTranslateX}px, ${currentTranslateY}px)`;
-                
-                // Fade in glassmorphism as it reaches the corner
-                navLogo.style.backgroundColor = `rgba(25, 25, 30, ${0.4 * progress})`;
-                navLogo.style.borderColor = `rgba(255, 255, 255, ${0.1 * progress})`;
-                navLogo.style.boxShadow = `0 8px 32px rgba(0, 0, 0, ${0.3 * progress})`;
-                navLogo.style.backdropFilter = `blur(${12 * progress}px)`;
-                navLogo.style.setProperty('-webkit-backdrop-filter', `blur(${12 * progress}px)`);
-            }
-
             if (!sectionRef.current) return;
             const el = sectionRef.current;
             const rect = el.getBoundingClientRect();
@@ -198,9 +133,7 @@ export default function MimakiSequence() {
             if (sectionHeight <= 0) return;
             
             const scrolled = -rect.top;
-            // Let it progress even if it is off screen for the last frame
             let progress = scrolled / sectionHeight;
-            // Clamp it but if it hasn't reached it's 0, if passed it's 1
             progress = Math.max(0, Math.min(1, progress));
 
             const maxIdx = images.length - 1;
@@ -210,25 +143,12 @@ export default function MimakiSequence() {
                 drawImageRaw(img);
             }
 
-            if (rect.bottom < 0) {
-                if (canvas) canvas.style.visibility = 'hidden';
-            } else {
-                if (canvas) canvas.style.visibility = 'visible';
-            }
-
             if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+                if (canvas) canvas.style.visibility = 'visible';
                 updateOverlays(progress);
             } else {
+                if (canvas) canvas.style.visibility = 'hidden';
                 updateOverlays(progress > 0.5 ? 1 : 0);
-            }
-
-            const scrollIndicator = document.getElementById('scrollIndicator');
-            if (scrollIndicator) {
-                if (window.scrollY > 10) {
-                    scrollIndicator.classList.add('hidden');
-                } else {
-                    scrollIndicator.classList.remove('hidden');
-                }
             }
         };
 
@@ -260,39 +180,16 @@ export default function MimakiSequence() {
 
     return (
         <>
-            <div id="preloader" className={isReady ? 'loaded' : ''}>
-                <div className="preloader-inner">
-                    <div className="preloader-ring"></div>
-                    <div className="preloader-ring"></div>
-                    <div className="preloader-ring"></div>
-                    <p className="preloader-text">Loading Experience</p>
-                    <p className="preloader-percent" id="preloaderPercent">{progressPercent}%</p>
-                </div>
+            <div className="interstitial-gap">
+                <h2 className="interstitial-title">MIMAKI JFX600-2513</h2>
+                <p className="interstitial-desc">Ultra-High Speed UV Flatbed 16 Head Technology</p>
             </div>
 
-            {/*  Logo — Fixed Top Left  */}
-            <a href="#" className="nav-logo" id="navLogo">
-                <img src="/assets/logo.png" alt="Omkar Enterprises Logo" className="logo-img" />
-                <span className="logo-desc">Our Professional<br />Portfolio</span>
-            </a>
-
-            <div className="mimaki-master" style={{ position: "relative" }}>
-                {/* Background sticky layer - spans entire master section but takes no flow space */}
-                <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0 }}>
-                    <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden" }}>
-                        <canvas ref={canvasRef} className="hero-canvas"></canvas>
-                    </div>
-                </div>
-
-                {/*  Intro Section — Logo fades out on initial scroll  */}
-                <div id="intro-section" style={{ height: "150vh", position: "relative", zIndex: 10 }}>
-                    <div className="sticky-wrapper intro-sticky"></div>
-                </div>
-
-                <div className="scroll-section" id="section-1" ref={sectionRef} style={{ height: "1000vh", position: "relative", zIndex: 10 }}>
-                    <div className="sticky-wrapper" style={{ background: "transparent" }}>
-                        
-                        <div className="hero-text-overlay text-first" data-index="0">
+            <div className="scroll-section" id="section-1" ref={sectionRef} style={{ height: "600vh" }}>
+                <div className="sticky-wrapper">
+                    <canvas ref={canvasRef} className="hero-canvas"></canvas>
+                    
+                    <div className="hero-text-overlay text-first" data-index="0">
                         <div className="hero-accent-line">
                             <div className="accent-bar"></div>
                             <span className="accent-label">Omkar Enterprises</span>
@@ -407,7 +304,6 @@ export default function MimakiSequence() {
                     </div>
                 </div>
             </div>
-        </div>
         </>
     );
 }

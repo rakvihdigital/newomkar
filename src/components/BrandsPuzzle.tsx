@@ -104,52 +104,6 @@ export default function BrandsPuzzle() {
 
     return (
         <>
-            <div className="interstitial-gap">
-                <h2 className="interstitial-title" style={{ color: "#4FC3A0" }}>OUR HONORABLE BRANDS SIGNAGES</h2>
-                <p className="interstitial-desc">Trusted by industry leaders.</p>
-            </div>
-
-            <section className="brands-section">
-                <div className="brands-gallery">
-                    <div className="brand-card">
-                        <img src="/assets/brands/lifestyle.jpg" alt="Lifestyle" className="brand-img" />
-                        <h3 className="brand-name">LIFESTYLE</h3>
-                    </div>
-                    <div className="brand-card">
-                        <img src="/assets/brands/samsung.jpg" alt="Samsung" className="brand-img" />
-                        <h3 className="brand-name">SAMSUNG</h3>
-                    </div>
-                    <div className="brand-card">
-                        <img src="/assets/brands/adidas.jpg" alt="Adidas" className="brand-img" />
-                        <h3 className="brand-name">ADIDAS</h3>
-                    </div>
-                    <div className="brand-card">
-                        <img src="/assets/brands/mia-tanishq.png" alt="Mia by Tanishq" className="brand-img" />
-                        <h3 className="brand-name">MIA BY TANISHQ</h3>
-                    </div>
-                    <div className="brand-card">
-                        <img src="/assets/brands/max.jpg" alt="Max" className="brand-img" />
-                        <h3 className="brand-name">MAX</h3>
-                    </div>
-                    <div className="brand-card">
-                        <img src="/assets/brands/shubh.jpg" alt="Tanishq" className="brand-img" />
-                        <h3 className="brand-name">TANISHQ</h3>
-                    </div>
-                    <div className="brand-card">
-                        <img src="/assets/brands/bata.jpg" alt="Bata" className="brand-img" />
-                        <h3 className="brand-name">BATA</h3>
-                    </div>
-                    <div className="brand-card">
-                        <img src="/assets/brands/trends.jpg" alt="Trends" className="brand-img" />
-                        <h3 className="brand-name">TRENDS</h3>
-                    </div>
-                    <div className="brand-card">
-                        <img src="/assets/brands/kushals.jpg" alt="Kushal's" className="brand-img" />
-                        <h3 className="brand-name">KUSHAL'S</h3>
-                    </div>
-                </div>
-            </section>
-
             <div className="brands-puzzle-section" id="brandsPuzzleSection">
                 <div className="brands-puzzle-sticky">
                     <div className="brands-puzzle-content">
