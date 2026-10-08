@@ -21,6 +21,7 @@ const images = [
 export default function VisualSection() {
   return (
     <MotionGallery
+      variant="wipe"
       id="visual"
       title="Visual"
       description="Compelling retail visuals that tell your brand story."

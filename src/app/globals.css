@@ -216,13 +216,47 @@ a {
 }
 
 .nav-logo.facility-intro-logo {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     isolation: isolate;
     gap: var(--intro-logo-gap, 20px);
     padding: var(--intro-logo-pad, 18px);
 }
+
+/* Corner badge: always docked; JS fades it in when the hero footage starts. */
+.nav-logo.facility-intro-logo {
+    top: 24px;
+    left: 28px;
+    --intro-logo-width: 88px;
+    --intro-caption-width: 196px;
+    --intro-caption-size: 0.52rem;
+    --intro-logo-pad: 12px;
+    --intro-logo-gap: 10px;
+    --intro-divider-height: 30px;
+    --logo-card-opacity: 1;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Opening logo: centred on the black curtain at the start of the hero. */
+.opening-logo {
+    --intro-caption-size: 0.9rem;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    pointer-events: none;
+}
+.opening-logo::before { display: none; }
+.opening-logo .logo-img { will-change: transform, opacity, filter; }
+.opening-logo .logo-captions {
+    width: auto;
+    grid-template-columns: auto 1px auto;
+    justify-content: center;
+}
+.opening-logo .logo-desc { white-space: nowrap; }
 
 .facility-intro-logo::before {
     content: '';
@@ -828,6 +862,15 @@ a {
    RESPONSIVE
    ============================================ */
 @media (max-width: 768px) {
+    .nav-logo.facility-intro-logo {
+        --intro-logo-width: 72px;
+        --intro-caption-width: 172px;
+        --intro-caption-size: 0.5rem;
+        top: 16px;
+        left: 16px;
+    }
+    .opening-logo { --intro-caption-size: 0.7rem; gap: 18px; }
+
     .nav-logo {
         top: 16px;
         left: 16px;
@@ -2522,7 +2565,7 @@ a {
 .services-heading {
     margin: 0;
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 5.4vw, 5.4rem);
+    font-size: clamp(2.8rem, 4.8vw, 4.8rem);
     font-weight: 900;
     line-height: 0.95;
     letter-spacing: 0.01em;
@@ -2867,7 +2910,7 @@ a {
         order: 2;
         display: flex;
         gap: 0.25em;
-        font-size: clamp(2rem, 10vw, 2.8rem);
+        font-size: clamp(1.8rem, 9vw, 2.6rem);
     }
     .services-lede {
         order: 3;

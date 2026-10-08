@@ -26,6 +26,7 @@ const images = [
 export default function FacadeSection() {
   return (
     <MotionGallery
+      variant="door"
       id="facade"
       title="Facade"
       description="Distinctive storefronts that make a lasting first impression."

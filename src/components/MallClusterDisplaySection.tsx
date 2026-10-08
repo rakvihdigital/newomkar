@@ -26,6 +26,7 @@ const images = [
 export default function MallClusterDisplaySection() {
   return (
     <MotionGallery
+      variant="drop"
       id="mall-cluster"
       title="Mall Cluster Display"
       description="Bold brand installations that bring mall spaces to life."

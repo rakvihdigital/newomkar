@@ -9,10 +9,15 @@ const SKIP_STEP = 2;
 // The footage opens on the OM GROUP sign; earlier frames are skipped.
 const FIRST_FRAME = 49;
 const LOAD_FACILITY = Math.ceil((FRAMES_FACILITY - FIRST_FRAME + 1) / SKIP_STEP);
-// Scroll milestones (share of the section): the logo docks, then the black curtain lifts.
-const LOGO_DOCKED = 0.06;
+// Scroll milestones (share of the section): the opening logo fades away on black,
+// then the curtain lifts as the footage starts and the corner badge quietly appears.
+const LOGO_GONE = 0.05;
 const CURTAIN_FADE = 0.05;
-const FOOTAGE_START = LOGO_DOCKED + 0.015;
+const FOOTAGE_START = LOGO_GONE + 0.015;
+const CORNER_IN = [LOGO_GONE + 0.01, LOGO_GONE + 0.06];
+
+const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
+const smooth = (value: number) => { const t = clamp01(value); return t * t * (3 - 2 * t); };
 
 function padFrame(num: number) {
     return String(num).padStart(6, '0');
@@ -22,6 +27,7 @@ export default function FacilityHeroSequence() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const sectionRef = useRef<HTMLDivElement>(null);
     const logoRef = useRef<HTMLAnchorElement>(null);
+    const openingRef = useRef<HTMLDivElement>(null);
     const introVeilRef = useRef<HTMLDivElement>(null);
     const [isReady, setIsReady] = useState(false);
     const [progressPercent, setProgressPercent] = useState(0);
@@ -158,7 +164,6 @@ export default function FacilityHeroSequence() {
         let target = 0;
         let current = 0;
         let inView = true;
-        let lastTravel = -1;
         let frameRequest = 0;
         let lastTime = 0;
 
@@ -174,42 +179,49 @@ export default function FacilityHeroSequence() {
             if (!inView) current = target;
         };
 
-        const updateLogo = (progress: number) => {
-            const logo = logoRef.current;
-            if (!logo) return;
-            const travel = Math.min(1, progress / LOGO_DOCKED);
-            const easedTravel = travel * travel * (3 - 2 * travel);
-            // The page stays black while the logo travels, then the curtain lifts slowly.
-            if (introVeilRef.current) {
-                introVeilRef.current.style.opacity = `${1 - Math.max(0, Math.min(1, (progress - LOGO_DOCKED) / CURTAIN_FADE))}`;
+        const opening = openingRef.current;
+        const openingMark = opening?.querySelector<HTMLElement>('.logo-img') ?? null;
+        const openingCaptions = opening?.querySelector<HTMLElement>('.logo-captions') ?? null;
+        const openingSides = opening ? [...opening.querySelectorAll<HTMLElement>('.logo-caption-mask')] : [];
+        const markFilter = openingMark ? getComputedStyle(openingMark).filter.replace('none', '') : '';
+        let lastOut = -1;
+
+        const updateIntro = (progress: number) => {
+            // The opening logo dissolves in place: captions part first, then the mark lifts and blurs away.
+            const out = clamp01(progress / LOGO_GONE);
+            if (opening && out !== lastOut) {
+                lastOut = out;
+                const captions = smooth(out / 0.6);
+                const mark = smooth((out - 0.2) / 0.8);
+                opening.style.visibility = out >= 1 ? 'hidden' : 'visible';
+                if (openingCaptions) openingCaptions.style.opacity = `${1 - captions}`;
+                openingSides.forEach((side, i) => {
+                    side.style.transform = `translate3d(${(i ? 36 : -36) * captions}px,0,0)`;
+                });
+                if (openingMark) {
+                    openingMark.style.opacity = `${1 - mark}`;
+                    openingMark.style.transform = `translate3d(0,${-14 * mark}px,0) scale(${1 + 0.12 * mark})`;
+                    openingMark.style.filter = `${markFilter} blur(${9 * mark}px)`;
+                }
             }
-            if (easedTravel === lastTravel) return;
-            lastTravel = easedTravel;
-            const mobile = window.innerWidth <= 768;
-            const startWidth = Math.min(320, window.innerWidth * 0.68);
-            const endWidth = mobile ? 72 : 88;
-            logo.style.setProperty('--intro-logo-width', `${startWidth + (endWidth - startWidth) * easedTravel}px`);
-            const startCaptionWidth = Math.min(440, window.innerWidth - 64);
-            const endCaptionWidth = mobile ? 172 : 196;
-            logo.style.setProperty('--intro-caption-width', `${startCaptionWidth + (endCaptionWidth - startCaptionWidth) * easedTravel}px`);
-            logo.style.setProperty('--intro-caption-size', `${(mobile ? 0.75 : 0.9) * (1 - easedTravel) + (mobile ? 0.5 : 0.52) * easedTravel}rem`);
-            // Tighten the card's spacing as it docks so the corner badge stays compact.
-            logo.style.setProperty('--intro-logo-pad', `${18 - 6 * easedTravel}px`);
-            logo.style.setProperty('--intro-logo-gap', `${20 - 10 * easedTravel}px`);
-            logo.style.setProperty('--intro-divider-height', `${48 - 18 * easedTravel}px`);
-            logo.style.setProperty('--logo-card-opacity', `${Math.max(0, (easedTravel - 0.65) / 0.35)}`);
-            const centerLeft = (window.innerWidth - logo.offsetWidth) / 2;
-            const centerTop = (window.innerHeight - logo.offsetHeight) / 2;
-            logo.style.left = `${centerLeft + ((mobile ? 16 : 28) - centerLeft) * easedTravel}px`;
-            logo.style.top = `${centerTop + ((mobile ? 16 : 24) - centerTop) * easedTravel}px`;
-            logo.style.transform = 'none';
+            // Black stays until the logo has gone, then lifts slowly.
+            if (introVeilRef.current) {
+                introVeilRef.current.style.opacity = `${1 - clamp01((progress - LOGO_GONE) / CURTAIN_FADE)}`;
+            }
+            // The corner badge fades in with the footage, so it is simply there once the scene opens.
+            const logo = logoRef.current;
+            if (logo) {
+                const corner = smooth((progress - CORNER_IN[0]) / (CORNER_IN[1] - CORNER_IN[0]));
+                logo.style.opacity = `${corner}`;
+                logo.style.visibility = corner > 0.001 ? 'visible' : 'hidden';
+            }
         };
 
         const render = (progress: number) => {
-            updateLogo(progress);
+            updateIntro(progress);
             canvas.style.visibility = inView ? 'visible' : 'hidden';
             if (inView) {
-                // Footage only starts once the logo has settled in the corner.
+                // Footage only starts once the opening logo has gone.
                 const footage = Math.max(0, Math.min(1, (progress - FOOTAGE_START) / (1 - FOOTAGE_START)));
                 drawFrame(Math.round(footage * (images.length - 1)));
                 updateOverlays((FIRST_FRAME - 1 + footage * (FRAMES_FACILITY - FIRST_FRAME + 1)) / FRAMES_FACILITY);
@@ -247,7 +259,7 @@ export default function FacilityHeroSequence() {
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.imageSmoothingQuality = 'high';
             lastDrawn = -1;
-            lastTravel = -1;
+            lastOut = -1;
             readScroll();
             current = target;
             render(current);
@@ -277,7 +289,7 @@ export default function FacilityHeroSequence() {
                 </div>
             </div>
 
-            {/* Logo — Fixed Top Left with dynamic intro position */}
+            {/* Corner badge — fixed top left, fades in as the hero footage starts */}
             <a href="#" className={`nav-logo facility-intro-logo${isReady ? ' intro-ready' : ''}`} id="navLogo" ref={logoRef}>
                 <img src="/assets/logo.png" alt="Omkar Enterprises Logo" className="logo-img" />
                 <span className="logo-captions">
@@ -296,6 +308,20 @@ export default function FacilityHeroSequence() {
                 <div className="sticky-wrapper" style={{ background: "transparent" }}>
                     <canvas ref={canvasRef} className="hero-canvas"></canvas>
                     <div className="facility-intro-veil" ref={introVeilRef} aria-hidden="true" />
+
+                    {/* Opening logo — centred on black, dissolves as scrolling begins */}
+                    <div className={`facility-intro-logo opening-logo${isReady ? ' intro-ready' : ''}`} ref={openingRef}>
+                        <img src="/assets/logo.png" alt="Omkar Enterprises" className="logo-img" />
+                        <span className="logo-captions">
+                            <span className="logo-caption-mask logo-caption-left">
+                                <span className="logo-desc">Our Professional<br /><strong>Portfolio</strong></span>
+                            </span>
+                            <span className="logo-caption-divider" aria-hidden="true" />
+                            <span className="logo-caption-mask logo-caption-right">
+                                <span className="logo-desc logo-experience"><span className="logo-years">15 Years</span> Serving<br />This Industry</span>
+                            </span>
+                        </span>
+                    </div>
 
                     {/* Scroll Indicator at very bottom of screen on initial load */}
                     <div className="scroll-indicator" id="scrollIndicator">

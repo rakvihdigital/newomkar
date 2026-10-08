@@ -16,6 +16,7 @@ const images = [
 export default function ChannelLetters() {
   return (
     <MotionGallery
+      variant="rise"
       id="channel-letters"
       title="Channel Letters"
       description="Dimensional lettering that brings your brand to light."

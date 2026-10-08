@@ -26,6 +26,7 @@ const images = [
 export default function ArchGateSection() {
   return (
     <MotionGallery
+      variant="arch"
       id="arch-gate"
       title="Arch Gate"
       description="Welcoming entrances designed to make every arrival memorable."

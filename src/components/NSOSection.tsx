@@ -26,6 +26,7 @@ const images = [
 export default function NSOSection() {
   return (
     <MotionGallery
+      variant="iris"
       id="nso"
       title="NSO"
       description="Bringing new retail spaces to life, from signage to in-store displays."

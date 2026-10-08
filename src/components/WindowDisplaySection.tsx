@@ -26,6 +26,7 @@ const images = [
 export default function WindowDisplaySection() {
   return (
     <MotionGallery
+      variant="curtain"
       id="window-display"
       title="Window Display"
       description="Creative window displays that turn passing glances into lasting impressions."

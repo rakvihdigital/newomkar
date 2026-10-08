@@ -4,12 +4,37 @@ import { useEffect, useRef } from 'react';
 
 type GalleryImage = { src: string; alt: string; caption?: string };
 
-export default function MotionGallery({ id, title, description, images, dark = false }: {
+// How each photograph enters, given its eased progress e (0 = waiting, 1 = settled).
+type Look = { opacity: number; transform: string; clip?: string };
+const VARIANTS = {
+  // Drifts in from the lower right with a slight tilt.
+  drift: { origin: '50% 80%', look: (e: number): Look => ({ opacity: e, transform: `translate3d(${180 * (1 - e)}px,${110 * (1 - e)}px,0) rotate(${6 * (1 - e)}deg) scale(${0.9 + 0.1 * e})` }) },
+  // Rises while being unveiled from the bottom, like letters lighting up.
+  rise: { origin: '50% 100%', look: (e: number): Look => ({ opacity: Math.min(1, e * 1.6), transform: `translate3d(0,${140 * (1 - e)}px,0) scale(${0.92 + 0.08 * e})`, clip: `inset(${100 * (1 - e)}% 0 0 0)` }) },
+  // Swings open like a door on its left hinge.
+  door: { origin: '0% 50%', look: (e: number): Look => ({ opacity: Math.min(1, e * 2), transform: `perspective(1400px) translate3d(${60 * (1 - e)}px,0,0) rotateY(${-75 * (1 - e)}deg)` }) },
+  // Opens with a circular spotlight, like a store launch.
+  iris: { origin: '50% 50%', look: (e: number): Look => ({ opacity: 1, transform: `scale(${1.15 - 0.15 * e})`, clip: `circle(${e * 75}% at 50% 50%)` }) },
+  // Curtains part from the centre outwards.
+  curtain: { origin: '50% 50%', look: (e: number): Look => ({ opacity: Math.min(1, e * 3), transform: `scale(${1.08 - 0.08 * e})`, clip: `inset(0 ${50 * (1 - e)}% 0 ${50 * (1 - e)}%)` }) },
+  // Drops in from above with a gentle swing, like a hanging display.
+  drop: { origin: '50% 0%', look: (e: number): Look => ({ opacity: e, transform: `translate3d(0,${-160 * (1 - e)}px,0) rotate(${-5 * (1 - e)}deg)` }) },
+  // Stands up from the floor, like a booth being raised.
+  standup: { origin: '50% 100%', look: (e: number): Look => ({ opacity: Math.min(1, e * 1.5), transform: `perspective(1200px) translate3d(0,${60 * (1 - e)}px,0) rotateX(${60 * (1 - e)}deg)` }) },
+  // Revealed through a rising arch.
+  arch: { origin: '50% 100%', look: (e: number): Look => ({ opacity: Math.min(1, e * 3), transform: `translate3d(0,${30 * (1 - e)}px,0)`, clip: `inset(${100 * (1 - e)}% 0 0 0 round ${45 * (1 - e)}% ${45 * (1 - e)}% 0 0)` }) },
+  // A diagonal wipe sweeps the photo in from the left.
+  wipe: { origin: '50% 50%', look: (e: number): Look => ({ opacity: 1, transform: `translate3d(${-60 * (1 - e)}px,0,0)`, clip: `polygon(0 0, ${e * 125}% 0, ${e * 125 - 25}% 100%, 0 100%)` }) },
+};
+export type GalleryVariant = keyof typeof VARIANTS;
+
+export default function MotionGallery({ id, title, description, images, dark = false, variant = 'drift' }: {
   id: string;
   title: string;
   description: string;
   images: GalleryImage[];
   dark?: boolean;
+  variant?: GalleryVariant;
 }) {
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -27,6 +52,8 @@ export default function MotionGallery({ id, title, description, images, dark = f
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const clamp = (value: number) => Math.max(0, Math.min(1, value));
     const easeInOut = (value: number) => { const p = clamp(value); return p * p * (3 - 2 * p); };
+    const motion = VARIANTS[variant];
+    figures.forEach(figure => { figure.style.transformOrigin = motion.origin; });
     let frame = 0;
     let distance = 0;
     let active = false;
@@ -67,8 +94,11 @@ export default function MotionGallery({ id, title, description, images, dark = f
         // Finish every entrance before the pinned stage releases, even after a resize.
         const finalSettle = distance ? clamp((travel - 0.85) / 0.15) : travel;
         const ease = easeInOut(Math.max(entry, finalSettle));
-        figure.style.opacity = String(ease);
-        figure.style.transform = `translate3d(${180 * (1 - ease)}px,${110 * (1 - ease)}px,0) rotate(${6 * (1 - ease)}deg) scale(${0.9 + 0.1 * ease})`;
+        const look = motion.look(ease);
+        const settled = ease >= 0.999;
+        figure.style.opacity = String(look.opacity);
+        figure.style.transform = settled ? 'none' : look.transform;
+        figure.style.clipPath = settled || !look.clip ? '' : look.clip;
       });
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
@@ -97,6 +127,7 @@ export default function MotionGallery({ id, title, description, images, dark = f
         [track, title, description, counter, ...figures].forEach(element => {
           element.style.removeProperty('transform');
           element.style.removeProperty('opacity');
+          element.style.removeProperty('clip-path');
         });
       }
       schedule();
@@ -127,7 +158,7 @@ export default function MotionGallery({ id, title, description, images, dark = f
       preference.removeEventListener('change', measure);
       section.removeAttribute('data-motion-ready');
     };
-  }, [images]);
+  }, [images, variant]);
 
   return (
     <section ref={sectionRef} className={`motion-gallery${dark ? ' motion-gallery-dark' : ''}`} aria-labelledby={`${id}-title`}>

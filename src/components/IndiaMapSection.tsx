@@ -112,7 +112,7 @@ export default function IndiaMapSection() {
                     <p className="services-eyebrow"><span aria-hidden="true" />Pan South India Coverage</p>
                     <h2 id="services-heading" className="services-heading">
                         <span className="services-heading-mask"><span className="services-heading-line">Our</span></span>
-                        <span className="services-heading-mask"><span className="services-heading-line services-heading-accent">Services</span></span>
+                        <span className="services-heading-mask"><span className="services-heading-line services-heading-accent">Locations</span></span>
                     </h2>
                     <p className="services-lede">
                         Delivering excellence across 4 major cities, from our headquarters in Bangalore.

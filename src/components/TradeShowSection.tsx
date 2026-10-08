@@ -16,6 +16,7 @@ const images = [
 export default function TradeShowSection() {
   return (
     <MotionGallery
+      variant="standup"
       id="trade-show"
       title="Trade Show"
       description="Exhibition displays that put your brand at the centre of attention."
