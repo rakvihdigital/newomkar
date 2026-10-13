@@ -1731,17 +1731,22 @@ a {
 /* The Grid Container - Rotated to make Diamonds */
 .puzzle-grid {
     position: absolute;
-    right: 5%;
+    --puzzle-cell: min(8.6vw, 12svh, 125px);
+    right: 8%;
     top: 50%;
     transform: translateY(-50%) rotate(-45deg);
     transform-origin: center;
     display: grid;
-    grid-template-columns: repeat(6, 130px);
-    grid-template-rows: repeat(6, 130px);
+    grid-template-columns: repeat(6, var(--puzzle-cell));
+    grid-template-rows: repeat(5, var(--puzzle-cell));
     gap: 4px;
 }
 
 .puzzle-card {
+    border: 0;
+    padding: 0;
+    min-width: 0;
+    container-type: size;
     background-color: #fff;
     display: flex;
     justify-content: center;
@@ -1762,9 +1767,9 @@ a {
 
 .puzzle-card-inner {
     transform: rotate(45deg);
-    width: 141%;
-    /* Fill corners of the rotated box */
-    height: 141%;
+    width: var(--logo-width);
+    height: var(--logo-height);
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1777,13 +1782,18 @@ a {
 }
 
 .puzzle-card:hover .puzzle-card-inner {
-    transform: rotate(45deg) scale(1.12);
+    transform: rotate(45deg) scale(1.04);
+}
+
+.puzzle-card:focus-visible {
+    outline: 3px solid #073e60;
+    outline-offset: 3px;
+    z-index: 11;
 }
 
 .puzzle-logo-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    position: absolute;
+    max-width: none;
 }
 
 /* Specific Grid Placements to match reference image */
@@ -1901,21 +1911,13 @@ a {
     background-color: #fbc02d;
 }
 
-@media (max-width: 1024px) {
-    .puzzle-grid {
-        right: -10%;
-        transform: translateY(-50%) rotate(-45deg) scale(0.7);
-    }
-}
-
-@media (max-width: 768px) {
-
+@media (max-width: 1100px) {
     .puzzle-heading {
-        top: 15vh;
+        top: 9%;
         left: 5%;
         width: 90%;
         text-align: center;
-        font-size: 2rem;
+        font-size: clamp(2rem, 4vw, 3rem);
     }
 
     .puzzle-heading::after {
@@ -1923,11 +1925,22 @@ a {
     }
 
     .puzzle-grid {
-        top: 60%;
+        --puzzle-cell: min(10.6vw, 9svh);
+        top: 62%;
         right: 50%;
-        grid-template-columns: repeat(6, 11vw);
-        grid-template-rows: repeat(6, 11vw);
         transform: translate(50%, -50%) rotate(-45deg);
+        gap: 3px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brands-puzzle-section {
+        height: 100svh;
+    }
+
+    .puzzle-card,
+    .puzzle-card-inner {
+        transition: none;
     }
 }
 

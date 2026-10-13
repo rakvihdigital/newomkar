@@ -1,92 +1,124 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Flip } from 'gsap/Flip';
+
+// Crop coordinates (x, y, width, height) hide source-image whitespace without changing the artwork.
+const brands = [
+    { slug: "calvin-klein", name: "Calvin Klein", area: "1 / 2", imageWidth: 1600, imageHeight: 362, crop: [173, 77, 1254, 208] },
+    { slug: "arvind", name: "Arvind", area: "1 / 3", imageWidth: 1600, imageHeight: 386, crop: [384, 125, 832, 136] },
+    { slug: "the-bear-house", name: "The Bear House", area: "2 / 1 / span 2 / span 1", imageWidth: 1350, imageHeight: 1600, crop: [246, 189, 858, 1222] },
+    { slug: "mi", name: "Mi", area: "2 / 2", imageWidth: 1599, imageHeight: 1600, crop: [0, 0, 1599, 1600] },
+    { slug: "jockey", name: "Jockey", area: "2 / 3", imageWidth: 1600, imageHeight: 670, crop: [153, 127, 1294, 416] },
+    { slug: "nykaa", name: "Nykaa", area: "2 / 4", imageWidth: 1600, imageHeight: 604, crop: [0, 0, 1600, 604] },
+    { slug: "bajaj-finance", name: "Bajaj Finance", area: "2 / 5", imageWidth: 1600, imageHeight: 742, crop: [52, 52, 1496, 638] },
+    { slug: "puravankara", name: "Puravankara", area: "4 / 1", imageWidth: 1600, imageHeight: 400, crop: [173, 119, 1254, 162] },
+    { slug: "bata", name: "Bata", area: "3 / 2", imageWidth: 1600, imageHeight: 384, crop: [0, 0, 1600, 384] },
+    { slug: "hafele", name: "Häfele", area: "3 / 3", imageWidth: 1600, imageHeight: 400, crop: [0, 0, 1600, 400] },
+    { slug: "asian-paints", name: "Asian Paints", area: "3 / 4 / span 2 / span 2", imageWidth: 1600, imageHeight: 402, crop: [51, 56, 1514, 289] },
+    { slug: "blackberrys", name: "Blackberrys", area: "3 / 6", imageWidth: 1600, imageHeight: 698, crop: [140, 113, 1320, 474] },
+    { slug: "samsung", name: "Samsung", area: "4 / 6", imageWidth: 1600, imageHeight: 441, crop: [0, 0, 1600, 441] },
+    { slug: "mia-by-tanishq", name: "Mia by Tanishq", area: "4 / 2", imageWidth: 1600, imageHeight: 1478, crop: [243, 150, 1114, 1178] },
+    { slug: "sobha", name: "Sobha", area: "4 / 3", imageWidth: 1600, imageHeight: 570, crop: [147, 143, 1307, 284] },
+    { slug: "kushals", name: "Kushal’s", area: "5 / 2", imageWidth: 1600, imageHeight: 456, crop: [330, 94, 929, 268] },
+    { slug: "bkt-tyres", name: "BKT Tyres", area: "5 / 3", imageWidth: 1600, imageHeight: 743, crop: [0, 0, 1600, 743] },
+    { slug: "carlsberg", name: "Carlsberg Elephant", area: "5 / 4 / span 1 / span 2", imageWidth: 1600, imageHeight: 759, crop: [0, 0, 1600, 759] },
+    { slug: "soch", name: "Soch", area: "1 / 4", imageWidth: 1600, imageHeight: 1144, crop: [0, 0, 1600, 1144] },
+    { slug: "tuborg", name: "Tuborg", area: "5 / 6", imageWidth: 1600, imageHeight: 488, crop: [0, 0, 1600, 488] },
+];
 
 export default function BrandsPuzzle() {
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger, Flip);
 
         const section = document.getElementById('brandsPuzzleSection');
-        const cards = gsap.utils.toArray('.puzzle-card') as HTMLElement[];
+        const cards = Array.from(section?.querySelectorAll<HTMLElement>('.puzzle-card') ?? []);
 
         if (!section || cards.length === 0) return;
 
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: section,
-                start: "top top",
-                end: "+=200%",
-                scrub: 1.2
-            }
-        });
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const context = gsap.context(() => {
+            if (reducedMotion) return;
 
-        cards.forEach((card, i) => {
-            gsap.set(card, {
-                opacity: 0,
-                scale: 0.2,
-                x: () => (Math.random() - 0.5) * 800,
-                y: () => (Math.random() - 0.5) * 800 + 400,
-                rotation: () => (Math.random() - 0.5) * 120
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: "+=200%",
+                    scrub: 1.2
+                }
             });
 
-            const interX = (Math.random() - 0.5) * 1000;
-            const interY = (Math.random() - 0.5) * 1000;
-            const interRot = (Math.random() - 0.5) * 60;
+            cards.forEach((card, i) => {
+                gsap.set(card, {
+                    opacity: 0,
+                    scale: 0.2,
+                    x: () => (Math.random() - 0.5) * 800,
+                    y: () => (Math.random() - 0.5) * 800 + 400,
+                    rotation: () => (Math.random() - 0.5) * 120
+                });
 
-            tl.to(card, {
-                opacity: 1,
-                scale: (Math.random() * 0.4) + 0.6,
-                x: interX,
-                y: interY,
-                rotation: interRot,
-                ease: "power2.out",
-                duration: 25
-            }, i * 0.5);
+                const interX = (Math.random() - 0.5) * 1000;
+                const interY = (Math.random() - 0.5) * 1000;
+                const interRot = (Math.random() - 0.5) * 60;
 
-            tl.to(card, {
-                x: interX + (Math.random() - 0.5) * 150,
-                y: interY + (Math.random() - 0.5) * 150,
-                rotation: interRot + (Math.random() - 0.5) * 15,
-                duration: 20,
-                ease: "sine.inOut"
-            }, 25);
+                tl.to(card, {
+                    opacity: 1,
+                    scale: (Math.random() * 0.4) + 0.6,
+                    x: interX,
+                    y: interY,
+                    rotation: interRot,
+                    ease: "power2.out",
+                    duration: 25
+                }, i * 0.5);
 
-            tl.to(card, {
-                x: 0,
-                y: 0,
-                rotation: 0,
-                scale: 1,
-                ease: "power3.inOut",
-                duration: 35
-            }, 45);
+                tl.to(card, {
+                    x: interX + (Math.random() - 0.5) * 150,
+                    y: interY + (Math.random() - 0.5) * 150,
+                    rotation: interRot + (Math.random() - 0.5) * 15,
+                    duration: 20,
+                    ease: "sine.inOut"
+                }, 25);
 
-            tl.to(card, {
-                duration: 20
-            }, 80);
-        });
+                tl.to(card, {
+                    x: 0,
+                    y: 0,
+                    rotation: 0,
+                    scale: 1,
+                    ease: "power3.inOut",
+                    duration: 35
+                }, 45);
+
+                tl.to(card, {
+                    duration: 20
+                }, 80);
+            });
+
+        }, section);
 
         const clickHandler = () => {
             const state = Flip.getState(cards);
-            const ids = cards.map(c => c.id);
+            const positions = cards.map(card => ({ area: card.style.gridArea, order: card.style.order }));
 
-            for (let i = ids.length - 1; i > 0; i--) {
+            for (let i = positions.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [ids[i], ids[j]] = [ids[j], ids[i]];
+                [positions[i], positions[j]] = [positions[j], positions[i]];
             }
 
             cards.forEach((c, i) => {
-                c.id = ids[i];
+                c.style.gridArea = positions[i].area;
+                c.style.order = positions[i].order;
             });
 
             Flip.from(state, {
-                duration: 1.2,
+                duration: reducedMotion ? 0 : 1.2,
                 ease: "power3.inOut",
                 absolute: true,
                 stagger: 0.02,
-                spin: true
+                spin: !reducedMotion
             });
         };
 
@@ -96,9 +128,7 @@ export default function BrandsPuzzle() {
         
         return () => {
             cards.forEach(card => card.removeEventListener('click', clickHandler));
-            ScrollTrigger.getAll().forEach(trigger => {
-                if (trigger.vars.trigger === section) trigger.kill();
-            });
+            context.revert();
         };
     }, []);
 
@@ -110,60 +140,52 @@ export default function BrandsPuzzle() {
                         <h2 className="puzzle-heading">BRANDS THAT<br />TRUST US</h2>
 
                         <div className="puzzle-grid" id="puzzleGrid">
-                            <div className="puzzle-card" id="card-calvinklein">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/calvin_klein.png" alt="Calvin Klein" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-aditya">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/aditya_birla_madura.png" alt="Aditya Birla" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-samsung">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/samsung.png" alt="Samsung" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-mi">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/mi.png" alt="Mi" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-giva">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/giva.png" alt="Giva" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-max">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/max.png" alt="Max" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-zeiss">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/zeiss.png" alt="Zeiss" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-prestige">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/prestige.png" alt="Prestige" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-bata">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/bata.png" alt="Bata" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-hafele">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/hafele.png" alt="Hafele" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-asianpaints">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/asianpaints.png" alt="Asian Paints" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-arvind">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/arvind.png" alt="Arvind" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-bosch">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/bosch.png" alt="Bosch" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-mia">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/mia_by_tanishq.png" alt="Mia by Tanishq" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-sobha">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/sobha.png" alt="Sobha" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-kushals">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/kushals.png" alt="Kushals" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-tigc">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/tigc_indian_garage.png" alt="TIGC" className="puzzle-logo-img" /></div>
-                            </div>
-                            <div className="puzzle-card" id="card-easybuy">
-                                <div className="puzzle-card-inner"><img src="/assets/brand_logos_diamond/easybuy.png" alt="Easybuy" className="puzzle-logo-img" /></div>
-                            </div>
+                            {brands.map((brand, index) => {
+                                const [x, y, width, height] = brand.crop;
+                                const ratio = width / height;
+                                return (
+                                    <button
+                                        type="button"
+                                        className="puzzle-card"
+                                        key={brand.slug}
+                                        style={{ gridArea: brand.area, order: index }}
+                                        aria-label={`${brand.name} — shuffle brand tiles`}
+                                    >
+                                        <span
+                                            className="puzzle-card-inner"
+                                            style={{
+                                                '--logo-width': `${134 * ratio / (ratio + 1)}cqmin`,
+                                                '--logo-height': `${134 / (ratio + 1)}cqmin`,
+                                                '--logo-ratio': ratio,
+                                            } as React.CSSProperties}
+                                        >
+                                            <Image
+                                                src={`/assets/trusted-brands/${brand.slug}.webp`}
+                                                alt={brand.name}
+                                                width={brand.imageWidth}
+                                                height={brand.imageHeight}
+                                                // Animated off-screen tiles must not defer their image requests.
+                                                loading="eager"
+                                                unoptimized
+                                                onError={(event) => {
+                                                    const image = event.currentTarget;
+                                                    const fallback = `/assets/trusted-brands/${brand.slug}.jpg`;
+                                                    if (image.getAttribute('src') !== fallback) {
+                                                        image.src = fallback;
+                                                    }
+                                                }}
+                                                className="puzzle-logo-img"
+                                                style={{
+                                                    width: `${brand.imageWidth / width * 100}%`,
+                                                    height: `${brand.imageHeight / height * 100}%`,
+                                                    left: `${-x / width * 100}%`,
+                                                    top: `${-y / height * 100}%`,
+                                                }}
+                                            />
+                                        </span>
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
