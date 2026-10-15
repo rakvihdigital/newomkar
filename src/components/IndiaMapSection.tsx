@@ -18,7 +18,7 @@ const ZOOM = 2.3;
 
 const STATS = [
     { value: 4, suffix: '', label: 'Major Cities' },
-    { value: 500, suffix: '+', label: 'Projects Delivered' },
+    { value: 1000, suffix: '+', label: 'Projects Delivered' },
     { value: null, display: '24/7', label: 'Support Available' },
 ];
 
