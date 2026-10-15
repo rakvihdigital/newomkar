@@ -37,12 +37,32 @@ export default function FacilityHeroSequence() {
         const showHero = () => {
             if (readyShown) return;
             readyShown = true;
+            window.clearTimeout(fallbackTimeout);
             setProgressPercent(100);
             readyTimeout = window.setTimeout(() => setIsReady(true), 250);
             render(current);
         };
-        video.addEventListener('loadeddata', showHero, { once: true });
-        video.addEventListener('error', showHero, { once: true });
+        // Phones often hold back video data until playback starts, so open the page as soon as
+        // the video is known (the poster covers it until frames arrive) and never wait forever.
+        const READY_EVENTS = ['loadedmetadata', 'loadeddata', 'canplay', 'error'];
+        READY_EVENTS.forEach(type => video.addEventListener(type, showHero));
+        const fallbackTimeout = window.setTimeout(showHero, 4000);
+
+        // Phones get lighter 720p cuts of the same footage.
+        const suffix = window.matchMedia('(max-width: 768px)').matches ? '-mobile' : '';
+        const setSource = (media: HTMLVideoElement, name: string) => {
+            const src = `/assets/${name}${suffix}.mp4`;
+            if (media.getAttribute('src') !== src) media.src = src;
+        };
+        setSource(video, 'facility-hero');
+        setSource(continuation, 'facility-hero-continuation');
+        // A muted play and pause nudges mobile browsers into loading the footage.
+        [video, continuation].forEach(media => {
+            media.play()?.then(() => {
+                media.pause();
+                render(current);
+            }).catch(() => {});
+        });
 
         const updateOverlays = (progress: number) => {
             if (!sectionRef.current) return;
@@ -221,8 +241,8 @@ export default function FacilityHeroSequence() {
         return () => {
             cancelAnimationFrame(frameRequest);
             window.clearTimeout(readyTimeout);
-            video.removeEventListener('loadeddata', showHero);
-            video.removeEventListener('error', showHero);
+            window.clearTimeout(fallbackTimeout);
+            READY_EVENTS.forEach(type => video.removeEventListener(type, showHero));
             continuation.removeEventListener('loadeddata', syncContinuation);
             video.removeEventListener('seeked', syncFrame);
             continuation.removeEventListener('seeked', syncFrame);
@@ -264,7 +284,6 @@ export default function FacilityHeroSequence() {
                     <video
                         ref={videoRef}
                         className="hero-canvas"
-                        src="/assets/facility-hero.mp4"
                         poster="/assets/facility-hero-poster.png"
                         preload="auto"
                         muted
@@ -274,7 +293,6 @@ export default function FacilityHeroSequence() {
                     <video
                         ref={continuationRef}
                         className="hero-canvas hero-continuation"
-                        src="/assets/facility-hero-continuation.mp4"
                         preload="auto"
                         muted
                         playsInline
