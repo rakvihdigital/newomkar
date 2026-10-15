@@ -2,29 +2,24 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-const FRAMES_FACILITY = 600;
-const PATH_FACILITY = '/assets/facility_frames/frame_';
-const FRAME_EXT = '.webp';
-const SKIP_STEP = 2;
-// The footage opens on the OM GROUP sign; earlier frames are skipped.
-const FIRST_FRAME = 49;
-const LOAD_FACILITY = Math.ceil((FRAMES_FACILITY - FIRST_FRAME + 1) / SKIP_STEP);
-// Scroll milestones (share of the section): the opening logo fades away on black,
+// Scroll milestones (share of the section): the opening logo fades away,
 // then the curtain lifts as the footage starts and the corner badge quietly appears.
 const LOGO_GONE = 0.05;
 const CURTAIN_FADE = 0.05;
 const FOOTAGE_START = LOGO_GONE + 0.015;
 const CORNER_IN = [LOGO_GONE + 0.01, LOGO_GONE + 0.06];
+// Both videos are encoded with a seek point on every source frame.
+const FALLBACK_FIRST_SECONDS = 236 / 24;
+const FALLBACK_CONTINUATION_SECONDS = 10;
+const FRAME_SECONDS = 1 / 24;
+const JOIN_BLEND_SECONDS = 0.2;
 
 const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
 const smooth = (value: number) => { const t = clamp01(value); return t * t * (3 - 2 * t); };
 
-function padFrame(num: number) {
-    return String(num).padStart(6, '0');
-}
-
 export default function FacilityHeroSequence() {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const continuationRef = useRef<HTMLVideoElement>(null);
     const sectionRef = useRef<HTMLDivElement>(null);
     const logoRef = useRef<HTMLAnchorElement>(null);
     const openingRef = useRef<HTMLDivElement>(null);
@@ -33,110 +28,38 @@ export default function FacilityHeroSequence() {
     const [progressPercent, setProgressPercent] = useState(0);
 
     useEffect(() => {
-        const images: HTMLImageElement[] = new Array(LOAD_FACILITY);
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+        const video = videoRef.current;
+        const continuation = continuationRef.current;
+        if (!video || !continuation) return;
 
-        let loadedCount = 0;
-        const QUICK_LOAD = 60; // Show first frame quickly then load rest in background
-        let dismissed = false;
-
-        const checkProgress = () => {
-            loadedCount++;
-            const percent = Math.min(100, Math.round((loadedCount / QUICK_LOAD) * 100));
-            setProgressPercent(percent);
-
-            if (loadedCount >= QUICK_LOAD && !dismissed) {
-                dismissed = true;
-                setTimeout(() => setIsReady(true), 250);
-            }
+        let readyTimeout = 0;
+        let readyShown = false;
+        const showHero = () => {
+            if (readyShown) return;
+            readyShown = true;
+            setProgressPercent(100);
+            readyTimeout = window.setTimeout(() => setIsReady(true), 250);
+            render(current);
         };
+        video.addEventListener('loadeddata', showHero, { once: true });
+        video.addEventListener('error', showHero, { once: true });
 
-        // Frames are 2560px wide, so the canvas never needs more pixels than that.
-        let dpr = 1;
-        const loaded: boolean[] = new Array(LOAD_FACILITY).fill(false);
-        let lastDrawn = -1;
-        let wanted = 0;
-
-        for (let idx = 0, i = FIRST_FRAME; i <= FRAMES_FACILITY; i += SKIP_STEP, idx++) {
-            const img = new Image();
-            const frame = idx;
-            img.src = `${PATH_FACILITY}${padFrame(i)}${FRAME_EXT}`;
-            img.onload = () => {
-                // Decode up front so drawing a frame mid-scroll never stalls on decoding.
-                img.decode().catch(() => {}).finally(() => {
-                    loaded[frame] = true;
-                    checkProgress();
-                    if (frame === wanted && lastDrawn !== wanted) drawFrame(wanted);
-                });
-            };
-            img.onerror = checkProgress;
-            images[idx] = img;
-        }
-
-        const drawImageRaw = (img: HTMLImageElement) => {
-            const canvasW = canvas.width / dpr;
-            const canvasH = canvas.height / dpr;
-            const imgRatio = img.naturalWidth / img.naturalHeight;
-            const canvasRatio = canvasW / canvasH;
-            let drawW, drawH, drawX, drawY;
-
-            if (canvasRatio > imgRatio) {
-                drawW = canvasW;
-                drawH = canvasW / imgRatio;
-                drawX = 0;
-                drawY = (canvasH - drawH) / 2;
-            } else {
-                drawH = canvasH;
-                drawW = canvasH * imgRatio;
-                drawX = (canvasW - drawW) / 2;
-                drawY = 0;
-            }
-
-            ctx.clearRect(0, 0, canvasW, canvasH);
-            ctx.drawImage(img, drawX, drawY, drawW, drawH);
-        };
-
-        // Draw the requested frame, or the closest one already loaded, so the picture never freezes.
-        const drawFrame = (index: number) => {
-            wanted = index;
-            for (let offset = 0; offset < images.length; offset++) {
-                for (const candidate of offset ? [index - offset, index + offset] : [index]) {
-                    if (candidate < 0 || candidate >= images.length || !loaded[candidate]) continue;
-                    if (candidate !== lastDrawn) {
-                        drawImageRaw(images[candidate]);
-                        lastDrawn = candidate;
-                    }
-                    return;
-                }
-            }
-        };
-
-        // `progress` is measured on the original 600-frame timeline, so each caption stays
-        // pinned to the same footage regardless of where playback starts.
         const updateOverlays = (progress: number) => {
             if (!sectionRef.current) return;
             const overlays = sectionRef.current.querySelectorAll('.hero-text-overlay') as NodeListOf<HTMLElement>;
-            const totalSlots = overlays.length;
-            if (totalSlots === 0) return;
-            const slotDur = 1 / totalSlots;
-            const fadeDur = slotDur * 0.28;
+            // Team size follows the entrance into the building; work area waits
+            // for the exterior pullback in the second film.
+            const windows = [
+                { start: 0.11, shown: 0.14, hide: 0.18, end: 0.20 },
+                { start: 0.20, shown: 0.23, hide: 0.32, end: 0.35 },
+                { start: 0.42, shown: 0.46, hide: 0.66, end: 0.69 },
+                { start: 0.76, shown: 0.80, hide: 0.90, end: 0.93 },
+                { start: 0.93, shown: 0.96, hide: Infinity, end: Infinity },
+            ];
 
             overlays.forEach((overlay, i) => {
-                const isLast = i === totalSlots - 1;
-                // The headquarters title waits for the full building (fades in ~frame 105,
-                // fully shown ~117) and clears at the glass entrance (~frame 153).
-                const w = i === 0
-                    ? { start: 0.175, shown: 0.195, hide: 0.235, end: 0.255 }
-                    : i === 1
-                    ? { start: 0.26, shown: 0.295, hide: 0.4 - fadeDur, end: 0.4 }
-                    : (() => {
-                        const start = i * slotDur;
-                        const end = (i + 1) * slotDur;
-                        return { start, shown: start + fadeDur, hide: isLast ? Infinity : end - fadeDur, end: isLast ? Infinity : end };
-                    })();
+                const w = windows[i];
+                if (!w) return;
 
                 let opacity = 0;
                 let yOffset = 0;
@@ -166,6 +89,19 @@ export default function FacilityHeroSequence() {
         let inView = true;
         let frameRequest = 0;
         let lastTime = 0;
+        let continuationReady = continuation.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA;
+
+        const seekFrame = (media: HTMLVideoElement, time: number) => {
+            // A seek is asynchronous. Let the current frame finish decoding before
+            // requesting the newest scroll position, instead of cancelling it on
+            // every animation frame.
+            if (media.seeking || media.readyState < HTMLMediaElement.HAVE_METADATA) return;
+            const lastFrame = Math.max(0, media.duration - FRAME_SECONDS);
+            const frameTime = Math.round(Math.min(time, lastFrame) / FRAME_SECONDS) * FRAME_SECONDS;
+            if (Math.abs(media.currentTime - frameTime) >= FRAME_SECONDS * 0.75) {
+                media.currentTime = frameTime;
+            }
+        };
 
         const readScroll = () => {
             const el = sectionRef.current;
@@ -204,7 +140,7 @@ export default function FacilityHeroSequence() {
                     openingMark.style.filter = `${markFilter} blur(${9 * mark}px)`;
                 }
             }
-            // Black stays until the logo has gone, then lifts slowly.
+            // The opening backdrop stays until the logo has gone, then lifts slowly.
             if (introVeilRef.current) {
                 introVeilRef.current.style.opacity = `${1 - clamp01((progress - LOGO_GONE) / CURTAIN_FADE)}`;
             }
@@ -219,12 +155,23 @@ export default function FacilityHeroSequence() {
 
         const render = (progress: number) => {
             updateIntro(progress);
-            canvas.style.visibility = inView ? 'visible' : 'hidden';
+            video.style.visibility = inView ? 'visible' : 'hidden';
+            continuation.style.visibility = inView ? 'visible' : 'hidden';
             if (inView) {
                 // Footage only starts once the opening logo has gone.
-                const footage = Math.max(0, Math.min(1, (progress - FOOTAGE_START) / (1 - FOOTAGE_START)));
-                drawFrame(Math.round(footage * (images.length - 1)));
-                updateOverlays((FIRST_FRAME - 1 + footage * (FRAMES_FACILITY - FIRST_FRAME + 1)) / FRAMES_FACILITY);
+                const footage = clamp01((progress - FOOTAGE_START) / (1 - FOOTAGE_START));
+                const firstDuration = Number.isFinite(video.duration) && video.duration > 0
+                    ? video.duration : FALLBACK_FIRST_SECONDS;
+                const continuationDuration = Number.isFinite(continuation.duration) && continuation.duration > 0
+                    ? continuation.duration : FALLBACK_CONTINUATION_SECONDS;
+                const timelineTime = footage * (firstDuration + continuationDuration);
+                const continuationTime = Math.max(0, timelineTime - firstDuration);
+                seekFrame(video, timelineTime);
+                seekFrame(continuation, continuationTime);
+                continuation.style.opacity = continuationReady
+                    ? `${smooth((timelineTime - firstDuration + JOIN_BLEND_SECONDS / 2) / JOIN_BLEND_SECONDS)}`
+                    : '0';
+                updateOverlays(footage);
             } else {
                 updateOverlays(progress > 0.5 ? 1 : 0);
             }
@@ -252,13 +199,6 @@ export default function FacilityHeroSequence() {
         };
 
         const resize = () => {
-            dpr = Math.min(window.devicePixelRatio || 1, 2560 / window.innerWidth, 2);
-            dpr = Math.max(1, dpr);
-            canvas.width = Math.round(window.innerWidth * dpr);
-            canvas.height = Math.round(window.innerHeight * dpr);
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            ctx.imageSmoothingQuality = 'high';
-            lastDrawn = -1;
             lastOut = -1;
             readScroll();
             current = target;
@@ -266,11 +206,26 @@ export default function FacilityHeroSequence() {
         };
 
         resize();
+        const syncContinuation = () => {
+            continuationReady = true;
+            render(current);
+        };
+        const syncFrame = () => render(current);
+        continuation.addEventListener('loadeddata', syncContinuation);
+        video.addEventListener('seeked', syncFrame);
+        continuation.addEventListener('seeked', syncFrame);
         window.addEventListener('resize', resize);
         window.addEventListener('scroll', onScroll, { passive: true });
+        if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) showHero();
 
         return () => {
             cancelAnimationFrame(frameRequest);
+            window.clearTimeout(readyTimeout);
+            video.removeEventListener('loadeddata', showHero);
+            video.removeEventListener('error', showHero);
+            continuation.removeEventListener('loadeddata', syncContinuation);
+            video.removeEventListener('seeked', syncFrame);
+            continuation.removeEventListener('seeked', syncFrame);
             window.removeEventListener('scroll', onScroll);
             window.removeEventListener('resize', resize);
         };
@@ -306,10 +261,28 @@ export default function FacilityHeroSequence() {
             {/* Section 0: Grand Facility & Headquarters Sequence */}
             <div className="scroll-section" id="section-0" ref={sectionRef} style={{ height: "1000vh", position: "relative" }}>
                 <div className="sticky-wrapper" style={{ background: "transparent" }}>
-                    <canvas ref={canvasRef} className="hero-canvas"></canvas>
+                    <video
+                        ref={videoRef}
+                        className="hero-canvas"
+                        src="/assets/facility-hero.mp4"
+                        poster="/assets/facility-hero-poster.png"
+                        preload="auto"
+                        muted
+                        playsInline
+                        aria-hidden="true"
+                    />
+                    <video
+                        ref={continuationRef}
+                        className="hero-canvas hero-continuation"
+                        src="/assets/facility-hero-continuation.mp4"
+                        preload="auto"
+                        muted
+                        playsInline
+                        aria-hidden="true"
+                    />
                     <div className="facility-intro-veil" ref={introVeilRef} aria-hidden="true" />
 
-                    {/* Opening logo — centred on black, dissolves as scrolling begins */}
+                    {/* Opening logo dissolves as scrolling begins */}
                     <div className={`facility-intro-logo opening-logo${isReady ? ' intro-ready' : ''}`} ref={openingRef}>
                         <img src="/assets/logo.png" alt="Omkar Enterprises" className="logo-img" />
                         <span className="logo-captions">
@@ -341,31 +314,31 @@ export default function FacilityHeroSequence() {
                         </div>
                     </div>
 
-                    {/* Overlay 1: Inside Office — 1st Stat */}
+                    {/* Overlay 1: Team size while entering the building */}
                     <div className="hero-text-overlay pos-center text-center" data-index="1">
                         <div className="hero-stat-box">
-                            <div className="hero-stat-number">25k+</div>
-                            <div className="hero-stat-label">OFFICE SPACE - SQFT</div>
+                            <div className="hero-stat-number">200+</div>
+                            <div className="hero-stat-label">TEAM SIZE</div>
                         </div>
                     </div>
 
-                    {/* Overlay 2: Inside Office — 2nd Stat */}
+                    {/* Overlay 2: Production volume inside the facility */}
                     <div className="hero-text-overlay pos-center text-center" data-index="2">
-                        <div className="hero-stat-box">
-                            <div className="hero-stat-number">115+</div>
-                            <div className="hero-stat-label">EMPLOYEE HEAD COUNT</div>
-                        </div>
-                    </div>
-
-                    {/* Overlay 3: Inside Facility — 3rd Stat */}
-                    <div className="hero-text-overlay pos-center text-center" data-index="3">
                         <div className="hero-stat-box">
                             <div className="hero-stat-number">1000+</div>
                             <div className="hero-stat-label">PROJECTS</div>
                         </div>
                     </div>
 
-                    {/* Overlay 4: Final Centered Ending Title — OUR WORKS */}
+                    {/* Overlay 3: Work area during the exterior pullback */}
+                    <div className="hero-text-overlay pos-center text-center" data-index="3">
+                        <div className="hero-stat-box">
+                            <div className="hero-stat-number">20K</div>
+                            <div className="hero-stat-label">TOTAL WORK SQFT</div>
+                        </div>
+                    </div>
+
+                    {/* Overlay 4: Final centered ending title */}
                     <div className="hero-text-overlay pos-center text-center" data-index="4">
                         <div className="hero-stat-box works-intro" style={{ maxWidth: "960px" }}>
                             <h2 className="hero-title-bold works-intro-title">

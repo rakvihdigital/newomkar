@@ -10,24 +10,22 @@ import { Flip } from 'gsap/Flip';
 const brands = [
     { slug: "calvin-klein", name: "Calvin Klein", area: "1 / 2", imageWidth: 1600, imageHeight: 362, crop: [173, 77, 1254, 208] },
     { slug: "arvind", name: "Arvind", area: "1 / 3", imageWidth: 1600, imageHeight: 386, crop: [384, 125, 832, 136] },
-    { slug: "the-bear-house", name: "The Bear House", area: "2 / 1 / span 2 / span 1", imageWidth: 1350, imageHeight: 1600, crop: [246, 189, 858, 1222] },
     { slug: "mi", name: "Mi", area: "2 / 2", imageWidth: 1599, imageHeight: 1600, crop: [0, 0, 1599, 1600] },
-    { slug: "jockey", name: "Jockey", area: "2 / 3", imageWidth: 1600, imageHeight: 670, crop: [153, 127, 1294, 416] },
-    { slug: "nykaa", name: "Nykaa", area: "2 / 4", imageWidth: 1600, imageHeight: 604, crop: [0, 0, 1600, 604] },
-    { slug: "bajaj-finance", name: "Bajaj Finance", area: "2 / 5", imageWidth: 1600, imageHeight: 742, crop: [52, 52, 1496, 638] },
+    { slug: "nykaa", name: "Nykaa", area: "2 / 3", imageWidth: 1600, imageHeight: 604, crop: [0, 0, 1600, 604] },
+    { slug: "bajaj-finance", name: "Bajaj Finance", area: "2 / 1", imageWidth: 1600, imageHeight: 742, crop: [52, 52, 1496, 638] },
     { slug: "puravankara", name: "Puravankara", area: "4 / 1", imageWidth: 1600, imageHeight: 400, crop: [173, 119, 1254, 162] },
     { slug: "bata", name: "Bata", area: "3 / 2", imageWidth: 1600, imageHeight: 384, crop: [0, 0, 1600, 384] },
-    { slug: "hafele", name: "Häfele", area: "3 / 3", imageWidth: 1600, imageHeight: 400, crop: [0, 0, 1600, 400] },
+    { slug: "hafele", name: "Häfele", area: "4 / 3", imageWidth: 1600, imageHeight: 400, crop: [0, 0, 1600, 400] },
     { slug: "asian-paints", name: "Asian Paints", area: "3 / 4 / span 2 / span 2", imageWidth: 1600, imageHeight: 402, crop: [51, 56, 1514, 289] },
     { slug: "blackberrys", name: "Blackberrys", area: "3 / 6", imageWidth: 1600, imageHeight: 698, crop: [140, 113, 1320, 474] },
-    { slug: "samsung", name: "Samsung", area: "4 / 6", imageWidth: 1600, imageHeight: 441, crop: [0, 0, 1600, 441] },
+    { slug: "samsung", name: "Samsung", area: "2 / 4", imageWidth: 1600, imageHeight: 441, crop: [0, 0, 1600, 441] },
     { slug: "mia-by-tanishq", name: "Mia by Tanishq", area: "4 / 2", imageWidth: 1600, imageHeight: 1478, crop: [243, 150, 1114, 1178] },
-    { slug: "sobha", name: "Sobha", area: "4 / 3", imageWidth: 1600, imageHeight: 570, crop: [147, 143, 1307, 284] },
+    { slug: "sobha", name: "Sobha", area: "3 / 3", imageWidth: 1600, imageHeight: 570, crop: [147, 143, 1307, 284] },
     { slug: "kushals", name: "Kushal’s", area: "5 / 2", imageWidth: 1600, imageHeight: 456, crop: [330, 94, 929, 268] },
     { slug: "bkt-tyres", name: "BKT Tyres", area: "5 / 3", imageWidth: 1600, imageHeight: 743, crop: [0, 0, 1600, 743] },
     { slug: "carlsberg", name: "Carlsberg Elephant", area: "5 / 4 / span 1 / span 2", imageWidth: 1600, imageHeight: 759, crop: [0, 0, 1600, 759] },
     { slug: "soch", name: "Soch", area: "1 / 4", imageWidth: 1600, imageHeight: 1144, crop: [0, 0, 1600, 1144] },
-    { slug: "tuborg", name: "Tuborg", area: "5 / 6", imageWidth: 1600, imageHeight: 488, crop: [0, 0, 1600, 488] },
+    { slug: "tuborg", name: "Tuborg", area: "3 / 1", imageWidth: 1600, imageHeight: 488, crop: [0, 0, 1600, 488] },
 ];
 
 export default function BrandsPuzzle() {
@@ -36,6 +34,7 @@ export default function BrandsPuzzle() {
 
         const section = document.getElementById('brandsPuzzleSection');
         const cards = Array.from(section?.querySelectorAll<HTMLElement>('.puzzle-card') ?? []);
+        const shuffleCards = cards.filter(card => !card.hasAttribute('data-shuffle-fixed'));
 
         if (!section || cards.length === 0) return;
 
@@ -100,15 +99,15 @@ export default function BrandsPuzzle() {
         }, section);
 
         const clickHandler = () => {
-            const state = Flip.getState(cards);
-            const positions = cards.map(card => ({ area: card.style.gridArea, order: card.style.order }));
+            const state = Flip.getState(shuffleCards);
+            const positions = shuffleCards.map(card => ({ area: card.style.gridArea, order: card.style.order }));
 
             for (let i = positions.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [positions[i], positions[j]] = [positions[j], positions[i]];
             }
 
-            cards.forEach((c, i) => {
+            shuffleCards.forEach((c, i) => {
                 c.style.gridArea = positions[i].area;
                 c.style.order = positions[i].order;
             });
@@ -149,6 +148,7 @@ export default function BrandsPuzzle() {
                                         className="puzzle-card"
                                         key={brand.slug}
                                         style={{ gridArea: brand.area, order: index }}
+                                        data-shuffle-fixed={brand.slug === 'bata' || brand.slug === 'sobha' ? '' : undefined}
                                         aria-label={`${brand.name} — shuffle brand tiles`}
                                     >
                                         <span

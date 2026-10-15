@@ -2,19 +2,54 @@ import MotionGallery from "./MotionGallery";
 
 const images = [
   {
-    "src": "/assets/visual/illuminated-displays.jpg",
-    "alt": "Illuminated Karmiq and EasyBuy promotional visual displays",
-    "caption": "KARMIQ & EASYBUY"
+    "src": "/assets/portfolio/visual/illuminated-neoclassical-gateway-at-night.png",
+    "alt": "Illuminated Neoclassical Gateway at Night",
+    "caption": "ILLUMINATED NEOCLASSICAL GATEWAY AT NIGHT"
   },
   {
-    "src": "/assets/visual/new-arrivals.jpg",
-    "alt": "Jewellery display with a New Arrivals visual and pastel decorations",
-    "caption": "NEW ARRIVALS"
+    "src": "/assets/portfolio/visual/blackberrys-mall-storefront-display.png",
+    "alt": "Blackberrys Mall Storefront Display",
+    "caption": "BLACKBERRYS MALL STOREFRONT DISPLAY"
   },
   {
-    "src": "/assets/visual/green-jewellery.jpg",
-    "alt": "Green jewellery visual display with layered heart decorations",
-    "caption": "GREEN JEWELLERY DISPLAY"
+    "src": "/assets/portfolio/visual/easybuy-summer-fashion-billboard.png",
+    "alt": "EasyBuy Summer Fashion Billboard",
+    "caption": "EASYBUY SUMMER FASHION BILLBOARD"
+  },
+  {
+    "src": "/assets/portfolio/visual/karmio-gifts-of-goodness-sign.png",
+    "alt": "Karmio Gifts of Goodness Sign",
+    "caption": "KARMIO GIFTS OF GOODNESS SIGN"
+  },
+  {
+    "src": "/assets/portfolio/visual/love-alfie-jewelry-showcase.png",
+    "alt": "Love Alfie Jewelry Showcase",
+    "caption": "LOVE ALFIE JEWELRY SHOWCASE"
+  },
+  {
+    "src": "/assets/portfolio/visual/mediterranean-villa-mural-lightbox.png",
+    "alt": "Mediterranean Villa Mural Lightbox",
+    "caption": "MEDITERRANEAN VILLA MURAL LIGHTBOX"
+  },
+  {
+    "src": "/assets/portfolio/visual/moonlit-grand-residence-display.png",
+    "alt": "Moonlit Grand Residence Display",
+    "caption": "MOONLIT GRAND RESIDENCE DISPLAY"
+  },
+  {
+    "src": "/assets/portfolio/visual/vibrant-benetton-mall-storefront.png",
+    "alt": "Vibrant Benetton Mall Storefront",
+    "caption": "VIBRANT BENETTON MALL STOREFRONT"
+  },
+  {
+    "src": "/assets/portfolio/visual/warmly-lit-lobby-alcove-with-classical-mural.png",
+    "alt": "Warmly Lit Lobby Alcove with Classical Mural",
+    "caption": "WARMLY LIT LOBBY ALCOVE WITH CLASSICAL MURAL"
+  },
+  {
+    "src": "/assets/portfolio/visual/westside-hospital-facade-in-daylight.png",
+    "alt": "Westside Hospital Facade in Daylight",
+    "caption": "WESTSIDE HOSPITAL FACADE IN DAYLIGHT"
   }
 ];
 

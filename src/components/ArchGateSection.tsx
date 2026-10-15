@@ -2,24 +2,44 @@ import MotionGallery from "./MotionGallery";
 
 const images = [
   {
-    "src": "/assets/arch-gate/blackberrys.jpg",
-    "alt": "Gold decorative entrance gate outside a Blackberrys storefront",
-    "caption": "BLACKBERRYS"
+    "src": "/assets/portfolio/arch-gate/giva-world-diwali-entrance-display.png",
+    "alt": "GIVA World Diwali Entrance Display",
+    "caption": "GIVA WORLD DIWALI ENTRANCE DISPLAY"
   },
   {
-    "src": "/assets/arch-gate/giva.jpg",
-    "alt": "Illuminated pink GIVA Diwali entrance arch",
-    "caption": "GIVA \u2014 DIWALI"
+    "src": "/assets/portfolio/arch-gate/bata-storefront-promotional-facade.png",
+    "alt": "Bata Storefront Promotional Facade",
+    "caption": "BATA STOREFRONT PROMOTIONAL FACADE"
   },
   {
-    "src": "/assets/arch-gate/festival-of-diamonds.jpg",
-    "alt": "Blue Festival of Diamonds entrance arch with illuminated edges",
-    "caption": "FESTIVAL OF DIAMONDS"
+    "src": "/assets/portfolio/arch-gate/festival-of-diamonds-storefront-at-dusk.png",
+    "alt": "Festival of Diamonds Storefront at Dusk",
+    "caption": "FESTIVAL OF DIAMONDS STOREFRONT AT DUSK"
   },
   {
-    "src": "/assets/arch-gate/mia.jpg",
-    "alt": "Pink Mia by Tanishq promotional entrance gate",
-    "caption": "MIA BY TANISHQ"
+    "src": "/assets/portfolio/arch-gate/illuminated-blackberrys-storefront-at-night.png",
+    "alt": "Illuminated BlackBerrys Storefront at Night",
+    "caption": "ILLUMINATED BLACKBERRYS STOREFRONT AT NIGHT"
+  },
+  {
+    "src": "/assets/portfolio/arch-gate/mia-by-tanishq-pink-nighttime-entrance.png",
+    "alt": "Mia by Tanishq Pink Nighttime Entrance",
+    "caption": "MIA BY TANISHQ PINK NIGHTTIME ENTRANCE"
+  },
+  {
+    "src": "/assets/portfolio/arch-gate/nexus-vijaya-fashion-storefront.png",
+    "alt": "Nexus Vijaya Fashion Storefront",
+    "caption": "NEXUS VIJAYA FASHION STOREFRONT"
+  },
+  {
+    "src": "/assets/portfolio/arch-gate/pastel-lightscape-storefront-at-night.png",
+    "alt": "Pastel Lightscape Storefront at Night",
+    "caption": "PASTEL LIGHTSCAPE STOREFRONT AT NIGHT"
+  },
+  {
+    "src": "/assets/portfolio/arch-gate/zimson-and-blackberrys-storefront-facade.png",
+    "alt": "ZIMSON and BlackBerrys Storefront Facade",
+    "caption": "ZIMSON AND BLACKBERRYS STOREFRONT FACADE"
   }
 ];
 

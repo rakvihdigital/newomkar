@@ -16,6 +16,8 @@ import MimakiSequence from "@/components/MimakiSequence";
 import TPSSequence from "@/components/TPSSequence";
 import GreyMachineSequence from "@/components/GreyMachineSequence";
 import UltimateMachineSequence from "@/components/UltimateMachineSequence";
+import PrecisionMachineSequence from "@/components/PrecisionMachineSequence";
+import HandtopMachineSequence from "@/components/HandtopMachineSequence";
 import IndiaMapSection from "@/components/IndiaMapSection";
 import ISOSection from "@/components/ISOSection";
 import BrandsPuzzle from "@/components/BrandsPuzzle";
@@ -64,6 +66,8 @@ export default function Home() {
       <TPSSequence />
       <GreyMachineSequence />
       <UltimateMachineSequence />
+      <PrecisionMachineSequence />
+      <HandtopMachineSequence />
       <IndiaMapSection />
       <BrandsPuzzle />
       <ISOSection />
