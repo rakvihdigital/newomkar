@@ -9,11 +9,11 @@ const CURTAIN_FADE = 0.05;
 const FOOTAGE_START = LOGO_GONE + 0.015;
 const CORNER_IN = [LOGO_GONE + 0.01, LOGO_GONE + 0.06];
 // Both videos are encoded with a seek point on every source frame.
-const FALLBACK_FIRST_SECONDS = 10;
+const FALLBACK_FIRST_SECONDS = 11;
 const FALLBACK_CONTINUATION_SECONDS = 10;
 const FRAME_SECONDS = 1 / 24;
-// The two films are framed differently where they meet, so they crossfade a little longer.
-const JOIN_BLEND_SECONDS = 0.6;
+// The two films meet on almost the same shot, so a short crossfade hides the join.
+const JOIN_BLEND_SECONDS = 0.25;
 
 const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
 const smooth = (value: number) => { const t = clamp01(value); return t * t * (3 - 2 * t); };
@@ -62,7 +62,7 @@ export default function FacilityHeroSequence() {
                 render(current);
             }).catch(() => {});
         };
-        setSource(video, 'hero-1');
+        setSource(video, 'opening-1');
         nudge(video);
         // The second film waits until the first can play through (or the visitor is well into it),
         // so the opening gets the whole connection first.
@@ -71,7 +71,7 @@ export default function FacilityHeroSequence() {
             if (continuationStarted) return;
             continuationStarted = true;
             window.clearTimeout(continuationTimeout);
-            setSource(continuation, 'hero-2');
+            setSource(continuation, 'opening-2');
             nudge(continuation);
         };
         video.addEventListener('canplaythrough', startContinuation);
@@ -85,10 +85,10 @@ export default function FacilityHeroSequence() {
             // The name waits until the camera has pulled back far enough for the real sign
             // to sit above it, so the two never overlap.
             const windows = [
-                { start: 0.155, shown: 0.175, hide: 0.215, end: 0.235 },
-                { start: 0.235, shown: 0.26, hide: 0.33, end: 0.355 },
-                { start: 0.42, shown: 0.46, hide: 0.66, end: 0.69 },
-                { start: 0.76, shown: 0.80, hide: 0.90, end: 0.93 },
+                { start: 0.165, shown: 0.185, hide: 0.245, end: 0.265 },
+                { start: 0.28, shown: 0.30, hide: 0.40, end: 0.425 },
+                { start: 0.45, shown: 0.48, hide: 0.66, end: 0.69 },
+                { start: 0.78, shown: 0.81, hide: 0.90, end: 0.925 },
                 { start: 0.93, shown: 0.96, hide: Infinity, end: Infinity },
             ];
 
@@ -302,7 +302,7 @@ export default function FacilityHeroSequence() {
                     <video
                         ref={videoRef}
                         className="hero-canvas"
-                        poster="/assets/hero-poster.jpg"
+                        poster="/assets/opening-poster.jpg"
                         preload="auto"
                         muted
                         playsInline
