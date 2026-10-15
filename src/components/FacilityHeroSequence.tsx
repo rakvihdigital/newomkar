@@ -9,10 +9,11 @@ const CURTAIN_FADE = 0.05;
 const FOOTAGE_START = LOGO_GONE + 0.015;
 const CORNER_IN = [LOGO_GONE + 0.01, LOGO_GONE + 0.06];
 // Both videos are encoded with a seek point on every source frame.
-const FALLBACK_FIRST_SECONDS = 236 / 24;
+const FALLBACK_FIRST_SECONDS = 10;
 const FALLBACK_CONTINUATION_SECONDS = 10;
 const FRAME_SECONDS = 1 / 24;
-const JOIN_BLEND_SECONDS = 0.2;
+// The two films are framed differently where they meet, so they crossfade a little longer.
+const JOIN_BLEND_SECONDS = 0.6;
 
 const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
 const smooth = (value: number) => { const t = clamp01(value); return t * t * (3 - 2 * t); };
@@ -54,24 +55,38 @@ export default function FacilityHeroSequence() {
             const src = `/assets/${name}${suffix}.mp4`;
             if (media.getAttribute('src') !== src) media.src = src;
         };
-        setSource(video, 'facility-hero');
-        setSource(continuation, 'facility-hero-continuation');
         // A muted play and pause nudges mobile browsers into loading the footage.
-        [video, continuation].forEach(media => {
+        const nudge = (media: HTMLVideoElement) => {
             media.play()?.then(() => {
                 media.pause();
                 render(current);
             }).catch(() => {});
-        });
+        };
+        setSource(video, 'hero-1');
+        nudge(video);
+        // The second film waits until the first can play through (or the visitor is well into it),
+        // so the opening gets the whole connection first.
+        let continuationStarted = false;
+        const startContinuation = () => {
+            if (continuationStarted) return;
+            continuationStarted = true;
+            window.clearTimeout(continuationTimeout);
+            setSource(continuation, 'hero-2');
+            nudge(continuation);
+        };
+        video.addEventListener('canplaythrough', startContinuation);
+        const continuationTimeout = window.setTimeout(startContinuation, 5000);
 
         const updateOverlays = (progress: number) => {
             if (!sectionRef.current) return;
             const overlays = sectionRef.current.querySelectorAll('.hero-text-overlay') as NodeListOf<HTMLElement>;
             // Team size follows the entrance into the building; work area waits
             // for the exterior pullback in the second film.
+            // The name waits until the camera has pulled back far enough for the real sign
+            // to sit above it, so the two never overlap.
             const windows = [
-                { start: 0.11, shown: 0.14, hide: 0.18, end: 0.20 },
-                { start: 0.20, shown: 0.23, hide: 0.32, end: 0.35 },
+                { start: 0.155, shown: 0.175, hide: 0.215, end: 0.235 },
+                { start: 0.235, shown: 0.26, hide: 0.33, end: 0.355 },
                 { start: 0.42, shown: 0.46, hide: 0.66, end: 0.69 },
                 { start: 0.76, shown: 0.80, hide: 0.90, end: 0.93 },
                 { start: 0.93, shown: 0.96, hide: Infinity, end: Infinity },
@@ -180,6 +195,7 @@ export default function FacilityHeroSequence() {
             if (inView) {
                 // Footage only starts once the opening logo has gone.
                 const footage = clamp01((progress - FOOTAGE_START) / (1 - FOOTAGE_START));
+                if (footage > 0.2) startContinuation();
                 const firstDuration = Number.isFinite(video.duration) && video.duration > 0
                     ? video.duration : FALLBACK_FIRST_SECONDS;
                 const continuationDuration = Number.isFinite(continuation.duration) && continuation.duration > 0
@@ -243,6 +259,8 @@ export default function FacilityHeroSequence() {
             window.clearTimeout(readyTimeout);
             window.clearTimeout(fallbackTimeout);
             READY_EVENTS.forEach(type => video.removeEventListener(type, showHero));
+            window.clearTimeout(continuationTimeout);
+            video.removeEventListener('canplaythrough', startContinuation);
             continuation.removeEventListener('loadeddata', syncContinuation);
             video.removeEventListener('seeked', syncFrame);
             continuation.removeEventListener('seeked', syncFrame);
@@ -284,7 +302,7 @@ export default function FacilityHeroSequence() {
                     <video
                         ref={videoRef}
                         className="hero-canvas"
-                        poster="/assets/facility-hero-poster.png"
+                        poster="/assets/hero-poster.jpg"
                         preload="auto"
                         muted
                         playsInline

@@ -24,19 +24,29 @@ export default function UltimateMachineSequence() {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        let idx = 0;
-        for (let i = 1; i <= FRAMES_SEQ4; i += SKIP_STEP) {
-            const img = new Image();
-            img.src = `${PATH_SEQ4}${padFrame(i)}${FRAME_EXT}`;
-            images[idx] = img;
-            idx++;
-        }
+        // Frames download only once the section is near, so they don't compete with earlier sections.
+        let loaded = false;
+        const loadFrames = () => {
+            if (loaded) return;
+            loaded = true;
+            let idx = 0;
+            for (let i = 1; i <= FRAMES_SEQ4; i += SKIP_STEP) {
+                const img = new Image();
+                img.decoding = 'async';
+                img.onload = schedule;
+                img.src = `${PATH_SEQ4}${padFrame(i)}${FRAME_EXT}`;
+                images[idx] = img;
+                idx++;
+            }
+        };
 
+
+        const canvasScale = () => Math.min(window.devicePixelRatio || 1, 2);
 
         const drawImageRaw = (img: HTMLImageElement) => {
             if (!ctx || !img || !img.complete || !img.naturalWidth) return;
-            const canvasW = canvas.width / (window.devicePixelRatio || 1);
-            const canvasH = canvas.height / (window.devicePixelRatio || 1);
+            const canvasW = canvas.width / canvasScale();
+            const canvasH = canvas.height / canvasScale();
             const imgRatio = img.naturalWidth / img.naturalHeight;
             const canvasRatio = canvasW / canvasH;
             let drawW, drawH, drawX, drawY;
@@ -139,12 +149,13 @@ export default function UltimateMachineSequence() {
 
             const maxIdx = images.length - 1;
             const frameIndex = Math.max(0, Math.min(maxIdx, Math.floor(progress * maxIdx)));
+            const inView = rect.top <= window.innerHeight && rect.bottom >= 0;
             const img = images[frameIndex];
-            if (img) {
+            if (inView && img) {
                 drawImageRaw(img);
             }
 
-            if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+            if (inView) {
                 if (canvas) canvas.style.visibility = 'visible';
                 updateOverlays(progress);
             } else {
@@ -154,27 +165,33 @@ export default function UltimateMachineSequence() {
         };
 
         const resize = () => {
-            const dpr = window.devicePixelRatio || 1;
+            const dpr = canvasScale();
             canvas.width = window.innerWidth * dpr;
             canvas.height = window.innerHeight * dpr;
             ctx.scale(dpr, dpr);
             onScroll();
         };
 
+        // Redraw at most once per animation frame, on scroll or when a frame finishes loading.
+        let frameRequest = 0;
+        function schedule() {
+            if (!frameRequest) frameRequest = requestAnimationFrame(() => { frameRequest = 0; onScroll(); });
+        }
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) loadFrames();
+        }, { rootMargin: '200% 0px' });
+        if (sectionRef.current) observer.observe(sectionRef.current);
+
         resize();
         window.addEventListener('resize', resize);
-        window.addEventListener('scroll', onScroll, { passive: true });
-
-        const interval = setInterval(() => {
-            if (images[0] && images[0].complete) {
-                onScroll();
-            }
-        }, 100);
+        window.addEventListener('scroll', schedule, { passive: true });
 
         return () => {
-            window.removeEventListener('scroll', onScroll);
+            cancelAnimationFrame(frameRequest);
+            observer.disconnect();
+            images.forEach(img => { if (img) img.onload = null; });
+            window.removeEventListener('scroll', schedule);
             window.removeEventListener('resize', resize);
-            clearInterval(interval);
         };
     }, []);
 

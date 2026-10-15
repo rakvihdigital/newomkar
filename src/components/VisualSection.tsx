@@ -2,52 +2,52 @@ import MotionGallery from "./MotionGallery";
 
 const images = [
   {
-    "src": "/assets/portfolio/visual/illuminated-neoclassical-gateway-at-night.png",
+    "src": "/assets/portfolio/visual/illuminated-neoclassical-gateway-at-night.webp",
     "alt": "Illuminated Neoclassical Gateway at Night",
     "caption": "ILLUMINATED NEOCLASSICAL GATEWAY AT NIGHT"
   },
   {
-    "src": "/assets/portfolio/visual/blackberrys-mall-storefront-display.png",
+    "src": "/assets/portfolio/visual/blackberrys-mall-storefront-display.webp",
     "alt": "Blackberrys Mall Storefront Display",
     "caption": "BLACKBERRYS MALL STOREFRONT DISPLAY"
   },
   {
-    "src": "/assets/portfolio/visual/easybuy-summer-fashion-billboard.png",
+    "src": "/assets/portfolio/visual/easybuy-summer-fashion-billboard.webp",
     "alt": "EasyBuy Summer Fashion Billboard",
     "caption": "EASYBUY SUMMER FASHION BILLBOARD"
   },
   {
-    "src": "/assets/portfolio/visual/karmio-gifts-of-goodness-sign.png",
+    "src": "/assets/portfolio/visual/karmio-gifts-of-goodness-sign.webp",
     "alt": "Karmio Gifts of Goodness Sign",
     "caption": "KARMIO GIFTS OF GOODNESS SIGN"
   },
   {
-    "src": "/assets/portfolio/visual/love-alfie-jewelry-showcase.png",
+    "src": "/assets/portfolio/visual/love-alfie-jewelry-showcase.webp",
     "alt": "Love Alfie Jewelry Showcase",
     "caption": "LOVE ALFIE JEWELRY SHOWCASE"
   },
   {
-    "src": "/assets/portfolio/visual/mediterranean-villa-mural-lightbox.png",
+    "src": "/assets/portfolio/visual/mediterranean-villa-mural-lightbox.webp",
     "alt": "Mediterranean Villa Mural Lightbox",
     "caption": "MEDITERRANEAN VILLA MURAL LIGHTBOX"
   },
   {
-    "src": "/assets/portfolio/visual/moonlit-grand-residence-display.png",
+    "src": "/assets/portfolio/visual/moonlit-grand-residence-display.webp",
     "alt": "Moonlit Grand Residence Display",
     "caption": "MOONLIT GRAND RESIDENCE DISPLAY"
   },
   {
-    "src": "/assets/portfolio/visual/vibrant-benetton-mall-storefront.png",
+    "src": "/assets/portfolio/visual/vibrant-benetton-mall-storefront.webp",
     "alt": "Vibrant Benetton Mall Storefront",
     "caption": "VIBRANT BENETTON MALL STOREFRONT"
   },
   {
-    "src": "/assets/portfolio/visual/warmly-lit-lobby-alcove-with-classical-mural.png",
+    "src": "/assets/portfolio/visual/warmly-lit-lobby-alcove-with-classical-mural.webp",
     "alt": "Warmly Lit Lobby Alcove with Classical Mural",
     "caption": "WARMLY LIT LOBBY ALCOVE WITH CLASSICAL MURAL"
   },
   {
-    "src": "/assets/portfolio/visual/westside-hospital-facade-in-daylight.png",
+    "src": "/assets/portfolio/visual/westside-hospital-facade-in-daylight.webp",
     "alt": "Westside Hospital Facade in Daylight",
     "caption": "WESTSIDE HOSPITAL FACADE IN DAYLIGHT"
   }

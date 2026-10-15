@@ -2,37 +2,37 @@ import MotionGallery from "./MotionGallery";
 
 const images = [
   {
-    "src": "/assets/portfolio/facade/colorful-asian-paints-beautiful-homes-storefront.png",
+    "src": "/assets/portfolio/facade/colorful-asian-paints-beautiful-homes-storefront.webp",
     "alt": "Colorful Asian Paints Beautiful Homes Storefront",
     "caption": "COLORFUL ASIAN PAINTS BEAUTIFUL HOMES STOREFRONT"
   },
   {
-    "src": "/assets/portfolio/facade/illuminated-easybuy-storefront-at-night.png",
+    "src": "/assets/portfolio/facade/illuminated-easybuy-storefront-at-night.webp",
     "alt": "Illuminated EasyBuy Storefront at Night",
     "caption": "ILLUMINATED EASYBUY STOREFRONT AT NIGHT"
   },
   {
-    "src": "/assets/portfolio/facade/magenta-jewelry-storefront-under-renovation-1.png",
+    "src": "/assets/portfolio/facade/magenta-jewelry-storefront-under-renovation-1.webp",
     "alt": "Magenta Jewelry Storefront Under Renovation",
     "caption": "MAGENTA JEWELRY STOREFRONT UNDER RENOVATION"
   },
   {
-    "src": "/assets/portfolio/facade/the-indian-garage-co-storefront.png",
+    "src": "/assets/portfolio/facade/the-indian-garage-co-storefront.webp",
     "alt": "The Indian Garage Co Storefront",
     "caption": "THE INDIAN GARAGE CO STOREFRONT"
   },
   {
-    "src": "/assets/portfolio/facade/vibrant-bata-storefront-on-a-sunny-street.png",
+    "src": "/assets/portfolio/facade/vibrant-bata-storefront-on-a-sunny-street.webp",
     "alt": "Vibrant Bata Storefront on a Sunny Street",
     "caption": "VIBRANT BATA STOREFRONT ON A SUNNY STREET"
   },
   {
-    "src": "/assets/portfolio/facade/vibrant-mall-storefront-row.png",
+    "src": "/assets/portfolio/facade/vibrant-mall-storefront-row.webp",
     "alt": "Vibrant Mall Storefront Row",
     "caption": "VIBRANT MALL STOREFRONT ROW"
   },
   {
-    "src": "/assets/portfolio/facade/whatsapp-image-2026-10-14-at-7-14-58-pm.jpeg",
+    "src": "/assets/portfolio/facade/whatsapp-image-2026-10-14-at-7-14-58-pm.webp",
     "alt": "Retail Facade",
     "caption": "RETAIL FACADE"
   }
