@@ -302,11 +302,11 @@ export default function FacilityHeroSequence() {
                         <span className="scroll-text">Scroll to Explore</span>
                     </div>
 
-                    {/* Overlay 0: Exterior OM GROUP & Motto */}
+                    {/* Overlay 0: Exterior OMKAR ENTERPRISES & Motto */}
                     <div className="hero-text-overlay pos-center text-center" data-index="0">
                         <div className="hero-stat-box" style={{ maxWidth: "760px" }}>
                             <h1 className="hero-title-bold" style={{ fontSize: "clamp(2.4rem, 6.5vw, 5.2rem)", marginBottom: "0.85rem", whiteSpace: "normal" }}>
-                                <span style={{ color: "#4FC3A0" }}>OM GROUP</span> <span className="text-white">HEADQUARTERS</span>
+                                <span style={{ color: "#4FC3A0" }}>OMKAR</span> <span className="text-white">ENTERPRISES</span>
                             </h1>
                             <p className="hero-stat-subtitle">
                                 THINK • CREATE • DELIVER
