@@ -30,21 +30,6 @@ const images = [
     "src": "/assets/portfolio/nso/modern-girls-department-store-interior.webp",
     "alt": "Modern Girls’ Department Store Interior",
     "caption": "MODERN GIRLS’ DEPARTMENT STORE INTERIOR"
-  },
-  {
-    "src": "/assets/portfolio/nso/modern-mens-fitting-room-entrance.webp",
-    "alt": "Modern Men’s Fitting Room Entrance",
-    "caption": "MODERN MEN’S FITTING ROOM ENTRANCE"
-  },
-  {
-    "src": "/assets/portfolio/nso/modern-retail-showroom-under-construction.webp",
-    "alt": "Modern Retail Showroom Under Construction",
-    "caption": "MODERN RETAIL SHOWROOM UNDER CONSTRUCTION"
-  },
-  {
-    "src": "/assets/portfolio/nso/paint-store-showroom-with-colour-cube-signage.webp",
-    "alt": "Paint Store Showroom with Colour Cube Signage",
-    "caption": "PAINT STORE SHOWROOM WITH COLOUR CUBE SIGNAGE"
   }
 ];
 

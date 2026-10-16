@@ -30,11 +30,6 @@ const images = [
     "src": "/assets/portfolio/facade/vibrant-mall-storefront-row.webp",
     "alt": "Vibrant Mall Storefront Row",
     "caption": "VIBRANT MALL STOREFRONT ROW"
-  },
-  {
-    "src": "/assets/portfolio/facade/whatsapp-image-2026-10-14-at-7-14-58-pm.webp",
-    "alt": "Retail Facade",
-    "caption": "RETAIL FACADE"
   }
 ];
 

@@ -30,16 +30,6 @@ const images = [
     "src": "/assets/portfolio/trade-show/lee-smiley-pop-up-display.webp",
     "alt": "Lee Smiley Pop-Up Display",
     "caption": "LEE SMILEY POP-UP DISPLAY"
-  },
-  {
-    "src": "/assets/portfolio/trade-show/symmetrical-linen-fashion-showroom.webp",
-    "alt": "Symmetrical Linen Fashion Showroom",
-    "caption": "SYMMETRICAL LINEN FASHION SHOWROOM"
-  },
-  {
-    "src": "/assets/portfolio/trade-show/urban-oasis-summer-collection-display.webp",
-    "alt": "Urban Oasis Summer Collection Display",
-    "caption": "URBAN OASIS SUMMER COLLECTION DISPLAY"
   }
 ];
 

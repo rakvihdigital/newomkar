@@ -199,7 +199,7 @@ export default function TPSSequence() {
         <>
             <div className="interstitial-gap">
                 <h2 className="interstitial-title">TPS-CNC BENDER</h2>
-                <p className="interstitial-desc">Fully automatic CNC processing technology.</p>
+                <p className="interstitial-desc">Fully Automatic · Channel Letter Bending</p>
             </div>
 
             <div className="scroll-section" id="section-2" ref={sectionRef} style={{ height: "500vh" }}>

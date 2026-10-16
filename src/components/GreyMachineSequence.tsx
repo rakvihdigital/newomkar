@@ -198,8 +198,8 @@ export default function GreyMachineSequence() {
     return (
         <>
             <div className="interstitial-gap">
-                <h2 className="interstitial-title">NEXT GEN SYSTEM</h2>
-                <p className="interstitial-desc">Uncompromised speed and reliability.</p>
+                <h2 className="interstitial-title">MIMAKI UJV100-160</h2>
+                <p className="interstitial-desc">2 Nos · Water-Based UV LED Ink Print Head</p>
             </div>
 
             <div className="scroll-section" id="section-3" ref={sectionRef} style={{ height: "500vh" }}>
@@ -209,45 +209,45 @@ export default function GreyMachineSequence() {
                     <div className="hero-text-overlay text-first" data-index="15">
                         <div className="hero-accent-line">
                             <div className="accent-bar" style={{ background: "#9ca3af" }}></div>
-                            <span className="accent-label" style={{ color: "#9ca3af" }}>Next Generation</span>
+                            <span className="accent-label" style={{ color: "#9ca3af" }}>UV Print Machine · 2 Nos.</span>
                         </div>
                         <h1 className="hero-title-bold">
-                            <span style={{ color: "#9ca3af" }}>NEW</span> <span className="text-white">SYSTEM</span>
+                            <span style={{ color: "#9ca3af" }}>MIMAKI</span> <span className="text-white">UJV100-160</span>
                         </h1>
-                        <p className="hero-desc">Discover the capabilities of our latest industrial machine series.</p>
+                        <p className="hero-desc">Two Mimaki UV print machines running side by side for steady, high volume output.</p>
                     </div>
 
                     <div className="hero-text-overlay hero-text-right pos-top-right" data-index="16">
                         <div className="hero-accent-line">
                             <div className="accent-bar" style={{ background: "#9ca3af" }}></div>
-                            <span className="accent-label" style={{ color: "#9ca3af" }}>Performance</span>
+                            <span className="accent-label" style={{ color: "#9ca3af" }}>Print Head</span>
                         </div>
                         <h2 className="hero-title-bold hero-title-md">
-                            <span style={{ color: "#9ca3af" }}>PEAK</span> <span className="text-white">OUTPUT</span>
+                            <span style={{ color: "#9ca3af" }}>UV LED</span> <span className="text-white">INK</span>
                         </h2>
-                        <p className="hero-desc">Uncompromised speed and reliability for heavy workloads.</p>
+                        <p className="hero-desc">Water based UV LED ink print head for clean, vivid prints.</p>
                     </div>
 
                     <div className="hero-text-overlay hero-text-right" data-index="17">
                         <div className="hero-accent-line">
                             <div className="accent-bar" style={{ background: "#9ca3af" }}></div>
-                            <span className="accent-label" style={{ color: "#9ca3af" }}>Design</span>
+                            <span className="accent-label" style={{ color: "#9ca3af" }}>Colour Modes</span>
                         </div>
                         <h2 className="hero-title-bold hero-title-md">
-                            <span style={{ color: "#9ca3af" }}>ROBUST</span> <span className="text-white">BUILD</span>
+                            <span style={{ color: "#9ca3af" }}>CMYK</span> <span className="text-white">+ WHITE</span>
                         </h2>
-                        <p className="hero-desc">Engineered for durability and long-lasting precision.</p>
+                        <p className="hero-desc">CMYK×2, or CMYK with light cyan, light magenta and white ink.</p>
                     </div>
 
                     <div className="hero-text-overlay hero-text-right pos-top-right" data-index="18">
                         <div className="hero-accent-line">
                             <div className="accent-bar" style={{ background: "#9ca3af" }}></div>
-                            <span className="accent-label" style={{ color: "#9ca3af" }}>Integration</span>
+                            <span className="accent-label" style={{ color: "#9ca3af" }}>Output</span>
                         </div>
                         <h2 className="hero-title-bold hero-title-md">
-                            <span style={{ color: "#9ca3af" }}>SEAMLESS</span> <span className="text-white">CONTROL</span>
+                            <span style={{ color: "#9ca3af" }}>1200×1200</span> <span className="text-white">DPI</span>
                         </h2>
-                        <p className="hero-desc">Advanced software interfaces for effortless operation.</p>
+                        <p className="hero-desc">Up to 1200×1200 resolution at 300 to 500 sq ft per hour.</p>
                     </div>
 
                     <div className="seq3-slide-panel" id="seq3SlidePanel">

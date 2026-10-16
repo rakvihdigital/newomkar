@@ -142,7 +142,7 @@ a {
     color: rgba(245, 245, 247, 0.5);
     letter-spacing: 3px;
     text-transform: uppercase;
-    margin-top: 70px;
+    margin-top: 26px; /* Sits just under the spinner */
 }
 
 .preloader-percent {
@@ -799,33 +799,12 @@ a {
     opacity: 0;
 }
 
-.scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, transparent, var(--color-accent), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
-}
-
 .scroll-text {
     font-family: var(--font-heading);
     font-size: 0.6rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--color-text-muted);
-}
-
-@keyframes scrollPulse {
-
-    0%,
-    100% {
-        opacity: 0.3;
-        transform: scaleY(0.6);
-    }
-
-    50% {
-        opacity: 1;
-        transform: scaleY(1);
-    }
 }
 
 /* ============================================
@@ -2545,19 +2524,55 @@ a {
         radial-gradient(ellipse 40% 50% at 8% 15%, rgba(38, 145, 111, 0.17), transparent 70%),
         #07090d;
 }
-/* The loading screen and opening logo share one backdrop, with green glowing into every corner,
-   so the loader dissolves straight into the logo without a change of colour. */
+/* The loading screen and the opening logo share one white background,
+   so the loader fades straight into the logo without a change of colour. */
 #preloader,
 .facility-intro-veil {
-    background:
-        radial-gradient(circle at 0% 0%, rgba(38, 145, 111, 0.16), transparent 30vmax),
-        radial-gradient(circle at 100% 0%, rgba(38, 145, 111, 0.16), transparent 30vmax),
-        radial-gradient(circle at 0% 100%, rgba(38, 145, 111, 0.16), transparent 30vmax),
-        radial-gradient(circle at 100% 100%, rgba(38, 145, 111, 0.16), transparent 30vmax),
-        radial-gradient(ellipse 45% 60% at 72% 55%, rgba(79, 195, 160, 0.24), transparent 70%),
-        #07090d;
+    background: #FFFFFF;
 }
-#preloader::before,
+.facility-intro-veil::before {
+    display: none;
+}
+/* On the white opening the captions read in near-black, with a softer logo shadow and a deep green divider. */
+.opening-logo .logo-desc {
+    color: #1C1A16;
+    text-shadow: none;
+}
+.opening-logo .logo-img {
+    filter: drop-shadow(0 2px 5px rgba(60, 45, 20, 0.16));
+}
+.opening-logo .logo-caption-divider {
+    background: linear-gradient(transparent, var(--color-accent-dark) 25%, var(--color-accent-dark) 75%, transparent);
+}
+/* The scroll hint only shows on the white opening. */
+.scroll-text {
+    color: rgba(28, 26, 22, 0.6);
+}
+.preloader-text {
+    color: rgba(28, 26, 22, 0.62);
+}
+/* Deeper greens so the spinner reads clearly on white. */
+.preloader-ring:nth-child(1) {
+    border-top-color: var(--color-accent-dark);
+    border-left-color: rgba(27, 122, 78, 0.18);
+}
+.preloader-ring:nth-child(2) {
+    border-right-color: #26916F;
+    border-bottom-color: rgba(38, 145, 111, 0.18);
+}
+.preloader-ring:nth-child(3) {
+    border-bottom-color: var(--color-accent);
+    border-top-color: rgba(79, 195, 160, 0.25);
+}
+
+/* Once inside, the corner card keeps its dark glass and the captions read in soft cream. */
+.nav-logo.facility-intro-logo .logo-desc {
+    color: #F3EBD8;
+}
+/* On the corner card, "17 Years Serving This Industry" reads in white. */
+.nav-logo.facility-intro-logo .logo-caption-right .logo-desc {
+    color: #fff;
+}
 .services-backdrop::before,
 .facility-intro-veil::before,
 .brands-puzzle-sticky::before,
@@ -3654,4 +3669,308 @@ a {
     .precision-slide-panel .panel-title { font-size: 1.45rem; }
     .precision-slide-panel .panel-subtitle { font-size: .9rem; }
     .precision-slide-panel .panel-features li { font-size: .85rem; line-height: 1.45; }
+}
+
+/* ============================================
+   AUTO SCROLL — centred pill at the bottom
+   ============================================ */
+.autoscroll {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px;
+    border-radius: 999px;
+    background: rgba(18, 24, 30, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32);
+    opacity: 0;
+    transform: translate3d(-50%, 16px, 0);
+    pointer-events: none;
+    transition: opacity 0.6s ease 0.4s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+}
+.autoscroll.is-visible {
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0);
+    pointer-events: auto;
+}
+.autoscroll-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px 0 14px;
+    font-family: var(--font-heading);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+/* A small status light: soft green at rest, pulsing while the page glides. */
+.autoscroll-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    opacity: 0.55;
+}
+.autoscroll.is-on .autoscroll-dot {
+    opacity: 1;
+    animation: autoscrollDot 1s ease-in-out infinite;
+}
+/* ON reads in green while gliding; OFF turns red once it has been switched off. */
+.autoscroll-state {
+    font-weight: 800;
+    color: var(--color-accent);
+    animation: autoscrollStateIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.autoscroll.is-off .autoscroll-state {
+    color: #FF5C5C;
+}
+.autoscroll.is-off .autoscroll-dot {
+    opacity: 1;
+    background: #FF5C5C;
+}
+@keyframes autoscrollStateIn {
+    from { opacity: 0; transform: translate3d(0, 4px, 0); }
+    to { opacity: 1; transform: none; }
+}
+.autoscroll-button {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: transform 0.25s ease, background-color 0.25s ease, opacity 0.25s ease;
+}
+.autoscroll-button:hover:not([disabled]) {
+    transform: scale(1.06);
+    background: rgba(255, 255, 255, 0.16);
+}
+.autoscroll-button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+.autoscroll-button[disabled] {
+    opacity: 0.3;
+    cursor: default;
+}
+.autoscroll-button svg {
+    width: 16px;
+    height: 16px;
+}
+/* Each pill's arrow button is the call to action: brand green with a soft ripple every few seconds. */
+.autoscroll-action {
+    background: var(--color-accent-dark);
+}
+.autoscroll-action:hover:not([disabled]) {
+    background: #21915D;
+}
+.autoscroll-action::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(79, 195, 160, 0.55);
+    animation: autoscrollRipple 2.6s ease-out infinite;
+    pointer-events: none;
+}
+.autoscroll-action[aria-pressed="true"]::after {
+    animation-duration: 1.3s;
+}
+.autoscroll-action[disabled]::after {
+    animation: none;
+}
+.autoscroll-cascade {
+    position: relative;
+    width: 16px;
+    height: 20px;
+    overflow: hidden;
+}
+.autoscroll-cascade svg {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    animation: autoscrollCascade 1.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+.autoscroll-cascade svg + svg {
+    animation-delay: 0.8s;
+}
+.autoscroll-action[aria-pressed="true"] .autoscroll-cascade svg {
+    animation-duration: 0.9s;
+}
+.autoscroll-action[aria-pressed="true"] .autoscroll-cascade svg + svg {
+    animation-delay: 0.45s;
+}
+.autoscroll-action[disabled] .autoscroll-cascade svg {
+    animation: none;
+    opacity: 1;
+    transform: none;
+}
+.autoscroll-action[disabled] .autoscroll-cascade svg + svg {
+    display: none;
+}
+@keyframes autoscrollCascade {
+    0% { transform: translate3d(0, -9px, 0); opacity: 0; }
+    35% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: translate3d(0, 9px, 0); opacity: 0; }
+}
+@keyframes autoscrollRipple {
+    0% { box-shadow: 0 0 0 0 rgba(79, 195, 160, 0.55); }
+    70%, 100% { box-shadow: 0 0 0 10px rgba(79, 195, 160, 0); }
+}
+@keyframes autoscrollCascadeUp {
+    0% { transform: translate3d(0, 9px, 0); opacity: 0; }
+    35% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: translate3d(0, -9px, 0); opacity: 0; }
+}
+@keyframes autoscrollDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.6; }
+}
+/* Auto Scroll Back: the same pill, centred at the top, shown once the page has moved down. */
+.autoscroll-top {
+    top: 22px;
+    bottom: auto;
+    transform: translate3d(-50%, -16px, 0);
+    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.autoscroll-top.is-visible {
+    transform: translate3d(-50%, 0, 0);
+}
+.autoscroll-cascade.is-up svg {
+    animation-name: autoscrollCascadeUp;
+}
+
+/* On the opening, the hint above the pill reads "Click below to Auto Scroll",
+   with two arrows pulsing down towards the pill. */
+.scroll-indicator {
+    bottom: 76px;
+    gap: 6px;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+    pointer-events: auto;
+}
+.scroll-indicator.hidden {
+    pointer-events: none;
+}
+.scroll-indicator .scroll-text {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: rgba(28, 26, 22, 0.7);
+}
+.scroll-indicator .scroll-text strong {
+    font-weight: 800;
+    color: var(--color-accent-dark);
+}
+.hint-tap {
+    display: none;
+}
+@media (hover: none) {
+    .hint-click {
+        display: none;
+    }
+    .hint-tap {
+        display: inline;
+    }
+}
+.hint-arrows {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--color-accent-dark);
+}
+.hint-arrows svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: hintArrow 1.4s ease-in-out infinite;
+}
+.hint-arrows svg + svg {
+    margin-top: -8px;
+    animation-delay: 0.2s;
+}
+@keyframes hintArrow {
+    0%, 100% { opacity: 0.2; transform: translate3d(0, -2px, 0); }
+    50% { opacity: 1; transform: translate3d(0, 2px, 0); }
+}
+@media (max-width: 768px) {
+    .autoscroll {
+        bottom: 16px;
+    }
+    .autoscroll-button {
+        width: 34px;
+        height: 34px;
+    }
+    .autoscroll-label {
+        font-size: 0.62rem;
+        letter-spacing: 0.18em;
+        padding: 0 8px;
+    }
+    .scroll-indicator {
+        bottom: 62px;
+    }
+    .scroll-indicator .scroll-text {
+        font-size: 0.6rem;
+        letter-spacing: 0.16em;
+        white-space: nowrap;
+    }
+    /* On phones the pill sits top-right, level with the logo card, and reads just "Back". */
+    .autoscroll-top {
+        top: 16px;
+        bottom: auto;
+        left: auto;
+        right: 16px;
+        transform: translate3d(0, -16px, 0);
+    }
+    .autoscroll-top.is-visible {
+        transform: none;
+    }
+    .autoscroll-top .autoscroll-long,
+    .autoscroll-top .autoscroll-dot {
+        display: none;
+    }
+    .autoscroll-top .autoscroll-label {
+        gap: 5px;
+        padding: 0 4px 0 10px;
+        letter-spacing: 0.12em;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .autoscroll-button svg,
+    .autoscroll-action::after,
+    .autoscroll-dot,
+    .hint-arrows svg {
+        animation: none !important;
+    }
+    .autoscroll-cascade svg {
+        opacity: 1;
+        transform: none;
+    }
+    .autoscroll-cascade svg + svg {
+        display: none;
+    }
 }

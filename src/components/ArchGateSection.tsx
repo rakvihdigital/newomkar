@@ -30,16 +30,6 @@ const images = [
     "src": "/assets/portfolio/arch-gate/nexus-vijaya-fashion-storefront.webp",
     "alt": "Nexus Vijaya Fashion Storefront",
     "caption": "NEXUS VIJAYA FASHION STOREFRONT"
-  },
-  {
-    "src": "/assets/portfolio/arch-gate/pastel-lightscape-storefront-at-night.webp",
-    "alt": "Pastel Lightscape Storefront at Night",
-    "caption": "PASTEL LIGHTSCAPE STOREFRONT AT NIGHT"
-  },
-  {
-    "src": "/assets/portfolio/arch-gate/zimson-and-blackberrys-storefront-facade.webp",
-    "alt": "ZIMSON and BlackBerrys Storefront Facade",
-    "caption": "ZIMSON AND BLACKBERRYS STOREFRONT FACADE"
   }
 ];
 

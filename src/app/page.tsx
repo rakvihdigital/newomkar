@@ -15,14 +15,15 @@ import VisualSection from "@/components/VisualSection";
 import MimakiSequence from "@/components/MimakiSequence";
 import TPSSequence from "@/components/TPSSequence";
 import GreyMachineSequence from "@/components/GreyMachineSequence";
-import UltimateMachineSequence from "@/components/UltimateMachineSequence";
 import PrecisionMachineSequence from "@/components/PrecisionMachineSequence";
+import UltimateMachineSequence from "@/components/UltimateMachineSequence";
 import HandtopMachineSequence from "@/components/HandtopMachineSequence";
 import IndiaMapSection from "@/components/IndiaMapSection";
 import ISOSection from "@/components/ISOSection";
 import BrandsPuzzle from "@/components/BrandsPuzzle";
 import MachineryTitle from "@/components/MachineryTitle";
 import ThankYouSection from "@/components/ThankYouSection";
+import AutoScrollControls from "@/components/AutoScrollControls";
 
 export default function Home() {
   const mainRef = useRef<HTMLElement>(null);
@@ -63,15 +64,16 @@ export default function Home() {
       <VisualSection />
       <MachineryTitle />
       <MimakiSequence />
-      <TPSSequence />
-      <GreyMachineSequence />
-      <UltimateMachineSequence />
-      <PrecisionMachineSequence />
       <HandtopMachineSequence />
+      <GreyMachineSequence />
+      <TPSSequence />
+      <PrecisionMachineSequence />
+      <UltimateMachineSequence />
       <IndiaMapSection />
       <BrandsPuzzle />
       <ISOSection />
       <ThankYouSection />
+      <AutoScrollControls />
     </main>
   );
 }

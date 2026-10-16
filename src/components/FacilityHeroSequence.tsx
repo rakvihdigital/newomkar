@@ -332,11 +332,21 @@ export default function FacilityHeroSequence() {
                         </span>
                     </div>
 
-                    {/* Scroll Indicator at very bottom of screen on initial load */}
-                    <div className="scroll-indicator" id="scrollIndicator">
-                        <div className="scroll-line"></div>
-                        <span className="scroll-text">Scroll to Explore</span>
-                    </div>
+                    {/* Points visitors at the Auto Scroll pill below; clicking the hint starts it too. */}
+                    <button
+                        type="button"
+                        className="scroll-indicator"
+                        id="scrollIndicator"
+                        onClick={() => document.querySelector<HTMLButtonElement>('.autoscroll:not(.autoscroll-top) .autoscroll-action')?.click()}
+                    >
+                        <span className="scroll-text">
+                            <span className="hint-click">Click</span><span className="hint-tap">Tap</span> below to <strong>Auto Scroll</strong>
+                        </span>
+                        <span className="hint-arrows" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+                            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+                        </span>
+                    </button>
 
                     {/* Overlay 0: Exterior OMKAR ENTERPRISES & Motto */}
                     <div className="hero-text-overlay pos-center text-center" data-index="0">

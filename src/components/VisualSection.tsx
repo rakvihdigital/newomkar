@@ -30,26 +30,6 @@ const images = [
     "src": "/assets/portfolio/visual/mediterranean-villa-mural-lightbox.webp",
     "alt": "Mediterranean Villa Mural Lightbox",
     "caption": "MEDITERRANEAN VILLA MURAL LIGHTBOX"
-  },
-  {
-    "src": "/assets/portfolio/visual/moonlit-grand-residence-display.webp",
-    "alt": "Moonlit Grand Residence Display",
-    "caption": "MOONLIT GRAND RESIDENCE DISPLAY"
-  },
-  {
-    "src": "/assets/portfolio/visual/vibrant-benetton-mall-storefront.webp",
-    "alt": "Vibrant Benetton Mall Storefront",
-    "caption": "VIBRANT BENETTON MALL STOREFRONT"
-  },
-  {
-    "src": "/assets/portfolio/visual/warmly-lit-lobby-alcove-with-classical-mural.webp",
-    "alt": "Warmly Lit Lobby Alcove with Classical Mural",
-    "caption": "WARMLY LIT LOBBY ALCOVE WITH CLASSICAL MURAL"
-  },
-  {
-    "src": "/assets/portfolio/visual/westside-hospital-facade-in-daylight.webp",
-    "alt": "Westside Hospital Facade in Daylight",
-    "caption": "WESTSIDE HOSPITAL FACADE IN DAYLIGHT"
   }
 ];
 

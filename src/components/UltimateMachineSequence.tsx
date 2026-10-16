@@ -198,8 +198,8 @@ export default function UltimateMachineSequence() {
     return (
         <>
             <div className="interstitial-gap">
-                <h2 className="interstitial-title">ULTIMATE SERIES</h2>
-                <p className="interstitial-desc">Pushing the boundaries of automation.</p>
+                <h2 className="interstitial-title">LASER VMA1325R</h2>
+                <p className="interstitial-desc">Laser Engraving &amp; Cutting · 1300 × 2500 mm</p>
             </div>
 
             <div className="scroll-section" id="section-4" ref={sectionRef} style={{ height: "500vh" }}>
@@ -209,57 +209,57 @@ export default function UltimateMachineSequence() {
                     <div className="hero-text-overlay text-first" data-index="20">
                         <div className="hero-accent-line">
                             <div className="accent-bar" style={{ background: "#eab308" }}></div>
-                            <span className="accent-label" style={{ color: "#eab308" }}>Future Ready</span>
+                            <span className="accent-label" style={{ color: "#eab308" }}>Model VMA1325R</span>
                         </div>
                         <h1 className="hero-title-bold">
-                            <span style={{ color: "#eab308" }}>SMART</span> <span className="text-white">FACTORY</span>
+                            <span style={{ color: "#eab308" }}>LASER</span> <span className="text-white">ENGRAVING</span>
                         </h1>
-                        <p className="hero-desc">Elevate your production with our state-of-the-art machinery.</p>
+                        <p className="hero-desc">Laser engraving and cutting in one machine.</p>
                     </div>
 
                     <div className="hero-text-overlay hero-text-right pos-top-right" data-index="21">
                         <div className="hero-accent-line">
                             <div className="accent-bar" style={{ background: "#eab308" }}></div>
-                            <span className="accent-label" style={{ color: "#eab308" }}>Innovation</span>
+                            <span className="accent-label" style={{ color: "#eab308" }}>Engraving</span>
                         </div>
                         <h2 className="hero-title-bold hero-title-md">
-                            <span style={{ color: "#eab308" }}>NEXT</span> <span className="text-white">LEVEL</span>
+                            <span style={{ color: "#eab308" }}>LOGOS</span> <span className="text-white">&amp; LETTERING</span>
                         </h2>
-                        <p className="hero-desc">Pushing the boundaries of automated manufacturing.</p>
+                        <p className="hero-desc">Crisp logos and lettering engraved straight into the sheet.</p>
                     </div>
 
                     <div className="hero-text-overlay hero-text-right" data-index="22">
                         <div className="hero-accent-line">
                             <div className="accent-bar" style={{ background: "#eab308" }}></div>
-                            <span className="accent-label" style={{ color: "#eab308" }}>Reliability</span>
+                            <span className="accent-label" style={{ color: "#eab308" }}>Cutting</span>
                         </div>
                         <h2 className="hero-title-bold hero-title-md">
-                            <span style={{ color: "#eab308" }}>ZERO</span> <span className="text-white">DOWNTIME</span>
+                            <span style={{ color: "#eab308" }}>CLEAN</span> <span className="text-white">CUTS</span>
                         </h2>
-                        <p className="hero-desc">Built to run 24/7 with minimal maintenance required.</p>
+                        <p className="hero-desc">Accurate shapes and cut-outs for signage and displays.</p>
                     </div>
 
                     <div className="hero-text-overlay hero-text-right pos-top-right" data-index="23">
                         <div className="hero-accent-line">
                             <div className="accent-bar" style={{ background: "#eab308" }}></div>
-                            <span className="accent-label" style={{ color: "#eab308" }}>Scalability</span>
+                            <span className="accent-label" style={{ color: "#eab308" }}>Working Area</span>
                         </div>
                         <h2 className="hero-title-bold hero-title-md">
-                            <span style={{ color: "#eab308" }}>GROW</span> <span className="text-white">FASTER</span>
+                            <span style={{ color: "#eab308" }}>1300 × 2500</span> <span className="text-white">MM</span>
                         </h2>
-                        <p className="hero-desc">Adapt to increasing demands with flexible processing.</p>
+                        <p className="hero-desc">A full size bed that takes large sheets in one go.</p>
                     </div>
 
                     <div className="seq4-slide-panel" id="seq4SlidePanel">
                         <div className="panel-content">
-                            <h2 className="panel-title">HEXA-CNC</h2>
-                            <h3 className="panel-subtitle">ROUTER MACHINE - 2 NOS.</h3>
+                            <h2 className="panel-title">VMA1325R</h2>
+                            <h3 className="panel-subtitle">LASER ENGRAVING &amp; CUTTING MACHINE</h3>
 
-                            <p className="panel-spec">WORKING AREA - 1300X2500MM</p>
+                            <p className="panel-spec">WORKING AREA - 1300 X 2500 MM</p>
 
                             <ul className="panel-features">
-                                <li>Suitable for High volume processing of nonferrous metal sheet, PVC board, Acrylic, Insulation materials, Wood and Composite panels</li>
-                                <li>Sheet Processing, Cutting, Slotting, Engraving</li>
+                                <li>Laser engraving and cutting in one machine</li>
+                                <li>Logos, lettering and shapes for signage and displays</li>
                             </ul>
                         </div>
                     </div>

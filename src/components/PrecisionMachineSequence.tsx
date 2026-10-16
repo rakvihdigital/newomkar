@@ -114,8 +114,8 @@ export default function PrecisionMachineSequence() {
   return (
     <>
       <div className="interstitial-gap">
-        <h2 className="interstitial-title">PRECISION CUTTING</h2>
-        <p className="interstitial-desc">Detailed shaping powered by the MAXIMAKH 2040.</p>
+        <h2 className="interstitial-title">MAXIMAKH 2040</h2>
+        <p className="interstitial-desc">Precision Shape Cutting · 100 mm Wood Depth</p>
       </div>
 
       <section id="precision-machine" className="scroll-section precision-machine-section" ref={sectionRef} aria-label="MAXIMAKH 2040 machinery">

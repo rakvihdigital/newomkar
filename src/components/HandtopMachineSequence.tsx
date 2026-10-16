@@ -112,8 +112,8 @@ export default function HandtopMachineSequence() {
   return (
     <>
       <div className="interstitial-gap">
-        <h2 className="interstitial-title">UV PRINTING</h2>
-        <p className="interstitial-desc">Wide format production powered by Handtop.</p>
+        <h2 className="interstitial-title">HANDTOP TURBO</h2>
+        <p className="interstitial-desc">10 ft UV Print · Eco-Friendly UV Curing Ink</p>
       </div>
 
       <section id="handtop-machine" className="scroll-section handtop-machine-section" ref={sectionRef} aria-label="Handtop UV printing machinery">

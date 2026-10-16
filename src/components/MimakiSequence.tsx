@@ -198,7 +198,7 @@ export default function MimakiSequence() {
         <>
             <div className="interstitial-gap">
                 <h2 className="interstitial-title">MIMAKI JFX600-2513</h2>
-                <p className="interstitial-desc">Ultra-High Speed UV Flatbed 16 Head Technology</p>
+                <p className="interstitial-desc">UV Flatbed · 16 Heads</p>
             </div>
 
             <div className="scroll-section" id="section-1" ref={sectionRef} style={{ height: "600vh" }}>
