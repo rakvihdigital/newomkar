@@ -3298,7 +3298,37 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 6vw;
+    padding: 0 6vw 56px; /* Room at the bottom for the credit line */
+}
+/* Credit line in the bottom-right corner; RAKVIH is yellow and glows on hover. */
+.thanks-credit {
+    position: absolute;
+    right: 28px;
+    bottom: 26px;
+    z-index: 2;
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--font-heading);
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+}
+.thanks-credit a {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    color: #FACC15;
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.thanks-credit a:hover,
+.thanks-credit a:focus-visible {
+    color: #FDE047;
+    outline: none;
+    text-shadow: 0 0 6px rgba(250, 204, 21, 0.85), 0 0 16px rgba(250, 204, 21, 0.55), 0 0 32px rgba(250, 204, 21, 0.35);
 }
 .thanks-glow {
     position: absolute;
@@ -3451,7 +3481,10 @@ a {
     color: #0A0A0F;
 }
 @media (max-width: 768px) {
-    .thanks-sticky { padding: 140px 16px 24px; }
+    .thanks-sticky { padding: 140px 16px 104px; }
+    /* On phones the credit sits centred just above the Auto Scroll pill. */
+    .thanks-credit { left: 0; right: 0; bottom: 72px; justify-content: center; gap: 8px; font-size: 0.56rem; letter-spacing: 0.16em; }
+    .thanks-credit a { font-size: 0.78rem; }
     .thanks-title { font-size: clamp(2.6rem, 13vw, 3.6rem); }
     .thanks-rule { margin: 1rem 0; }
     .thanks-about { margin-bottom: 1.4rem; font-size: 0.88rem; line-height: 1.6; }
@@ -3588,8 +3621,8 @@ a {
 .handtop-machine-section { height: 500vh; background: #07110e; }
 .precision-machine-stage,
 .handtop-machine-stage { isolation: isolate; background: #07110e; }
-.precision-machine-stage canvas { background: #07110e url('/assets/maximakh-frames/frame_000001.webp') center / cover no-repeat; }
-.handtop-machine-stage canvas { background: #07110e url('/assets/handtop-frames/frame_000001.webp') center / cover no-repeat; }
+.precision-machine-stage canvas { background: #07110e url('/assets/maximakh-clean/frame_000001.webp') center / cover no-repeat; }
+.handtop-machine-stage canvas { background: #07110e url('/assets/handtop-clean/frame_000001.webp') center / cover no-repeat; }
 .precision-machine-shade,
 .handtop-machine-shade {
     position: absolute;

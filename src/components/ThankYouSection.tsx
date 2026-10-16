@@ -45,7 +45,7 @@ export default function ThankYouSection() {
     const build = () => {
       timeline?.kill();
       timeline = null;
-      gsap.set([layout, title, ...q('.thanks-letter, .thanks-rule, .thanks-about, .thanks-card, .thanks-card-item, .thanks-glow')], { clearProps: 'all' });
+      gsap.set([layout, title, ...q('.thanks-letter, .thanks-rule, .thanks-about, .thanks-card, .thanks-card-item, .thanks-glow, .thanks-credit')], { clearProps: 'all' });
       if (preference.matches) return;
 
       // Shrink the finished layout to fit short screens instead of clipping the cards.
@@ -72,6 +72,7 @@ export default function ThankYouSection() {
         .from(q('.thanks-card-contact'), { x: mobile ? 0 : -90, y: mobile ? 50 : 30, opacity: 0, duration: 16 }, 66)
         .from(q('.thanks-card-address'), { x: mobile ? 0 : 90, y: mobile ? 50 : 30, opacity: 0, duration: 16 }, 70)
         .from(q('.thanks-card-item'), { y: 18, opacity: 0, duration: 10, stagger: 1.4 }, 72)
+        .from(q('.thanks-credit'), { y: 12, opacity: 0, duration: 10 }, 78)
         .to({}, { duration: 8 });
       timeline.progress(progress());
     };
@@ -141,6 +142,10 @@ export default function ThankYouSection() {
             </article>
           </div>
         </div>
+        <p className="thanks-credit">
+          <span>Designed and developed by</span>
+          <a href="https://rakvih.in" target="_blank" rel="noopener noreferrer">RAKVIH</a>
+        </p>
       </div>
     </section>
   );

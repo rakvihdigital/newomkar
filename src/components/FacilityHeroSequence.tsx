@@ -62,7 +62,7 @@ export default function FacilityHeroSequence() {
                 render(current);
             }).catch(() => {});
         };
-        setSource(video, 'opening-1');
+        setSource(video, 'welcome-1');
         nudge(video);
         // The second film waits until the first can play through (or the visitor is well into it),
         // so the opening gets the whole connection first.
@@ -71,7 +71,7 @@ export default function FacilityHeroSequence() {
             if (continuationStarted) return;
             continuationStarted = true;
             window.clearTimeout(continuationTimeout);
-            setSource(continuation, 'opening-2');
+            setSource(continuation, 'welcome-2');
             nudge(continuation);
         };
         video.addEventListener('canplaythrough', startContinuation);
@@ -302,7 +302,7 @@ export default function FacilityHeroSequence() {
                     <video
                         ref={videoRef}
                         className="hero-canvas"
-                        poster="/assets/opening-poster.jpg"
+                        poster="/assets/welcome-poster.jpg"
                         preload="auto"
                         muted
                         playsInline

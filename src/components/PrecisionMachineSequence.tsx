@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 
 const FRAME_COUNT = 120;
-const FRAME_PATH = '/assets/maximakh-frames/frame_';
+const FRAME_PATH = '/assets/maximakh-clean/frame_';
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const ease = (value: number) => { const t = clamp(value); return t * t * (3 - 2 * t); };
 
