@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const FRAMES_TPS = 291;
 const PATH_TPS = '/assets/frames-2k/frame_';

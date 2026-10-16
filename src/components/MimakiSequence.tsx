@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const FRAMES_MIMAKI = 295;
 const PATH_MIMAKI = '/assets/mimaki_frames/ezgif-frame-';
@@ -313,7 +313,7 @@ export default function MimakiSequence() {
                                 <li>Amazingly high productivity: Up to 330% higher speed</li>
                                 <li>Rich color expression: 6 color inks, including light colors</li>
                                 <li>Supporting media as thick as 80 mm</li>
-                                <li>"2.5D Texture Maker" Smooth expression of bumpy textures can be achieved using multiple layers of UV ink.</li>
+                                <li>&ldquo;2.5D Texture Maker&rdquo; Smooth expression of bumpy textures can be achieved using multiple layers of UV ink.</li>
                                 <li>This allows you to create realistic and eye-catching graphics</li>
                             </ul>
                         </div>

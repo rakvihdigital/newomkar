@@ -2,34 +2,34 @@ import MotionGallery from "./MotionGallery";
 
 const images = [
   {
-    "src": "/assets/portfolio/signages/samsung-storefront-on-a-bustling-urban-street.webp",
-    "alt": "Samsung Storefront on a Bustling Urban Street",
-    "caption": "SAMSUNG STOREFRONT ON A BUSTLING URBAN STREET"
+    "src": "/assets/portfolio/signages/siemens-showroom-signage.webp",
+    "alt": "Siemens Showroom Signage",
+    "caption": "SIEMENS SHOWROOM SIGNAGE"
   },
   {
-    "src": "/assets/portfolio/signages/apollo-tyres-storefront-in-kannada.webp",
-    "alt": "Apollo Tyres Storefront in Kannada",
-    "caption": "APOLLO TYRES STOREFRONT IN KANNADA"
+    "src": "/assets/portfolio/signages/bata-sneaker-studio.webp",
+    "alt": "Bata Sneaker Studio",
+    "caption": "BATA SNEAKER STUDIO"
   },
   {
-    "src": "/assets/portfolio/signages/bright-bata-sneaker-studio-storefront.webp",
-    "alt": "Bright Bata Sneaker Studio Storefront",
-    "caption": "BRIGHT BATA SNEAKER STUDIO STOREFRONT"
+    "src": "/assets/portfolio/signages/mia-by-tanishq-storefront.webp",
+    "alt": "Mia by Tanishq Storefront",
+    "caption": "MIA BY TANISHQ STOREFRONT"
   },
   {
-    "src": "/assets/portfolio/signages/bright-mall-storefronts-mochi-mia-aurelia.webp",
-    "alt": "Bright Mall Storefronts  Mochi, Mia, Aurelia",
-    "caption": "BRIGHT MALL STOREFRONTS  MOCHI, MIA, AURELIA"
+    "src": "/assets/portfolio/signages/victorinox-mall-storefront.webp",
+    "alt": "Victorinox Mall Storefront",
+    "caption": "VICTORINOX MALL STOREFRONT"
   },
   {
-    "src": "/assets/portfolio/signages/colorful-paint-and-hardware-storefront.webp",
-    "alt": "Colorful Paint and Hardware Storefront",
-    "caption": "COLORFUL PAINT AND HARDWARE STOREFRONT"
+    "src": "/assets/portfolio/signages/hafele-design-studio.webp",
+    "alt": "Häfele Design Studio",
+    "caption": "HÄFELE DESIGN STUDIO"
   },
   {
-    "src": "/assets/portfolio/signages/hafele-appliances-studio-frontage.webp",
-    "alt": "Häfele Appliances Studio Frontage",
-    "caption": "HÄFELE APPLIANCES STUDIO FRONTAGE"
+    "src": "/assets/portfolio/signages/apollo-tyres-storefront.webp",
+    "alt": "Apollo Tyres Storefront",
+    "caption": "APOLLO TYRES STOREFRONT"
   }
 ];
 

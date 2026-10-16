@@ -2,34 +2,34 @@ import MotionGallery from "./MotionGallery";
 
 const images = [
   {
-    "src": "/assets/portfolio/visual/illuminated-neoclassical-gateway-at-night.webp",
-    "alt": "Illuminated Neoclassical Gateway at Night",
-    "caption": "ILLUMINATED NEOCLASSICAL GATEWAY AT NIGHT"
+    "src": "/assets/portfolio/visual/united-colors-of-benetton-visual.webp",
+    "alt": "United Colors of Benetton Visual",
+    "caption": "UNITED COLORS OF BENETTON VISUAL"
   },
   {
-    "src": "/assets/portfolio/visual/blackberrys-mall-storefront-display.webp",
-    "alt": "Blackberrys Mall Storefront Display",
-    "caption": "BLACKBERRYS MALL STOREFRONT DISPLAY"
+    "src": "/assets/portfolio/visual/westside-hospital-facade.webp",
+    "alt": "Westside Hospital Facade",
+    "caption": "WESTSIDE HOSPITAL FACADE"
   },
   {
-    "src": "/assets/portfolio/visual/easybuy-summer-fashion-billboard.webp",
-    "alt": "EasyBuy Summer Fashion Billboard",
-    "caption": "EASYBUY SUMMER FASHION BILLBOARD"
+    "src": "/assets/portfolio/visual/tuborg-party-mural.webp",
+    "alt": "Tuborg Party Mural",
+    "caption": "TUBORG PARTY MURAL"
   },
   {
-    "src": "/assets/portfolio/visual/karmio-gifts-of-goodness-sign.webp",
-    "alt": "Karmio Gifts of Goodness Sign",
-    "caption": "KARMIO GIFTS OF GOODNESS SIGN"
+    "src": "/assets/portfolio/visual/neoclassical-gateway-visuals.webp",
+    "alt": "Neoclassical Gateway Visuals",
+    "caption": "NEOCLASSICAL GATEWAY VISUALS"
   },
   {
-    "src": "/assets/portfolio/visual/love-alfie-jewelry-showcase.webp",
-    "alt": "Love Alfie Jewelry Showcase",
-    "caption": "LOVE ALFIE JEWELRY SHOWCASE"
+    "src": "/assets/portfolio/visual/xiaomi-home-mall-storefront.webp",
+    "alt": "Xiaomi Home Mall Storefront",
+    "caption": "XIAOMI HOME MALL STOREFRONT"
   },
   {
-    "src": "/assets/portfolio/visual/mediterranean-villa-mural-lightbox.webp",
-    "alt": "Mediterranean Villa Mural Lightbox",
-    "caption": "MEDITERRANEAN VILLA MURAL LIGHTBOX"
+    "src": "/assets/portfolio/visual/samsung-storefront.webp",
+    "alt": "Samsung Storefront",
+    "caption": "SAMSUNG STOREFRONT"
   }
 ];
 

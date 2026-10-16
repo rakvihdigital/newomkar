@@ -2,34 +2,34 @@ import MotionGallery from "./MotionGallery";
 
 const images = [
   {
-    "src": "/assets/portfolio/mall-cluster-display/mia-gift-crown-atrium-display.webp",
-    "alt": "Mia Gift Crown Atrium Display",
-    "caption": "MIA GIFT CROWN ATRIUM DISPLAY"
+    "src": "/assets/portfolio/mall-cluster-display/mia-by-tanishq-atrium-display.webp",
+    "alt": "Mia by Tanishq Atrium Display",
+    "caption": "MIA BY TANISHQ ATRIUM DISPLAY"
   },
   {
-    "src": "/assets/portfolio/mall-cluster-display/akshaya-tritiya-jewelry-display.webp",
-    "alt": "Akshaya Tritiya Jewelry Display",
-    "caption": "AKSHAYA TRITIYA JEWELRY DISPLAY"
+    "src": "/assets/portfolio/mall-cluster-display/max-18th-anniversary-display.webp",
+    "alt": "Max 18th Anniversary Display",
+    "caption": "MAX 18TH ANNIVERSARY DISPLAY"
   },
   {
-    "src": "/assets/portfolio/mall-cluster-display/back-to-school-mall-display.webp",
-    "alt": "Back to School Mall Display",
-    "caption": "BACK TO SCHOOL MALL DISPLAY"
+    "src": "/assets/portfolio/mall-cluster-display/homecentre-living-room-showcase.webp",
+    "alt": "Homecentre Living Room Showcase",
+    "caption": "HOMECENTRE LIVING ROOM SHOWCASE"
   },
   {
-    "src": "/assets/portfolio/mall-cluster-display/blackberrys-tech-pro-mall-display.webp",
-    "alt": "Blackberrys Tech Pro Mall Display",
-    "caption": "BLACKBERRYS TECH PRO MALL DISPLAY"
+    "src": "/assets/portfolio/mall-cluster-display/shubh-akshaya-tritiya-display.webp",
+    "alt": "Shubh Akshaya Tritiya Display",
+    "caption": "SHUBH AKSHAYA TRITIYA DISPLAY"
   },
   {
-    "src": "/assets/portfolio/mall-cluster-display/elegant-rose-gold-mothers-day-display.webp",
-    "alt": "Elegant Rose-Gold Mother’s Day Display",
-    "caption": "ELEGANT ROSE-GOLD MOTHER’S DAY DISPLAY"
+    "src": "/assets/portfolio/mall-cluster-display/babyshop-back-to-school-display.webp",
+    "alt": "Babyshop Back to School Display",
+    "caption": "BABYSHOP BACK TO SCHOOL DISPLAY"
   },
   {
-    "src": "/assets/portfolio/mall-cluster-display/elegant-sage-wedding-suit-display.webp",
-    "alt": "Elegant Sage Wedding Suit Display",
-    "caption": "ELEGANT SAGE WEDDING SUIT DISPLAY"
+    "src": "/assets/portfolio/mall-cluster-display/blackberrys-tech-pro-display.webp",
+    "alt": "Blackberrys Tech Pro Display",
+    "caption": "BLACKBERRYS TECH PRO DISPLAY"
   }
 ];
 

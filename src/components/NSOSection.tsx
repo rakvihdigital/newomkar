@@ -2,34 +2,34 @@ import MotionGallery from "./MotionGallery";
 
 const images = [
   {
-    "src": "/assets/portfolio/nso/modern-asian-paints-showroom-display.webp",
-    "alt": "Modern Asian Paints Showroom Display",
-    "caption": "MODERN ASIAN PAINTS SHOWROOM DISPLAY"
+    "src": "/assets/portfolio/nso/max-new-store-fit-out.webp",
+    "alt": "Max New Store Fit-Out",
+    "caption": "MAX NEW STORE FIT-OUT"
   },
   {
-    "src": "/assets/portfolio/nso/asian-paints-woodtech-texture-showcase.webp",
-    "alt": "Asian Paints Woodtech Texture Showcase",
-    "caption": "ASIAN PAINTS WOODTECH TEXTURE SHOWCASE"
+    "src": "/assets/portfolio/nso/asian-paints-showroom.webp",
+    "alt": "Asian Paints Showroom",
+    "caption": "ASIAN PAINTS SHOWROOM"
   },
   {
-    "src": "/assets/portfolio/nso/elegant-u-s-polo-assn-retail-display.webp",
-    "alt": "Elegant U.S. Polo Assn. Retail Display",
-    "caption": "ELEGANT U.S. POLO ASSN. RETAIL DISPLAY"
+    "src": "/assets/portfolio/nso/us-polo-assn-retail-display.webp",
+    "alt": "U.S. Polo Assn. Retail Display",
+    "caption": "U.S. POLO ASSN. RETAIL DISPLAY"
   },
   {
-    "src": "/assets/portfolio/nso/max-fashion-nighttime-storefront.webp",
-    "alt": "Max Fashion Nighttime Storefront",
-    "caption": "MAX FASHION NIGHTTIME STOREFRONT"
+    "src": "/assets/portfolio/nso/babyshop-baby-department.webp",
+    "alt": "Babyshop Baby Department",
+    "caption": "BABYSHOP BABY DEPARTMENT"
   },
   {
-    "src": "/assets/portfolio/nso/modern-baby-department-showroom.webp",
-    "alt": "Modern Baby Department Showroom",
-    "caption": "MODERN BABY DEPARTMENT SHOWROOM"
+    "src": "/assets/portfolio/visual/xiaomi-home-mall-storefront.webp",
+    "alt": "Xiaomi Home Mall Storefront",
+    "caption": "XIAOMI HOME MALL STOREFRONT"
   },
   {
-    "src": "/assets/portfolio/nso/modern-girls-department-store-interior.webp",
-    "alt": "Modern Girls’ Department Store Interior",
-    "caption": "MODERN GIRLS’ DEPARTMENT STORE INTERIOR"
+    "src": "/assets/portfolio/visual/samsung-storefront.webp",
+    "alt": "Samsung Storefront",
+    "caption": "SAMSUNG STOREFRONT"
   }
 ];
 
