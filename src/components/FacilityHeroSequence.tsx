@@ -298,11 +298,11 @@ export default function FacilityHeroSequence() {
                 <img src="/assets/logo.png" alt="Omkar Enterprises Logo" className="logo-img" />
                 <span className="logo-captions">
                     <span className="logo-caption-mask logo-caption-left">
-                        <span className="logo-desc">Our Professional<br /><strong>Portfolio</strong></span>
+                        <span className="logo-desc">Our<br />Professional<br />Portfolio</span>
                     </span>
                     <span className="logo-caption-divider" aria-hidden="true" />
                     <span className="logo-caption-mask logo-caption-right">
-                        <span className="logo-desc logo-experience"><span className="logo-years">17 Years</span><br />Of Industry Excellence</span>
+                        <span className="logo-desc logo-experience">17 Years<br />Of Industry<br />Excellence</span>
                     </span>
                 </span>
             </a>
@@ -334,11 +334,11 @@ export default function FacilityHeroSequence() {
                         <img src="/assets/logo.png" alt="Omkar Enterprises" className="logo-img" />
                         <span className="logo-captions">
                             <span className="logo-caption-mask logo-caption-left">
-                                <span className="logo-desc">Our Professional<br /><strong>Portfolio</strong></span>
+                                <span className="logo-desc">Our Professional<br />Portfolio</span>
                             </span>
                             <span className="logo-caption-divider" aria-hidden="true" />
                             <span className="logo-caption-mask logo-caption-right">
-                                <span className="logo-desc logo-experience"><span className="logo-years">17 Years</span> Of<br />Industry Excellence</span>
+                                <span className="logo-desc logo-experience">17 Years Of Industry<br />Excellence</span>
                             </span>
                         </span>
                     </div>
