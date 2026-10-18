@@ -27,9 +27,9 @@ const images = [
     "caption": "ZIMSON ENTRANCE ARCHES"
   },
   {
-    "src": "/assets/portfolio/visual/xiaomi-home-mall-storefront.webp",
-    "alt": "Xiaomi Home Mall Entrance",
-    "caption": "XIAOMI HOME MALL ENTRANCE"
+    "src": "/assets/portfolio/arch-gate/mia-by-tanishq-pink-entrance-arch.webp",
+    "alt": "Mia by Tanishq Pink Entrance Arch",
+    "caption": "MIA BY TANISHQ PINK ENTRANCE ARCH"
   }
 ];
 

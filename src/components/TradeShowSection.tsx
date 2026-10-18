@@ -27,9 +27,9 @@ const images = [
     "caption": "LUXE MENSWEAR DISPLAY"
   },
   {
-    "src": "/assets/portfolio/trade-show/michelin-showroom-reception.webp",
-    "alt": "Michelin Showroom Reception",
-    "caption": "MICHELIN SHOWROOM RECEPTION"
+    "src": "/assets/portfolio/trade-show/arvind-roadshow-display-lobby.webp",
+    "alt": "Arvind Roadshow Display Lobby",
+    "caption": "ARVIND ROADSHOW DISPLAY LOBBY"
   }
 ];
 

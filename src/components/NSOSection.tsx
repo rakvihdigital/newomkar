@@ -12,24 +12,24 @@ const images = [
     "caption": "ASIAN PAINTS SHOWROOM"
   },
   {
-    "src": "/assets/portfolio/nso/us-polo-assn-retail-display.webp",
-    "alt": "U.S. Polo Assn. Retail Display",
-    "caption": "U.S. POLO ASSN. RETAIL DISPLAY"
-  },
-  {
     "src": "/assets/portfolio/nso/babyshop-baby-department.webp",
     "alt": "Babyshop Baby Department",
     "caption": "BABYSHOP BABY DEPARTMENT"
   },
   {
-    "src": "/assets/portfolio/visual/xiaomi-home-mall-storefront.webp",
-    "alt": "Xiaomi Home Mall Storefront",
-    "caption": "XIAOMI HOME MALL STOREFRONT"
+    "src": "/assets/portfolio/nso/asian-paints-woodtech-texture-boards.webp",
+    "alt": "Asian Paints Woodtech Texture Boards",
+    "caption": "ASIAN PAINTS WOODTECH TEXTURE BOARDS"
   },
   {
-    "src": "/assets/portfolio/visual/samsung-storefront.webp",
-    "alt": "Samsung Storefront",
-    "caption": "SAMSUNG STOREFRONT"
+    "src": "/assets/portfolio/nso/fabric-board-exhibition-showroom.webp",
+    "alt": "Fabric Board Exhibition Showroom",
+    "caption": "FABRIC BOARD EXHIBITION SHOWROOM"
+  },
+  {
+    "src": "/assets/portfolio/nso/michelin-showroom-reception.webp",
+    "alt": "Michelin Showroom Reception",
+    "caption": "MICHELIN SHOWROOM RECEPTION"
   }
 ];
 

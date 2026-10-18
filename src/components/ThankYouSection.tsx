@@ -19,7 +19,6 @@ const ICONS = {
   user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0',
   phone: 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2',
   mail: 'M4 6h16v12H4zM4 7l8 6 8-6',
-  clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-13v4l3 2',
   pin: 'M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Zm0-9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z',
 };
 
@@ -126,7 +125,6 @@ export default function ThankYouSection() {
                 <li className="thanks-card-item"><Icon path={ICONS.user} /><strong>Rajesh Y K</strong></li>
                 <li className="thanks-card-item"><Icon path={ICONS.phone} /><a href="tel:+919902714333">+91 99027 14333</a></li>
                 <li className="thanks-card-item"><Icon path={ICONS.mail} /><a href="mailto:rajesh@omkarblr.com">rajesh@omkarblr.com</a></li>
-                <li className="thanks-card-item"><Icon path={ICONS.clock} /><span>Mon – Fri: 9.00 AM – 9.00 PM<br /><em>Holiday: Closed</em></span></li>
               </ul>
             </article>
 

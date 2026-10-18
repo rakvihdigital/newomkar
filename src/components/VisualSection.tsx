@@ -2,9 +2,9 @@ import MotionGallery from "./MotionGallery";
 
 const images = [
   {
-    "src": "/assets/portfolio/visual/united-colors-of-benetton-visual.webp",
-    "alt": "United Colors of Benetton Visual",
-    "caption": "UNITED COLORS OF BENETTON VISUAL"
+    "src": "/assets/portfolio/visual/sobha-windsor-lobby-mural-lightbox.webp",
+    "alt": "Sobha Windsor Lobby Mural Lightbox",
+    "caption": "SOBHA WINDSOR LOBBY MURAL LIGHTBOX"
   },
   {
     "src": "/assets/portfolio/visual/westside-hospital-facade.webp",
@@ -22,14 +22,14 @@ const images = [
     "caption": "NEOCLASSICAL GATEWAY VISUALS"
   },
   {
-    "src": "/assets/portfolio/visual/xiaomi-home-mall-storefront.webp",
-    "alt": "Xiaomi Home Mall Storefront",
-    "caption": "XIAOMI HOME MALL STOREFRONT"
+    "src": "/assets/portfolio/visual/mediterranean-villa-mural-lightbox.webp",
+    "alt": "Mediterranean Villa Mural Lightbox",
+    "caption": "MEDITERRANEAN VILLA MURAL LIGHTBOX"
   },
   {
-    "src": "/assets/portfolio/visual/samsung-storefront.webp",
-    "alt": "Samsung Storefront",
-    "caption": "SAMSUNG STOREFRONT"
+    "src": "/assets/portfolio/visual/moonlit-grand-residence-display.webp",
+    "alt": "Moonlit Grand Residence Display",
+    "caption": "MOONLIT GRAND RESIDENCE DISPLAY"
   }
 ];
 

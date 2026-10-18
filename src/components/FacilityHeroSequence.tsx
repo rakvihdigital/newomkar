@@ -291,7 +291,7 @@ export default function FacilityHeroSequence() {
                     </span>
                     <span className="logo-caption-divider" aria-hidden="true" />
                     <span className="logo-caption-mask logo-caption-right">
-                        <span className="logo-desc logo-experience"><span className="logo-years">17 Years</span><br />Serving This Industry</span>
+                        <span className="logo-desc logo-experience"><span className="logo-years">17 Years</span><br />Of Industry Excellence</span>
                     </span>
                 </span>
             </a>
@@ -327,7 +327,7 @@ export default function FacilityHeroSequence() {
                             </span>
                             <span className="logo-caption-divider" aria-hidden="true" />
                             <span className="logo-caption-mask logo-caption-right">
-                                <span className="logo-desc logo-experience"><span className="logo-years">17 Years</span> Serving<br />This Industry</span>
+                                <span className="logo-desc logo-experience"><span className="logo-years">17 Years</span> Of<br />Industry Excellence</span>
                             </span>
                         </span>
                     </div>

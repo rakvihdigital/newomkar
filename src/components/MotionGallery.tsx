@@ -177,7 +177,6 @@ export default function MotionGallery({ id, title, description, images, dark = f
           ))}
         </div>
         <div className="motion-gallery-progress" aria-hidden="true"><i /></div>
-        <p className="motion-gallery-hint" aria-hidden="true">Scroll to explore <span>→</span></p>
       </div>
     </section>
   );
