@@ -9,7 +9,7 @@ const CURTAIN_FADE = 0.05;
 const FOOTAGE_START = LOGO_GONE + 0.015;
 const CORNER_IN = [LOGO_GONE + 0.01, LOGO_GONE + 0.06];
 // Both videos are encoded with a seek point on every source frame.
-const FALLBACK_FIRST_SECONDS = 11;
+const FALLBACK_FIRST_SECONDS = 10;
 const FALLBACK_CONTINUATION_SECONDS = 10;
 const FRAME_SECONDS = 1 / 24;
 // The two films meet on almost the same shot, so a short crossfade hides the join.
@@ -49,8 +49,8 @@ export default function FacilityHeroSequence() {
         READY_EVENTS.forEach(type => video.addEventListener(type, showHero));
         const fallbackTimeout = window.setTimeout(showHero, 4000);
 
-        // Phones get lighter 720p cuts of the same footage.
-        const suffix = window.matchMedia('(max-width: 768px)').matches ? '-mobile' : '';
+        // Phones (portrait or landscape) get lighter 720p cuts of the same footage.
+        const suffix = window.matchMedia('(max-width: 768px), (pointer: coarse) and (max-height: 500px)').matches ? '-mobile' : '';
         const setSource = (media: HTMLVideoElement, name: string) => {
             const src = `/assets/${name}${suffix}.mp4`;
             if (media.getAttribute('src') !== src) media.src = src;
@@ -62,7 +62,7 @@ export default function FacilityHeroSequence() {
                 render(current);
             }).catch(() => {});
         };
-        setSource(video, 'welcome-1');
+        setSource(video, 'welcome-generated-1');
         nudge(video);
         // The second film waits until the first can play through (or the visitor is well into it),
         // so the opening gets the whole connection first.
@@ -71,7 +71,7 @@ export default function FacilityHeroSequence() {
             if (continuationStarted) return;
             continuationStarted = true;
             window.clearTimeout(continuationTimeout);
-            setSource(continuation, 'welcome-2');
+            setSource(continuation, 'welcome-generated-2');
             nudge(continuation);
         };
         video.addEventListener('canplaythrough', startContinuation);
@@ -302,7 +302,7 @@ export default function FacilityHeroSequence() {
                     <video
                         ref={videoRef}
                         className="hero-canvas"
-                        poster="/assets/welcome-poster.jpg"
+                        poster="/assets/welcome-generated-poster.jpg"
                         preload="auto"
                         muted
                         playsInline

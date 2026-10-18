@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-type GalleryImage = { src: string; alt: string; caption?: string };
+type GalleryImage = { src: string; alt: string };
 
 // How each photograph enters, given its eased progress e (0 = waiting, 1 = settled).
 type Look = { opacity: number; transform: string; clip?: string };
@@ -108,10 +108,9 @@ export default function MotionGallery({ id, title, description, images, dark = f
       figures.forEach(figure => {
         const image = figure.querySelector('img')!;
         if (image.naturalWidth && !preference.matches) {
-          const caption = figure.querySelector('figcaption');
           const photoHeight = compact
             ? Math.max(180, window.innerHeight * 0.5)
-            : figure.clientHeight - (caption?.getBoundingClientRect().height ?? 0);
+            : figure.clientHeight;
           const widthCap = section.clientWidth * (compact ? 0.86 : 0.88);
           figure.style.width = `${Math.min(widthCap, photoHeight * image.naturalWidth / image.naturalHeight)}px`;
         } else if (preference.matches) {
@@ -174,7 +173,6 @@ export default function MotionGallery({ id, title, description, images, dark = f
           {images.map(image => (
             <figure key={image.src}>
               <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
-              {image.caption && <figcaption>{image.caption}</figcaption>}
             </figure>
           ))}
         </div>

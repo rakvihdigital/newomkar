@@ -2,70 +2,20 @@
 
 import React, { useEffect, useRef } from 'react';
 
-const FRAMES_SEQ4 = 236;
-const PATH_SEQ4 = '/assets/frames-2k-20/frame_';
-const FRAME_EXT = '.webp';
-const SKIP_STEP = 2;
-const LOAD_SEQ4 = Math.ceil(FRAMES_SEQ4 / SKIP_STEP);
-
-function padFrame(num: number) {
-    return String(num).padStart(6, '0');
-}
+const VIDEO_NAME = '/assets/laser-vma1325r';
+// Phones (portrait or landscape) get a lighter 720p cut of the same footage.
+const PHONE_QUERY = '(max-width: 768px), (pointer: coarse) and (max-height: 500px)';
+const FRAME_SECONDS = 1 / 24;
 
 export default function UltimateMachineSequence() {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
     const sectionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
 
-        const images: HTMLImageElement[] = new Array(LOAD_SEQ4);
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        // Frames download only once the section is near, so they don't compete with earlier sections.
-        let loaded = false;
-        const loadFrames = () => {
-            if (loaded) return;
-            loaded = true;
-            let idx = 0;
-            for (let i = 1; i <= FRAMES_SEQ4; i += SKIP_STEP) {
-                const img = new Image();
-                img.decoding = 'async';
-                img.onload = schedule;
-                img.src = `${PATH_SEQ4}${padFrame(i)}${FRAME_EXT}`;
-                images[idx] = img;
-                idx++;
-            }
-        };
-
-
-        const canvasScale = () => Math.min(window.devicePixelRatio || 1, 2);
-
-        const drawImageRaw = (img: HTMLImageElement) => {
-            if (!ctx || !img || !img.complete || !img.naturalWidth) return;
-            const canvasW = canvas.width / canvasScale();
-            const canvasH = canvas.height / canvasScale();
-            const imgRatio = img.naturalWidth / img.naturalHeight;
-            const canvasRatio = canvasW / canvasH;
-            let drawW, drawH, drawX, drawY;
-
-            if (canvasRatio > imgRatio) {
-                drawW = canvasW;
-                drawH = canvasW / imgRatio;
-                drawX = 0;
-                drawY = (canvasH - drawH) / 2;
-            } else {
-                drawH = canvasH;
-                drawW = canvasH * imgRatio;
-                drawX = (canvasW - drawW) / 2;
-                drawY = 0;
-            }
-
-            ctx.clearRect(0, 0, canvasW, canvasH);
-            ctx.drawImage(img, drawX, drawY, drawW, drawH);
-        };
+        const video = videoRef.current;
+        const section = sectionRef.current;
+        if (!video || !section) return;
 
         const updateOverlays = (progress: number) => {
             if (!sectionRef.current) return;
@@ -136,61 +86,92 @@ export default function UltimateMachineSequence() {
             }
         };
 
-        const onScroll = () => {
-            if (!sectionRef.current) return;
-            const el = sectionRef.current;
-            const rect = el.getBoundingClientRect();
-            const sectionHeight = el.offsetHeight - window.innerHeight;
-            if (sectionHeight <= 0) return;
+        let target = 0;
+        let current = 0;
+        let inView = false;
+        let frameRequest = 0;
+        let lastTime = 0;
+        let sourceStarted = false;
 
-            const scrolled = -rect.top;
-            let progress = scrolled / sectionHeight;
-            progress = Math.max(0, Math.min(1, progress));
-
-            const maxIdx = images.length - 1;
-            const frameIndex = Math.max(0, Math.min(maxIdx, Math.floor(progress * maxIdx)));
-            const inView = rect.top <= window.innerHeight && rect.bottom >= 0;
-            const img = images[frameIndex];
-            if (inView && img) {
-                drawImageRaw(img);
+        const seekFrame = (progress: number) => {
+            if (video.seeking || video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+            const lastFrame = Math.max(0, video.duration - FRAME_SECONDS);
+            const frameTime = Math.round((progress * lastFrame) / FRAME_SECONDS) * FRAME_SECONDS;
+            if (Math.abs(video.currentTime - frameTime) >= FRAME_SECONDS * 0.75) {
+                video.currentTime = frameTime;
             }
+        };
 
-            if (inView) {
-                if (canvas) canvas.style.visibility = 'visible';
-                updateOverlays(progress);
-            } else {
-                if (canvas) canvas.style.visibility = 'hidden';
-                updateOverlays(progress > 0.5 ? 1 : 0);
+        const render = (progress: number) => {
+            video.style.visibility = inView ? 'visible' : 'hidden';
+            if (inView) seekFrame(progress);
+            updateOverlays(inView ? progress : progress > 0.5 ? 1 : 0);
+        };
+
+        const startVideo = () => {
+            if (sourceStarted) return;
+            sourceStarted = true;
+            video.src = `${VIDEO_NAME}${window.matchMedia(PHONE_QUERY).matches ? '-mobile' : ''}.mp4`;
+            video.load();
+            // A muted play/pause helps mobile browsers make frames available for seeking.
+            video.play()?.then(() => {
+                video.pause();
+                render(current);
+            }).catch(() => {});
+        };
+
+        const readScroll = () => {
+            const rect = section.getBoundingClientRect();
+            const sectionHeight = section.offsetHeight - window.innerHeight;
+            if (sectionHeight <= 0) return;
+            target = Math.max(0, Math.min(1, -rect.top / sectionHeight));
+            inView = rect.top <= window.innerHeight && rect.bottom >= 0;
+            if (!inView) current = target;
+        };
+
+        const tick = (now: number) => {
+            const elapsed = Math.min(64, now - lastTime || 16.7);
+            lastTime = now;
+            current += (target - current) * (1 - Math.pow(1 - 0.12, elapsed / 16.7));
+            if (Math.abs(target - current) < 0.0002) current = target;
+            render(current);
+            frameRequest = current === target ? 0 : requestAnimationFrame(tick);
+        };
+
+        const onScroll = () => {
+            readScroll();
+            if (inView) startVideo();
+            if (!frameRequest) {
+                lastTime = performance.now();
+                frameRequest = requestAnimationFrame(tick);
             }
         };
 
         const resize = () => {
-            const dpr = canvasScale();
-            canvas.width = window.innerWidth * dpr;
-            canvas.height = window.innerHeight * dpr;
-            ctx.scale(dpr, dpr);
-            onScroll();
+            readScroll();
+            current = target;
+            render(current);
         };
 
-        // Redraw at most once per animation frame, on scroll or when a frame finishes loading.
-        let frameRequest = 0;
-        function schedule() {
-            if (!frameRequest) frameRequest = requestAnimationFrame(() => { frameRequest = 0; onScroll(); });
-        }
+        const onVideoFrame = () => render(current);
         const observer = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting) loadFrames();
+            if (entries[0]?.isIntersecting) startVideo();
         }, { rootMargin: '200% 0px' });
-        if (sectionRef.current) observer.observe(sectionRef.current);
-
+        observer.observe(section);
+        video.addEventListener('loadedmetadata', onVideoFrame);
+        video.addEventListener('loadeddata', onVideoFrame);
+        video.addEventListener('seeked', onVideoFrame);
         resize();
         window.addEventListener('resize', resize);
-        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('scroll', onScroll, { passive: true });
 
         return () => {
             cancelAnimationFrame(frameRequest);
             observer.disconnect();
-            images.forEach(img => { if (img) img.onload = null; });
-            window.removeEventListener('scroll', schedule);
+            video.removeEventListener('loadedmetadata', onVideoFrame);
+            video.removeEventListener('loadeddata', onVideoFrame);
+            video.removeEventListener('seeked', onVideoFrame);
+            window.removeEventListener('scroll', onScroll);
             window.removeEventListener('resize', resize);
         };
     }, []);
@@ -204,7 +185,15 @@ export default function UltimateMachineSequence() {
 
             <div className="scroll-section" id="section-4" ref={sectionRef} style={{ height: "500vh" }}>
                 <div className="sticky-wrapper">
-                    <canvas ref={canvasRef} className="hero-canvas"></canvas>
+                    <video
+                        ref={videoRef}
+                        className="hero-canvas"
+                        poster="/assets/laser-vma1325r-poster.jpg"
+                        preload="none"
+                        muted
+                        playsInline
+                        aria-hidden="true"
+                    />
 
                     <div className="hero-text-overlay text-first" data-index="20">
                         <div className="hero-accent-line">
