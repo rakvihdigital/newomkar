@@ -6,6 +6,8 @@ const VIDEO_NAME = '/assets/laser-vma1325r';
 // Phones (portrait or landscape) get a lighter 720p cut of the same footage.
 const PHONE_QUERY = '(max-width: 768px), (pointer: coarse) and (max-height: 500px)';
 const FRAME_SECONDS = 1 / 24;
+// A seek still pending after this long is treated as stuck and issued again.
+const SEEK_STALL_MS = 600;
 
 export default function UltimateMachineSequence() {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -93,11 +95,17 @@ export default function UltimateMachineSequence() {
         let lastTime = 0;
         let sourceStarted = false;
 
+        let seekStarted = 0;
         const seekFrame = (progress: number) => {
-            if (video.seeking || video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+            if (video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+            // Let a seek finish before the next one, unless Safari has left it hanging
+            // (it can after a window resize); then replace it rather than freeze.
+            const stalled = video.seeking && performance.now() - seekStarted > SEEK_STALL_MS;
+            if (video.seeking && !stalled) return;
             const lastFrame = Math.max(0, video.duration - FRAME_SECONDS);
             const frameTime = Math.round((progress * lastFrame) / FRAME_SECONDS) * FRAME_SECONDS;
-            if (Math.abs(video.currentTime - frameTime) >= FRAME_SECONDS * 0.75) {
+            if (stalled || Math.abs(video.currentTime - frameTime) >= FRAME_SECONDS * 0.75) {
+                seekStarted = performance.now();
                 video.currentTime = frameTime;
             }
         };
@@ -150,6 +158,13 @@ export default function UltimateMachineSequence() {
         const resize = () => {
             readScroll();
             current = target;
+            // A resize can make Safari drop the decoded frame; nudge it back into loading.
+            if (sourceStarted && video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+                video.play()?.then(() => {
+                    video.pause();
+                    render(current);
+                }).catch(() => {});
+            }
             render(current);
         };
 

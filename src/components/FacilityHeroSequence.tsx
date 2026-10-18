@@ -12,6 +12,8 @@ const CORNER_IN = [LOGO_GONE + 0.01, LOGO_GONE + 0.06];
 const FALLBACK_FIRST_SECONDS = 10;
 const FALLBACK_CONTINUATION_SECONDS = 10;
 const FRAME_SECONDS = 1 / 24;
+// A seek still pending after this long is treated as stuck and issued again.
+const SEEK_STALL_MS = 600;
 // The two films meet on almost the same shot, so a short crossfade hides the join.
 const JOIN_BLEND_SECONDS = 0.25;
 
@@ -126,14 +128,19 @@ export default function FacilityHeroSequence() {
         let lastTime = 0;
         let continuationReady = continuation.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA;
 
+        const seekStarted = new WeakMap<HTMLVideoElement, number>();
         const seekFrame = (media: HTMLVideoElement, time: number) => {
             // A seek is asynchronous. Let the current frame finish decoding before
             // requesting the newest scroll position, instead of cancelling it on
-            // every animation frame.
-            if (media.seeking || media.readyState < HTMLMediaElement.HAVE_METADATA) return;
+            // every animation frame. Safari can leave a seek hanging (notably after a
+            // window resize), so a seek that outlives SEEK_STALL_MS is replaced.
+            if (media.readyState < HTMLMediaElement.HAVE_METADATA) return;
+            const stalled = media.seeking && performance.now() - (seekStarted.get(media) ?? 0) > SEEK_STALL_MS;
+            if (media.seeking && !stalled) return;
             const lastFrame = Math.max(0, media.duration - FRAME_SECONDS);
             const frameTime = Math.round(Math.min(time, lastFrame) / FRAME_SECONDS) * FRAME_SECONDS;
-            if (Math.abs(media.currentTime - frameTime) >= FRAME_SECONDS * 0.75) {
+            if (stalled || Math.abs(media.currentTime - frameTime) >= FRAME_SECONDS * 0.75) {
+                seekStarted.set(media, performance.now());
                 media.currentTime = frameTime;
             }
         };
@@ -238,6 +245,10 @@ export default function FacilityHeroSequence() {
             lastOut = -1;
             readScroll();
             current = target;
+            // A resize can make Safari drop the decoded frame; nudge it back into loading.
+            [video, continuation].forEach(media => {
+                if (media.getAttribute('src') && media.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) nudge(media);
+            });
             render(current);
         };
 

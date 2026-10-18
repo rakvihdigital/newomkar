@@ -17,7 +17,7 @@ const brands = [
     { slug: "bata", name: "Bata", area: "3 / 2", imageWidth: 1600, imageHeight: 384, crop: [0, 0, 1600, 384] },
     { slug: "hafele", name: "Häfele", area: "4 / 3", imageWidth: 1600, imageHeight: 400, crop: [0, 0, 1600, 400] },
     { slug: "asian-paints", name: "Asian Paints", area: "3 / 4 / span 2 / span 2", imageWidth: 1600, imageHeight: 402, crop: [51, 56, 1514, 289] },
-    { slug: "blackberrys", name: "Blackberrys", area: "3 / 6", imageWidth: 1600, imageHeight: 698, crop: [140, 113, 1320, 474] },
+    { slug: "blackberrys", name: "Blackberrys", area: "2 / 5", imageWidth: 1600, imageHeight: 698, crop: [140, 113, 1320, 474] },
     { slug: "samsung", name: "Samsung", area: "2 / 4", imageWidth: 1600, imageHeight: 441, crop: [0, 0, 1600, 441] },
     { slug: "mia-by-tanishq", name: "Mia by Tanishq", area: "4 / 2", imageWidth: 1600, imageHeight: 1478, crop: [243, 150, 1114, 1178] },
     { slug: "sobha", name: "Sobha", area: "3 / 3", imageWidth: 1600, imageHeight: 570, crop: [147, 143, 1307, 284] },

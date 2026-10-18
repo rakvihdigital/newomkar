@@ -1034,12 +1034,13 @@ a {
 .puzzle-grid {
     position: absolute;
     --puzzle-cell: min(8.6vw, 12svh, 125px);
-    right: 8%;
+    /* Half a cell keeps the five-column diamond where the old six-column grid centred it. */
+    right: calc(8% + var(--puzzle-cell) / 2 + 2px);
     top: 50%;
     transform: translateY(-50%) rotate(-45deg);
     transform-origin: center;
     display: grid;
-    grid-template-columns: repeat(6, var(--puzzle-cell));
+    grid-template-columns: repeat(5, var(--puzzle-cell));
     grid-template-rows: repeat(5, var(--puzzle-cell));
     gap: 4px;
 }

@@ -150,7 +150,10 @@ export default function GreyMachineSequence() {
             const maxIdx = images.length - 1;
             const frameIndex = Math.max(0, Math.min(maxIdx, Math.floor(progress * maxIdx)));
             const inView = rect.top <= window.innerHeight && rect.bottom >= 0;
-            const img = images[frameIndex];
+            // On a slow connection, show the closest frame that has arrived instead of freezing.
+            let shown = frameIndex;
+            while (shown > 0 && !images[shown]?.naturalWidth) shown--;
+            const img = images[shown];
             if (inView && img) {
                 drawImageRaw(img);
             }

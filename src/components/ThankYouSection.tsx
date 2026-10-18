@@ -126,6 +126,10 @@ export default function ThankYouSection() {
                 <li className="thanks-card-item"><Icon path={ICONS.phone} /><a href="tel:+919902714333">+91 99027 14333</a></li>
                 <li className="thanks-card-item"><Icon path={ICONS.mail} /><a href="mailto:rajesh@omkarblr.com">rajesh@omkarblr.com</a></li>
               </ul>
+              {/* Mirrors Get directions so both cards end on a matching button at the same height. */}
+              <a className="thanks-card-item thanks-directions" href="tel:+919902714333">
+                Call now <span aria-hidden="true">→</span>
+              </a>
             </article>
 
             <article className="thanks-card thanks-card-address">
