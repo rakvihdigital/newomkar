@@ -31,7 +31,8 @@ const TITLE = "Omkar Enterprises | Branding, Signage & Retail Display Solutions"
 const DESCRIPTION =
   "17 years of signage, channel letters, facades, window displays, mall activations and trade show builds for leading brands across India.";
 
-// The link preview image comes from app/opengraph-image.jpg. On Vercel, Next.js fills in the
+// The link preview uses the small square app/opengraph-image.jpg, so chat apps show it as a
+// thumbnail beside the text rather than a full-width banner. On Vercel, Next.js fills in the
 // production domain for its address, so previews keep working when the domain changes.
 export const metadata: Metadata = {
   title: TITLE,
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     locale: "en_IN",
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: TITLE,
     description: DESCRIPTION,
   },
