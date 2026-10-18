@@ -27,9 +27,27 @@ const dancing = Dancing_Script({
   subsets: ["latin"],
 });
 
+const TITLE = "Omkar Enterprises | Branding, Signage & Retail Display Solutions";
+const DESCRIPTION =
+  "17 years of signage, channel letters, facades, window displays, mall activations and trade show builds for leading brands across India.";
+
+// The link preview image comes from app/opengraph-image.jpg. On Vercel, Next.js fills in the
+// production domain for its address, so previews keep working when the domain changes.
 export const metadata: Metadata = {
-  title: "Omkar Enterprises | Mimaki JFX600-2513 UV Flatbed Printer",
-  description: "Omkar Enterprises - Authorized dealer of Mimaki JFX600-2513 UV Flatbed Printer. Experience next-generation industrial printing technology.",
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    siteName: "Omkar Enterprises",
+    type: "website",
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 // Next.js 15 uses a special LayoutProps type for the children
