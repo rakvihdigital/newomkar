@@ -2630,7 +2630,7 @@ a {
 .precision-machine-stage,
 .handtop-machine-stage { isolation: isolate; background: #07110e; }
 .precision-machine-stage canvas { background: #07110e url('/assets/maximakh-clean/frame_000001.webp') center / cover no-repeat; }
-.handtop-machine-stage canvas { background: #07110e url('/assets/handtop-clean/frame_000001.webp') center / cover no-repeat; }
+.handtop-machine-stage canvas { background: #07110e url('/assets/handtop-turbo/frame_000001.webp') center / cover no-repeat; }
 .precision-machine-shade,
 .handtop-machine-shade {
     position: absolute;
@@ -2710,6 +2710,36 @@ a {
     .precision-slide-panel .panel-title { font-size: 1.45rem; }
     .precision-slide-panel .panel-subtitle { font-size: .9rem; }
     .precision-slide-panel .panel-features li { font-size: .85rem; line-height: 1.45; }
+}
+/* Phones: keep the copy and the panel's last line clear of the auto-scroll pill. */
+@media (max-width: 768px) {
+    .precision-machine-copy { bottom: calc(96px + env(safe-area-inset-bottom)); }
+    .precision-slide-panel { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+}
+/* Landscape phones: compact copy, and a panel that fits between the logo and the pill. */
+@media (orientation: landscape) and (max-height: 500px) {
+    .precision-machine-copy { bottom: 84px; right: auto; max-width: min(560px, 70vw); }
+    .precision-copy-second { left: auto; right: 6%; text-align: right; }
+    .precision-copy-third { bottom: 84px; }
+    .precision-eyebrow { margin-bottom: .35rem; font-size: .62rem; }
+    .precision-machine-copy h3 { margin-bottom: .3rem; font-size: clamp(1.6rem, 4.4vw, 2.4rem); }
+    .precision-machine-copy p { font-size: .82rem; }
+    .precision-slide-panel {
+        top: 0;
+        bottom: auto;
+        width: 58%;
+        height: 100%;
+        max-height: none;
+        overflow: visible;
+        align-items: flex-start;
+        padding: 168px 12% 84px 5%;
+        border-radius: 0;
+        clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+    }
+    .precision-slide-panel .panel-title { margin-bottom: .1rem; font-size: 1.25rem; }
+    .precision-slide-panel .panel-subtitle { margin-bottom: .35rem; font-size: .82rem; }
+    .precision-slide-panel .panel-spec { margin-bottom: .35rem; font-size: .7rem; }
+    .precision-slide-panel .panel-features li { font-size: .78rem; line-height: 1.35; }
 }
 
 /* ============================================

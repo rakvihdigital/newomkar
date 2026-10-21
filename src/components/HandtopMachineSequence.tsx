@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
-const FRAME_COUNT = 120;
-const FRAME_PATH = '/assets/handtop-clean/frame_';
+const FRAME_COUNT = 216;
+const FRAME_PATH = '/assets/handtop-turbo/frame_';
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const ease = (value: number) => { const t = clamp(value); return t * t * (3 - 2 * t); };
 
@@ -30,27 +30,56 @@ export default function HandtopMachineSequence() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let frameRequest = 0;
     let loaded = false;
+    let target = 0;
+    let current = 0;
+    let lastTime = 0;
 
-    const draw = (image: HTMLImageElement) => {
+    const ready = (frame?: HTMLImageElement): frame is HTMLImageElement =>
+      Boolean(frame?.complete && frame.naturalWidth > 0);
+    const draw = (image: HTMLImageElement, alpha: number) => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
       const drawWidth = image.naturalWidth * scale;
       const drawHeight = image.naturalHeight * scale;
-      ctx.clearRect(0, 0, width, height);
+      ctx.globalAlpha = alpha;
       ctx.drawImage(image, (width - drawWidth) / 2, (height - drawHeight) / 2, drawWidth, drawHeight);
     };
 
-    const render = () => {
+    const render = (now: number) => {
       frameRequest = 0;
       const rect = section.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
       const travel = section.offsetHeight - window.innerHeight;
-      const progress = travel > 0 ? clamp(-rect.top / travel) : 0;
-      const index = Math.round(progress * (FRAME_COUNT - 1));
-      let image = frames[index];
-      if (!image?.complete || !image.naturalWidth) image = frames[0];
-      if (image?.complete && image.naturalWidth) draw(image);
+      target = travel > 0 ? clamp(-rect.top / travel) : 0;
+      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        current = target;
+        return;
+      }
+
+      // Ease the film toward the scroll position so wheel steps glide instead of jump.
+      const elapsed = Math.min(64, now - lastTime || 16.7);
+      lastTime = now;
+      if (reducedMotion.matches) current = target;
+      else current += (target - current) * (1 - Math.pow(1 - 0.12, elapsed / 16.7));
+      if (Math.abs(target - current) < 0.0002) current = target;
+      const progress = current;
+
+      // Blend the two frames either side of the position for in-between steps.
+      const framePosition = progress * (FRAME_COUNT - 1);
+      const index = Math.floor(framePosition);
+      const mix = framePosition - index;
+      let base: HTMLImageElement | undefined;
+      // While frames are still arriving, show the closest one that has loaded.
+      for (let offset = 0; offset < FRAME_COUNT && !base; offset++) {
+        base = [frames[index - offset], frames[index + offset]].find(ready);
+      }
+      if (base) {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        draw(base, 1);
+        const next = frames[index + 1];
+        if (base === frames[index] && mix > 0.01 && ready(next)) draw(next, mix);
+        ctx.globalAlpha = 1;
+      }
 
       overlays.forEach((overlay, position) => {
         const scene = scenes[position];
@@ -66,9 +95,12 @@ export default function HandtopMachineSequence() {
 
       const panelProgress = clamp((progress - 0.78) / 0.17);
       panel.style.transform = `translateX(${-100 * (1 - panelProgress)}%)`;
+      if (current !== target) frameRequest = requestAnimationFrame(render);
     };
     const schedule = () => {
-      if (!frameRequest) frameRequest = requestAnimationFrame(render);
+      if (frameRequest) return;
+      lastTime = performance.now();
+      frameRequest = requestAnimationFrame(render);
     };
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
