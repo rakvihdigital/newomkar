@@ -24,7 +24,6 @@ export default function AutoScrollControls() {
   const [edge, setEdge] = useState<'top' | 'bottom' | null>('top');
   const steer = useRef<(direction: Direction, immediate?: boolean) => void>(() => {});
 
-  // The buttons appear once the loading screen has gone.
   useEffect(() => {
     const preloader = document.getElementById('preloader');
     const check = () => {

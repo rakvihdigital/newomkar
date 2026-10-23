@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Inter, Montserrat, Playfair_Display, Dancing_Script } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -9,21 +9,6 @@ const outfit = Outfit({
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-});
-
-const dancing = Dancing_Script({
-  variable: "--font-dancing",
   subsets: ["latin"],
 });
 
@@ -60,7 +45,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${inter.variable} ${montserrat.variable} ${playfair.variable} ${dancing.variable}`}
+      className={`${outfit.variable} ${inter.variable}`}
     >
       <body className="antialiased min-h-full flex flex-col">{children}</body>
     </html>

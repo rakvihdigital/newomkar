@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 
 // Scroll milestones (share of the section): the opening logo fades away,
 // then the curtain lifts as the footage starts and the corner badge quietly appears.
@@ -27,29 +28,19 @@ export default function FacilityHeroSequence() {
     const logoRef = useRef<HTMLAnchorElement>(null);
     const openingRef = useRef<HTMLDivElement>(null);
     const introVeilRef = useRef<HTMLDivElement>(null);
+    const [logoReady, setLogoReady] = useState(false);
     const [isReady, setIsReady] = useState(false);
-    const [progressPercent, setProgressPercent] = useState(0);
+
+    useEffect(() => {
+        // Keep the opening loader visible briefly, without waiting for the video.
+        const timeout = window.setTimeout(() => setIsReady(true), logoReady ? 650 : 2000);
+        return () => window.clearTimeout(timeout);
+    }, [logoReady]);
 
     useEffect(() => {
         const video = videoRef.current;
         const continuation = continuationRef.current;
         if (!video || !continuation) return;
-
-        let readyTimeout = 0;
-        let readyShown = false;
-        const showHero = () => {
-            if (readyShown) return;
-            readyShown = true;
-            window.clearTimeout(fallbackTimeout);
-            setProgressPercent(100);
-            readyTimeout = window.setTimeout(() => setIsReady(true), 250);
-            render(current);
-        };
-        // Phones often hold back video data until playback starts, so open the page as soon as
-        // the video is known (the poster covers it until frames arrive) and never wait forever.
-        const READY_EVENTS = ['loadedmetadata', 'loadeddata', 'canplay', 'error'];
-        READY_EVENTS.forEach(type => video.addEventListener(type, showHero));
-        const fallbackTimeout = window.setTimeout(showHero, 4000);
 
         // Phones (portrait or landscape) get lighter 720p cuts of the same footage.
         const suffix = window.matchMedia('(max-width: 768px), (pointer: coarse) and (max-height: 500px)').matches ? '-mobile' : '';
@@ -65,19 +56,16 @@ export default function FacilityHeroSequence() {
             }).catch(() => {});
         };
         setSource(video, 'welcome-generated-1');
-        nudge(video);
-        // The second film waits until the first can play through (or the visitor is well into it),
-        // so the opening gets the whole connection first.
+        let firstNudged = false;
+        // The continuation is only needed once a visitor moves through the first film.
         let continuationStarted = false;
         const startContinuation = () => {
             if (continuationStarted) return;
             continuationStarted = true;
-            window.clearTimeout(continuationTimeout);
+            continuation.preload = 'auto';
             setSource(continuation, 'welcome-generated-2');
-            nudge(continuation);
+            if (suffix) nudge(continuation);
         };
-        video.addEventListener('canplaythrough', startContinuation);
-        const continuationTimeout = window.setTimeout(startContinuation, 5000);
 
         const updateOverlays = (progress: number) => {
             if (!sectionRef.current) return;
@@ -202,7 +190,7 @@ export default function FacilityHeroSequence() {
             if (inView) {
                 // Footage only starts once the opening logo has gone.
                 const footage = clamp01((progress - FOOTAGE_START) / (1 - FOOTAGE_START));
-                if (footage > 0.2) startContinuation();
+                if (footage > 0.1) startContinuation();
                 const firstDuration = Number.isFinite(video.duration) && video.duration > 0
                     ? video.duration : FALLBACK_FIRST_SECONDS;
                 const continuationDuration = Number.isFinite(continuation.duration) && continuation.duration > 0
@@ -234,6 +222,10 @@ export default function FacilityHeroSequence() {
         };
 
         const onScroll = () => {
+            if (suffix && !firstNudged) {
+                firstNudged = true;
+                nudge(video);
+            }
             readScroll();
             if (!frameRequest) {
                 lastTime = performance.now();
@@ -246,9 +238,11 @@ export default function FacilityHeroSequence() {
             readScroll();
             current = target;
             // A resize can make Safari drop the decoded frame; nudge it back into loading.
-            [video, continuation].forEach(media => {
-                if (media.getAttribute('src') && media.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) nudge(media);
-            });
+            if (current > FOOTAGE_START) {
+                [video, continuation].forEach(media => {
+                    if (media.getAttribute('src') && media.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) nudge(media);
+                });
+            }
             render(current);
         };
 
@@ -259,20 +253,17 @@ export default function FacilityHeroSequence() {
         };
         const syncFrame = () => render(current);
         continuation.addEventListener('loadeddata', syncContinuation);
+        video.addEventListener('loadedmetadata', syncFrame);
+        continuation.addEventListener('loadedmetadata', syncFrame);
         video.addEventListener('seeked', syncFrame);
         continuation.addEventListener('seeked', syncFrame);
         window.addEventListener('resize', resize);
         window.addEventListener('scroll', onScroll, { passive: true });
-        if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) showHero();
-
         return () => {
             cancelAnimationFrame(frameRequest);
-            window.clearTimeout(readyTimeout);
-            window.clearTimeout(fallbackTimeout);
-            READY_EVENTS.forEach(type => video.removeEventListener(type, showHero));
-            window.clearTimeout(continuationTimeout);
-            video.removeEventListener('canplaythrough', startContinuation);
             continuation.removeEventListener('loadeddata', syncContinuation);
+            video.removeEventListener('loadedmetadata', syncFrame);
+            continuation.removeEventListener('loadedmetadata', syncFrame);
             video.removeEventListener('seeked', syncFrame);
             continuation.removeEventListener('seeked', syncFrame);
             window.removeEventListener('scroll', onScroll);
@@ -282,20 +273,19 @@ export default function FacilityHeroSequence() {
 
     return (
         <>
-            {/* Preloader */}
             <div id="preloader" className={isReady ? 'loaded' : ''}>
                 <div className="preloader-inner">
                     <div className="preloader-ring"></div>
                     <div className="preloader-ring"></div>
                     <div className="preloader-ring"></div>
                     <p className="preloader-text">Experience Omkar Enterprises</p>
-                    <p className="preloader-percent" id="preloaderPercent">{progressPercent}%</p>
+                    <p className="preloader-percent">{logoReady || isReady ? 100 : 0}%</p>
                 </div>
             </div>
 
             {/* Corner badge — fixed top left, fades in as the hero footage starts */}
             <a href="#" className={`nav-logo facility-intro-logo${isReady ? ' intro-ready' : ''}`} id="navLogo" ref={logoRef}>
-                <img src="/assets/logo.png" alt="Omkar Enterprises Logo" className="logo-img" />
+                <Image src="/assets/logo.png" alt="Omkar Enterprises Logo" className="logo-img" width={2957} height={1436} sizes="88px" />
                 <span className="logo-captions">
                     <span className="logo-caption-mask logo-caption-left">
                         <span className="logo-desc">Our<br />Professional<br />Portfolio</span>
@@ -314,7 +304,7 @@ export default function FacilityHeroSequence() {
                         ref={videoRef}
                         className="hero-canvas"
                         poster="/assets/welcome-generated-poster.jpg"
-                        preload="auto"
+                        preload="metadata"
                         muted
                         playsInline
                         aria-hidden="true"
@@ -322,7 +312,7 @@ export default function FacilityHeroSequence() {
                     <video
                         ref={continuationRef}
                         className="hero-canvas hero-continuation"
-                        preload="auto"
+                        preload="none"
                         muted
                         playsInline
                         aria-hidden="true"
@@ -331,7 +321,7 @@ export default function FacilityHeroSequence() {
 
                     {/* Opening logo dissolves as scrolling begins */}
                     <div className={`facility-intro-logo opening-logo${isReady ? ' intro-ready' : ''}`} ref={openingRef}>
-                        <img src="/assets/logo.png" alt="Omkar Enterprises" className="logo-img" />
+                        <Image src="/assets/logo.png" alt="Omkar Enterprises" className="logo-img" width={2957} height={1436} sizes="(max-width: 768px) 68vw, 320px" loading="eager" fetchPriority="high" onLoad={() => setLogoReady(true)} onError={() => setLogoReady(true)} />
                         <span className="logo-captions">
                             <span className="logo-caption-mask logo-caption-left">
                                 <span className="logo-desc">Our Professional<br />Portfolio</span>

@@ -15,8 +15,8 @@
     --color-text-muted: rgba(245, 245, 247, 0.35);
 
     /* Fonts */
-    --font-heading: 'Outfit', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-heading: var(--font-outfit), sans-serif;
+    --font-body: var(--font-inter), sans-serif;
 
     /* Transitions */
     --transition-fast: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -80,20 +80,18 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 80px; /* Space for the absolute positioned rings */
+    padding-top: 80px;
 }
 
-/* Base ring style */
 .preloader-ring {
     position: absolute;
-    top: 40px; /* Center point for the rings */
+    top: 40px;
     left: 50%;
     border-radius: 50%;
     border: 3px solid transparent;
     will-change: transform;
 }
 
-/* Outer Ring */
 .preloader-ring:nth-child(1) {
     border-top-color: var(--color-accent);
     border-left-color: rgba(79, 195, 160, 0.2);
@@ -104,7 +102,6 @@ a {
     animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
 }
 
-/* Middle Ring */
 .preloader-ring:nth-child(2) {
     border-right-color: var(--color-accent-dark);
     border-bottom-color: rgba(27, 122, 78, 0.2);
@@ -115,7 +112,6 @@ a {
     animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite reverse;
 }
 
-/* Inner Ring */
 .preloader-ring:nth-child(3) {
     border-bottom-color: var(--color-accent);
     border-top-color: rgba(79, 195, 160, 0.2);
@@ -127,12 +123,7 @@ a {
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 .preloader-text {
@@ -142,7 +133,7 @@ a {
     color: rgba(245, 245, 247, 0.5);
     letter-spacing: 3px;
     text-transform: uppercase;
-    margin-top: 26px; /* Sits just under the spinner */
+    margin-top: 26px;
 }
 
 .preloader-percent {
@@ -1534,8 +1525,7 @@ a {
         radial-gradient(ellipse 40% 50% at 8% 15%, rgba(38, 145, 111, 0.17), transparent 70%),
         #07090d;
 }
-/* The loading screen and the opening logo share one white background,
-   so the loader fades straight into the logo without a change of colour. */
+/* The loader and opening logo share a white backdrop. */
 #preloader,
 .facility-intro-veil {
     background: #FFFFFF;
@@ -1561,7 +1551,6 @@ a {
 .preloader-text {
     color: rgba(28, 26, 22, 0.62);
 }
-/* Deeper greens so the spinner reads clearly on white. */
 .preloader-ring:nth-child(1) {
     border-top-color: var(--color-accent-dark);
     border-left-color: rgba(27, 122, 78, 0.18);
@@ -1574,7 +1563,6 @@ a {
     border-bottom-color: var(--color-accent);
     border-top-color: rgba(79, 195, 160, 0.25);
 }
-
 /* Once inside, the corner card keeps its dark glass and the captions read in soft cream. */
 .nav-logo.facility-intro-logo .logo-desc {
     color: #F3EBD8;
